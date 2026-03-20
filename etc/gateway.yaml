@@ -8,9 +8,6 @@ Upstreams:
     ProtoSets:
       - dropshipbe.pb
     Mappings:
-      - Method: post
-        Path: /api/v1/upload
-        RpcPath: dropshipbe.Dropshipbe/UploadFile
       - Method: get
         Path: /api/v1/ping
         RpcPath: dropshipbe.Dropshipbe/Ping
