@@ -1,0 +1,16 @@
+Name: dropship-gateway
+Host: 0.0.0.0
+Port: 8888
+
+Upstreams:
+  - Grpc:
+      Target: 127.0.0.1:8080
+    ProtoSets:
+      - dropshipbe.pb
+    Mappings:
+      - Method: post
+        Path: /api/v1/upload
+        RpcPath: dropshipbe.Dropshipbe/UploadFile
+      - Method: get
+        Path: /api/v1/ping
+        RpcPath: dropshipbe.Dropshipbe/Ping

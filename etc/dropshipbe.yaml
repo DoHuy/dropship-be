@@ -1,0 +1,40 @@
+Name: dropshipbe.rpc
+ListenOn: 0.0.0.0:8080
+# Etcd:
+#   Hosts:
+#   - 127.0.0.1:2379
+#   Key: dropshipbe.rpc
+Posgres:
+  Host: localhost
+  Port: 5432
+  User: huydv
+  Password: SecretPassword123
+  DBName: uk_dropship_db
+  SSLMode: disable
+
+Redis:
+  Host: localhost:6379
+  Pass: SecretPassword123
+  Type: node
+  Key: dropshipbe_cache_key
+
+
+JWT:
+  SecretKey: hackathon_super_secret_key_2024
+  ExpireDuration: 72 # in hours
+
+R2:
+  AccountID: c9d03a66f0127f656366a6df5069fa51
+  AccessKey: 28e4570a75dc0484f7498c1e27c77b31
+  SecretKey: 44f5a7fd59cb33b23750a0cf2751b36617c104ef929d1ba7b209cee911872936
+  BucketName: dropshipbe
+  LinkExpiration: 30 # in minutes
+
+VALIDATE:
+  EmailRegex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+  PhoneRegex: "^\\+?[1-9]\\d{1,14}$"
+  StorageMaxSize: 10485760 # 10 MB in bytes
+  AllowedFileTypes:
+    - image/jpeg
+    - image/png
+    - image/gif

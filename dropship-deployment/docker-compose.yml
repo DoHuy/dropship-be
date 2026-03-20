@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:15-alpine
+    container_name: uk_dropship_db
+    restart: always
+    environment:
+      - POSTGRES_USER=huydv
+      - POSTGRES_PASSWORD=SecretPassword123
+      - POSTGRES_DB=uk_dropship_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - uk_dropship_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: uk_dropship_redis
+    restart: always
+    command: redis-server --requirepass SecretRedisPassword123
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - uk_dropship_net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  uk_dropship_net:
+    driver: bridge
