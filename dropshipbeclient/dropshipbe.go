@@ -27,9 +27,9 @@ type (
 	CreateProductFaqRequest      = dropshipbe.CreateProductFaqRequest
 	CreateProductRequest         = dropshipbe.CreateProductRequest
 	CreateProductReviewRequest   = dropshipbe.CreateProductReviewRequest
+	DefaultRequest               = dropshipbe.DefaultRequest
 	DeleteFileRequest            = dropshipbe.DeleteFileRequest
 	DeleteFileResponse           = dropshipbe.DeleteFileResponse
-	EmptyRequest                 = dropshipbe.EmptyRequest
 	Faq                          = dropshipbe.Faq
 	FaqListResponse              = dropshipbe.FaqListResponse
 	FileData                     = dropshipbe.FileData
@@ -58,17 +58,18 @@ type (
 	SliderListResponse           = dropshipbe.SliderListResponse
 	UploadFileRequest            = dropshipbe.UploadFileRequest
 	UploadFileResponse           = dropshipbe.UploadFileResponse
+	UploadedFileInfo             = dropshipbe.UploadedFileInfo
 	Variant                      = dropshipbe.Variant
 	VariantOption                = dropshipbe.VariantOption
 
 	Dropshipbe interface {
 		// --- Products ---
-		GetProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+		GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		GetProductBySlug(ctx context.Context, in *GetProductBySlugRequest, opts ...grpc.CallOption) (*Product, error)
 		GetProductsByCategory(ctx context.Context, in *GetProductsByCategoryRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		GetRelatedProducts(ctx context.Context, in *GetRelatedProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-		GetFeaturedProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-		GetNewProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+		GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+		GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error)
 		// --- Shop Search ---
 		GetShop(ctx context.Context, in *ShopSearchParams, opts ...grpc.CallOption) (*ProductListResponse, error)
@@ -81,12 +82,12 @@ type (
 		GetProductReviews(ctx context.Context, in *GetProductReviewsRequest, opts ...grpc.CallOption) (*ReviewSummary, error)
 		CreateProductReview(ctx context.Context, in *CreateProductReviewRequest, opts ...grpc.CallOption) (*ReviewItem, error)
 		// --- UI Items (Sliders, Categories, Banners) ---
-		GetSliderItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SliderListResponse, error)
-		GetCategoryItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*CategoryListResponse, error)
-		GetBannerItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BannerListResponse, error)
-		GetVideoBanner(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*Banner, error)
+		GetSliderItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*SliderListResponse, error)
+		GetCategoryItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*CategoryListResponse, error)
+		GetBannerItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BannerListResponse, error)
+		GetVideoBanner(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*Banner, error)
 		// --- Blogs ---
-		GetBlogItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BlogListResponse, error)
+		GetBlogItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BlogListResponse, error)
 		GetBlogBySlug(ctx context.Context, in *GetBlogBySlugRequest, opts ...grpc.CallOption) (*BlogDetailResponse, error)
 		CreateNewBlog(ctx context.Context, in *CreateNewBlogRequest, opts ...grpc.CallOption) (*Blog, error)
 		// --- Options ---
@@ -112,7 +113,7 @@ func NewDropshipbe(cli zrpc.Client) Dropshipbe {
 }
 
 // --- Products ---
-func (m *defaultDropshipbe) GetProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (m *defaultDropshipbe) GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetProducts(ctx, in, opts...)
 }
@@ -132,12 +133,12 @@ func (m *defaultDropshipbe) GetRelatedProducts(ctx context.Context, in *GetRelat
 	return client.GetRelatedProducts(ctx, in, opts...)
 }
 
-func (m *defaultDropshipbe) GetFeaturedProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (m *defaultDropshipbe) GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetFeaturedProducts(ctx, in, opts...)
 }
 
-func (m *defaultDropshipbe) GetNewProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (m *defaultDropshipbe) GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetNewProducts(ctx, in, opts...)
 }
@@ -182,28 +183,28 @@ func (m *defaultDropshipbe) CreateProductReview(ctx context.Context, in *CreateP
 }
 
 // --- UI Items (Sliders, Categories, Banners) ---
-func (m *defaultDropshipbe) GetSliderItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SliderListResponse, error) {
+func (m *defaultDropshipbe) GetSliderItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*SliderListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetSliderItems(ctx, in, opts...)
 }
 
-func (m *defaultDropshipbe) GetCategoryItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*CategoryListResponse, error) {
+func (m *defaultDropshipbe) GetCategoryItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*CategoryListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetCategoryItems(ctx, in, opts...)
 }
 
-func (m *defaultDropshipbe) GetBannerItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BannerListResponse, error) {
+func (m *defaultDropshipbe) GetBannerItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BannerListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetBannerItems(ctx, in, opts...)
 }
 
-func (m *defaultDropshipbe) GetVideoBanner(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*Banner, error) {
+func (m *defaultDropshipbe) GetVideoBanner(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*Banner, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetVideoBanner(ctx, in, opts...)
 }
 
 // --- Blogs ---
-func (m *defaultDropshipbe) GetBlogItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BlogListResponse, error) {
+func (m *defaultDropshipbe) GetBlogItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BlogListResponse, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.GetBlogItems(ctx, in, opts...)
 }

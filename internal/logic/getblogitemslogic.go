@@ -24,7 +24,7 @@ func NewGetBlogItemsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetB
 }
 
 // --- Blogs ---
-func (l *GetBlogItemsLogic) GetBlogItems(in *dropshipbe.EmptyRequest) (*dropshipbe.BlogListResponse, error) {
+func (l *GetBlogItemsLogic) GetBlogItems(in *dropshipbe.DefaultRequest) (*dropshipbe.BlogListResponse, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.BlogListResponse{}, nil

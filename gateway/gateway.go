@@ -1,7 +1,7 @@
 package main
 
 import (
-	"dropshipbe/common/response"
+	"dropshipbe/common/middleware"
 	"dropshipbe/dropshipbe"
 	"dropshipbe/dropshipbeclient"
 	"flag"
@@ -12,6 +12,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/gateway"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
@@ -52,11 +53,14 @@ func main() {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/v1/api/upload",
+				Path:    "/api/v1/upload",
 				Handler: handleUploadFormData(dropshipSvc),
 			},
 		},
 	)
+
+	// Đăng ký Middleware ở đây:
+	gw.Use(middleware.BuildCommonResponse)
 
 	fmt.Printf("Bắt đầu Gateway Server (REST API) tại %s:%d...\n", c.Host, c.Port)
 	gw.Start()
@@ -69,14 +73,14 @@ func handleUploadFormData(svc dropshipbeclient.Dropshipbe) http.HandlerFunc {
 		// 32 << 20 = 32 * 1024 * 1024 bytes
 		const maxMemory = 32 << 20
 		if err := r.ParseMultipartForm(maxMemory); err != nil {
-			response.Error(w, http.StatusBadRequest, "Dữ liệu Form không hợp lệ hoặc file quá lớn")
+			http.Error(w, "Dữ liệu Form không hợp lệ hoặc file quá lớn", http.StatusBadRequest)
 			return
 		}
 
 		// 2. Lấy danh sách file từ key "files" (khớp với -F "files=@..." trong curl)
 		formFiles := r.MultipartForm.File["files"]
 		if len(formFiles) == 0 {
-			response.Error(w, http.StatusBadRequest, "Vui lòng chọn ít nhất một file để upload")
+			http.Error(w, "Vui lòng chọn ít nhất một file để upload", http.StatusBadRequest)
 			return
 		}
 
@@ -87,7 +91,7 @@ func handleUploadFormData(svc dropshipbeclient.Dropshipbe) http.HandlerFunc {
 			// Mở file từ header
 			file, err := header.Open()
 			if err != nil {
-				response.Error(w, http.StatusInternalServerError, "Không thể mở file: "+header.Filename)
+
 				return
 			}
 
@@ -96,7 +100,7 @@ func handleUploadFormData(svc dropshipbeclient.Dropshipbe) http.HandlerFunc {
 			file.Close() // Đóng file ngay sau khi đọc xong để giải phóng tài nguyên
 
 			if err != nil {
-				response.Error(w, http.StatusInternalServerError, "Lỗi khi đọc nội dung file: "+header.Filename)
+				http.Error(w, "Lỗi khi đọc nội dung file: "+header.Filename, http.StatusInternalServerError)
 				return
 			}
 
@@ -115,11 +119,11 @@ func handleUploadFormData(svc dropshipbeclient.Dropshipbe) http.HandlerFunc {
 
 		if err != nil {
 			// Bạn có thể log err chi tiết ở đây cho server-side
-			response.Error(w, http.StatusInternalServerError, "Lỗi hệ thống khi upload: "+err.Error())
+			http.Error(w, "Lỗi hệ thống khi upload: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		// 5. Trả về kết quả thành công theo format chuẩn {code, msg, data}
-		response.Success(w, resp)
+		httpx.OkJson(w, resp)
 	}
 }

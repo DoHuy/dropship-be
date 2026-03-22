@@ -23,7 +23,7 @@ func NewGetVideoBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetVideoBannerLogic) GetVideoBanner(in *dropshipbe.EmptyRequest) (*dropshipbe.Banner, error) {
+func (l *GetVideoBannerLogic) GetVideoBanner(in *dropshipbe.DefaultRequest) (*dropshipbe.Banner, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.Banner{}, nil

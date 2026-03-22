@@ -11,3 +11,6 @@ Upstreams:
       - Method: get
         Path: /api/v1/ping
         RpcPath: dropshipbe.Dropshipbe/Ping
+      - Method: get
+        Path: /api/v1/products
+        RpcPath: dropshipbe.Dropshipbe/GetProducts

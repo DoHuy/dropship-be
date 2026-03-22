@@ -24,7 +24,7 @@ func NewDropshipbeServer(svcCtx *svc.ServiceContext) *DropshipbeServer {
 }
 
 // --- Products ---
-func (s *DropshipbeServer) GetProducts(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.ProductListResponse, error) {
+func (s *DropshipbeServer) GetProducts(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	l := logic.NewGetProductsLogic(ctx, s.svcCtx)
 	return l.GetProducts(in)
 }
@@ -44,12 +44,12 @@ func (s *DropshipbeServer) GetRelatedProducts(ctx context.Context, in *dropshipb
 	return l.GetRelatedProducts(in)
 }
 
-func (s *DropshipbeServer) GetFeaturedProducts(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.ProductListResponse, error) {
+func (s *DropshipbeServer) GetFeaturedProducts(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	l := logic.NewGetFeaturedProductsLogic(ctx, s.svcCtx)
 	return l.GetFeaturedProducts(in)
 }
 
-func (s *DropshipbeServer) GetNewProducts(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.ProductListResponse, error) {
+func (s *DropshipbeServer) GetNewProducts(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	l := logic.NewGetNewProductsLogic(ctx, s.svcCtx)
 	return l.GetNewProducts(in)
 }
@@ -94,28 +94,28 @@ func (s *DropshipbeServer) CreateProductReview(ctx context.Context, in *dropship
 }
 
 // --- UI Items (Sliders, Categories, Banners) ---
-func (s *DropshipbeServer) GetSliderItems(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.SliderListResponse, error) {
+func (s *DropshipbeServer) GetSliderItems(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.SliderListResponse, error) {
 	l := logic.NewGetSliderItemsLogic(ctx, s.svcCtx)
 	return l.GetSliderItems(in)
 }
 
-func (s *DropshipbeServer) GetCategoryItems(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.CategoryListResponse, error) {
+func (s *DropshipbeServer) GetCategoryItems(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.CategoryListResponse, error) {
 	l := logic.NewGetCategoryItemsLogic(ctx, s.svcCtx)
 	return l.GetCategoryItems(in)
 }
 
-func (s *DropshipbeServer) GetBannerItems(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.BannerListResponse, error) {
+func (s *DropshipbeServer) GetBannerItems(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.BannerListResponse, error) {
 	l := logic.NewGetBannerItemsLogic(ctx, s.svcCtx)
 	return l.GetBannerItems(in)
 }
 
-func (s *DropshipbeServer) GetVideoBanner(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.Banner, error) {
+func (s *DropshipbeServer) GetVideoBanner(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.Banner, error) {
 	l := logic.NewGetVideoBannerLogic(ctx, s.svcCtx)
 	return l.GetVideoBanner(in)
 }
 
 // --- Blogs ---
-func (s *DropshipbeServer) GetBlogItems(ctx context.Context, in *dropshipbe.EmptyRequest) (*dropshipbe.BlogListResponse, error) {
+func (s *DropshipbeServer) GetBlogItems(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.BlogListResponse, error) {
 	l := logic.NewGetBlogItemsLogic(ctx, s.svcCtx)
 	return l.GetBlogItems(in)
 }

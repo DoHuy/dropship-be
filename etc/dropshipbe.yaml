@@ -4,13 +4,15 @@ ListenOn: 0.0.0.0:8080
 #   Hosts:
 #   - 127.0.0.1:2379
 #   Key: dropshipbe.rpc
-Posgres:
+DB:
   Host: localhost
   Port: 5432
   User: huydv
   Password: SecretPassword123
   DBName: uk_dropship_db
   SSLMode: disable
+  MaxOpenConns: 100
+  MaxIdleConns: 10
 
 Redis:
   Host: localhost:6379

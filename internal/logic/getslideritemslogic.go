@@ -24,7 +24,7 @@ func NewGetSliderItemsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 // --- UI Items (Sliders, Categories, Banners) ---
-func (l *GetSliderItemsLogic) GetSliderItems(in *dropshipbe.EmptyRequest) (*dropshipbe.SliderListResponse, error) {
+func (l *GetSliderItemsLogic) GetSliderItems(in *dropshipbe.DefaultRequest) (*dropshipbe.SliderListResponse, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.SliderListResponse{}, nil

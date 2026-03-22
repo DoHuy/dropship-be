@@ -23,7 +23,7 @@ func NewGetFeaturedProductsLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *GetFeaturedProductsLogic) GetFeaturedProducts(in *dropshipbe.EmptyRequest) (*dropshipbe.ProductListResponse, error) {
+func (l *GetFeaturedProductsLogic) GetFeaturedProducts(in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.ProductListResponse{}, nil

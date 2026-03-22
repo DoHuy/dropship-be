@@ -23,7 +23,7 @@ func NewGetBannerItemsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetBannerItemsLogic) GetBannerItems(in *dropshipbe.EmptyRequest) (*dropshipbe.BannerListResponse, error) {
+func (l *GetBannerItemsLogic) GetBannerItems(in *dropshipbe.DefaultRequest) (*dropshipbe.BannerListResponse, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.BannerListResponse{}, nil

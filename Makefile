@@ -17,12 +17,12 @@ endif
 
 # --- Parse cấu hình từ file YAML ---
 # Sử dụng yq để lấy các giá trị nằm trong node Posgres
-DB_HOST := $(shell yq '.Posgres.Host' $(CONFIG_FILE))
-DB_PORT := $(shell yq '.Posgres.Port' $(CONFIG_FILE))
-DB_USER := $(shell yq '.Posgres.User' $(CONFIG_FILE))
-DB_PASS := $(shell yq '.Posgres.Password' $(CONFIG_FILE))
-DB_NAME := $(shell yq '.Posgres.DBName' $(CONFIG_FILE))
-DB_SSL  := $(shell yq '.Posgres.SSLMode' $(CONFIG_FILE))
+DB_HOST := $(shell yq '.DB.Host' $(CONFIG_FILE))
+DB_PORT := $(shell yq '.DB.Port' $(CONFIG_FILE))
+DB_USER := $(shell yq '.DB.User' $(CONFIG_FILE))
+DB_PASS := $(shell yq '.DB.Password' $(CONFIG_FILE))
+DB_NAME := $(shell yq '.DB.DBName' $(CONFIG_FILE))
+DB_SSL  := $(shell yq '.DB.SSLMode' $(CONFIG_FILE))
 
 # --- Database Connection String ---
 DB_DSN := postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSL)

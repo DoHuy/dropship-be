@@ -56,10 +56,11 @@ type Product struct {
 	Description string `gorm:"type:text" json:"description"` // HTML Content
 
 	// Trạng thái: 'draft', 'active', 'archived'
-	Status string `gorm:"type:varchar(20);default:'draft';index" json:"status"`
-
+	Status string  `gorm:"type:varchar(20);default:'draft';index" json:"status"`
+	Price  float64 `gorm:"type:numeric(15,2);not null" json:"price"`
 	// --- Marketing & SEO ---
 	IsFeatured      bool   `gorm:"default:false" json:"is_featured"`
+	IsNew           bool   `gorm:"default:false" json:"is_new"`
 	IsTrending      bool   `gorm:"default:false" json:"is_trending"` // Maps to DTO.IsTrending
 	MetaTitle       string `gorm:"type:varchar(255)" json:"meta_title"`
 	MetaDescription string `gorm:"type:varchar(500)" json:"meta_description"`
@@ -94,6 +95,7 @@ type Product struct {
 	// Images gộp chung cả Gallery, DescriptionImages và SocialVideos (phân loại bằng Type)
 	Images []ProductImage `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"images,omitempty"`
 
+	Country    *Country           `gorm:"foreignKey:CountryCode;references:Code" json:"country,omitempty"`
 	Options    []Option           `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"options,omitempty"`
 	Variants   []Variant          `gorm:"foreignKey:ProductID" json:"variants,omitempty"`
 	PriceTiers []ProductPriceTier `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"price_tiers,omitempty"`
@@ -184,9 +186,7 @@ type Variant struct {
 	CostPrice      float64 `gorm:"type:numeric(15,2)" json:"cost_price"`
 
 	// Inventory & Specs
-	StockQuantity int    `gorm:"default:0;check:stock_quantity >= 0" json:"stock_quantity"`
-	WeightGram    int    `gorm:"default:0" json:"weight_gram"`
-	ImageID       *int64 `gorm:"default:null" json:"image_id"` // Link tới ProductImage
+	StockQuantity int `gorm:"default:0;check:stock_quantity >= 0" json:"stock_quantity"`
 
 	IsActive  *bool      `gorm:"default:true" json:"is_active"`
 	CreatedAt *time.Time `gorm:"type:timestamptz" json:"created_at"`

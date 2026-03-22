@@ -23,7 +23,7 @@ func NewGetCategoryItemsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *GetCategoryItemsLogic) GetCategoryItems(in *dropshipbe.EmptyRequest) (*dropshipbe.CategoryListResponse, error) {
+func (l *GetCategoryItemsLogic) GetCategoryItems(in *dropshipbe.DefaultRequest) (*dropshipbe.CategoryListResponse, error) {
 	// todo: add your logic here and delete this line
 
 	return &dropshipbe.CategoryListResponse{}, nil

@@ -11,4 +11,14 @@ type Config struct {
 		BucketName     string
 		LinkExpiration int
 	}
+	DB struct {
+		Host         string
+		Port         int
+		User         string
+		Password     string
+		DBName       string
+		SSLMode      string
+		MaxOpenConns int
+		MaxIdleConns int
+	}
 }

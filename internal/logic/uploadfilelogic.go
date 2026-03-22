@@ -37,7 +37,7 @@ func (l *UploadFileLogic) UploadFile(in *dropshipbe.UploadFileRequest) (*dropshi
 	if numFiles == 0 {
 		return &dropshipbe.UploadFileResponse{}, nil
 	}
-	urls := make([]string, numFiles)
+	files := make([]*dropshipbe.UploadedFileInfo, numFiles)
 	// Tạo channel để bắt lỗi từ các goroutine
 	errChan := make(chan error, numFiles)
 
@@ -54,15 +54,18 @@ func (l *UploadFileLogic) UploadFile(in *dropshipbe.UploadFileRequest) (*dropshi
 			defer wg.Done() // Đánh dấu hoàn thành tác vụ khi goroutine kết thúc
 
 			contentType := http.DetectContentType(f.Content)
-
+			fileID := fmt.Sprintf("%d_%s", time.Now().UnixNano(), f.Filename)
 			putInput := &s3.PutObjectInput{
 				Bucket:      aws.String(l.svcCtx.Config.R2.BucketName),
-				Key:         aws.String(f.Filename),
+				Key:         aws.String(fileID),
 				Body:        bytes.NewReader(f.Content),
 				ContentType: aws.String(contentType),
 			}
 
-			_, err := l.svcCtx.S3Client.PutObject(l.ctx, putInput)
+			// (Tùy chọn tốt hơn) Tạo context mới có timeout riêng cho việc upload (ví dụ: 15 giây)
+			uploadCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+			defer cancel() // Nhớ giải phóng tài nguyên khi xong
+			_, err := l.svcCtx.S3Client.PutObject(uploadCtx, putInput)
 			if err != nil {
 				l.Logger.Errorf("Lỗi khi tải file %s lên R2: %v", f.Filename, err)
 				errChan <- fmt.Errorf("không thể tải file %s", f.Filename)
@@ -72,7 +75,7 @@ func (l *UploadFileLogic) UploadFile(in *dropshipbe.UploadFileRequest) (*dropshi
 			// Tạo presigned URL
 			presignedReq, err := l.svcCtx.PresignClient.PresignGetObject(l.ctx, &s3.GetObjectInput{
 				Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
-				Key:    aws.String(f.Filename),
+				Key:    aws.String(fileID),
 			}, s3.WithPresignExpires(expirationDuration))
 
 			if err != nil {
@@ -81,7 +84,10 @@ func (l *UploadFileLogic) UploadFile(in *dropshipbe.UploadFileRequest) (*dropshi
 				return
 			}
 			// Gán URL vào đúng vị trí index tương ứng với thứ tự gửi lên
-			urls[index] = presignedReq.URL
+			files[index] = &dropshipbe.UploadedFileInfo{
+				FileId: fileID,
+				Url:    presignedReq.URL,
+			}
 		}(i, file)
 
 	}
@@ -95,6 +101,6 @@ func (l *UploadFileLogic) UploadFile(in *dropshipbe.UploadFileRequest) (*dropshi
 	}
 
 	return &dropshipbe.UploadFileResponse{
-		Urls: urls,
+		Files: files,
 	}, nil
 }

@@ -52,12 +52,12 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DropshipbeClient interface {
 	// --- Products ---
-	GetProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+	GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	GetProductBySlug(ctx context.Context, in *GetProductBySlugRequest, opts ...grpc.CallOption) (*Product, error)
 	GetProductsByCategory(ctx context.Context, in *GetProductsByCategoryRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	GetRelatedProducts(ctx context.Context, in *GetRelatedProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-	GetFeaturedProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-	GetNewProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+	GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+	GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error)
 	// --- Shop Search ---
 	GetShop(ctx context.Context, in *ShopSearchParams, opts ...grpc.CallOption) (*ProductListResponse, error)
@@ -70,12 +70,12 @@ type DropshipbeClient interface {
 	GetProductReviews(ctx context.Context, in *GetProductReviewsRequest, opts ...grpc.CallOption) (*ReviewSummary, error)
 	CreateProductReview(ctx context.Context, in *CreateProductReviewRequest, opts ...grpc.CallOption) (*ReviewItem, error)
 	// --- UI Items (Sliders, Categories, Banners) ---
-	GetSliderItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SliderListResponse, error)
-	GetCategoryItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*CategoryListResponse, error)
-	GetBannerItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BannerListResponse, error)
-	GetVideoBanner(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*Banner, error)
+	GetSliderItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*SliderListResponse, error)
+	GetCategoryItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*CategoryListResponse, error)
+	GetBannerItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BannerListResponse, error)
+	GetVideoBanner(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*Banner, error)
 	// --- Blogs ---
-	GetBlogItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BlogListResponse, error)
+	GetBlogItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BlogListResponse, error)
 	GetBlogBySlug(ctx context.Context, in *GetBlogBySlugRequest, opts ...grpc.CallOption) (*BlogDetailResponse, error)
 	CreateNewBlog(ctx context.Context, in *CreateNewBlogRequest, opts ...grpc.CallOption) (*Blog, error)
 	// --- Options ---
@@ -97,7 +97,7 @@ func NewDropshipbeClient(cc grpc.ClientConnInterface) DropshipbeClient {
 	return &dropshipbeClient{cc}
 }
 
-func (c *dropshipbeClient) GetProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (c *dropshipbeClient) GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProductListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetProducts_FullMethodName, in, out, cOpts...)
@@ -137,7 +137,7 @@ func (c *dropshipbeClient) GetRelatedProducts(ctx context.Context, in *GetRelate
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetFeaturedProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (c *dropshipbeClient) GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProductListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetFeaturedProducts_FullMethodName, in, out, cOpts...)
@@ -147,7 +147,7 @@ func (c *dropshipbeClient) GetFeaturedProducts(ctx context.Context, in *EmptyReq
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetNewProducts(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (c *dropshipbeClient) GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProductListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetNewProducts_FullMethodName, in, out, cOpts...)
@@ -227,7 +227,7 @@ func (c *dropshipbeClient) CreateProductReview(ctx context.Context, in *CreatePr
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetSliderItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*SliderListResponse, error) {
+func (c *dropshipbeClient) GetSliderItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*SliderListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SliderListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetSliderItems_FullMethodName, in, out, cOpts...)
@@ -237,7 +237,7 @@ func (c *dropshipbeClient) GetSliderItems(ctx context.Context, in *EmptyRequest,
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetCategoryItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*CategoryListResponse, error) {
+func (c *dropshipbeClient) GetCategoryItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*CategoryListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CategoryListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetCategoryItems_FullMethodName, in, out, cOpts...)
@@ -247,7 +247,7 @@ func (c *dropshipbeClient) GetCategoryItems(ctx context.Context, in *EmptyReques
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetBannerItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BannerListResponse, error) {
+func (c *dropshipbeClient) GetBannerItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BannerListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BannerListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetBannerItems_FullMethodName, in, out, cOpts...)
@@ -257,7 +257,7 @@ func (c *dropshipbeClient) GetBannerItems(ctx context.Context, in *EmptyRequest,
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetVideoBanner(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*Banner, error) {
+func (c *dropshipbeClient) GetVideoBanner(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*Banner, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Banner)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetVideoBanner_FullMethodName, in, out, cOpts...)
@@ -267,7 +267,7 @@ func (c *dropshipbeClient) GetVideoBanner(ctx context.Context, in *EmptyRequest,
 	return out, nil
 }
 
-func (c *dropshipbeClient) GetBlogItems(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*BlogListResponse, error) {
+func (c *dropshipbeClient) GetBlogItems(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*BlogListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BlogListResponse)
 	err := c.cc.Invoke(ctx, Dropshipbe_GetBlogItems_FullMethodName, in, out, cOpts...)
@@ -362,12 +362,12 @@ func (c *dropshipbeClient) Ping(ctx context.Context, in *Request, opts ...grpc.C
 // for forward compatibility.
 type DropshipbeServer interface {
 	// --- Products ---
-	GetProducts(context.Context, *EmptyRequest) (*ProductListResponse, error)
+	GetProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
 	GetProductBySlug(context.Context, *GetProductBySlugRequest) (*Product, error)
 	GetProductsByCategory(context.Context, *GetProductsByCategoryRequest) (*ProductListResponse, error)
 	GetRelatedProducts(context.Context, *GetRelatedProductsRequest) (*ProductListResponse, error)
-	GetFeaturedProducts(context.Context, *EmptyRequest) (*ProductListResponse, error)
-	GetNewProducts(context.Context, *EmptyRequest) (*ProductListResponse, error)
+	GetFeaturedProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
+	GetNewProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
 	CreateProduct(context.Context, *CreateProductRequest) (*Product, error)
 	// --- Shop Search ---
 	GetShop(context.Context, *ShopSearchParams) (*ProductListResponse, error)
@@ -380,12 +380,12 @@ type DropshipbeServer interface {
 	GetProductReviews(context.Context, *GetProductReviewsRequest) (*ReviewSummary, error)
 	CreateProductReview(context.Context, *CreateProductReviewRequest) (*ReviewItem, error)
 	// --- UI Items (Sliders, Categories, Banners) ---
-	GetSliderItems(context.Context, *EmptyRequest) (*SliderListResponse, error)
-	GetCategoryItems(context.Context, *EmptyRequest) (*CategoryListResponse, error)
-	GetBannerItems(context.Context, *EmptyRequest) (*BannerListResponse, error)
-	GetVideoBanner(context.Context, *EmptyRequest) (*Banner, error)
+	GetSliderItems(context.Context, *DefaultRequest) (*SliderListResponse, error)
+	GetCategoryItems(context.Context, *DefaultRequest) (*CategoryListResponse, error)
+	GetBannerItems(context.Context, *DefaultRequest) (*BannerListResponse, error)
+	GetVideoBanner(context.Context, *DefaultRequest) (*Banner, error)
 	// --- Blogs ---
-	GetBlogItems(context.Context, *EmptyRequest) (*BlogListResponse, error)
+	GetBlogItems(context.Context, *DefaultRequest) (*BlogListResponse, error)
 	GetBlogBySlug(context.Context, *GetBlogBySlugRequest) (*BlogDetailResponse, error)
 	CreateNewBlog(context.Context, *CreateNewBlogRequest) (*Blog, error)
 	// --- Options ---
@@ -407,7 +407,7 @@ type DropshipbeServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDropshipbeServer struct{}
 
-func (UnimplementedDropshipbeServer) GetProducts(context.Context, *EmptyRequest) (*ProductListResponse, error) {
+func (UnimplementedDropshipbeServer) GetProducts(context.Context, *DefaultRequest) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetProducts not implemented")
 }
 func (UnimplementedDropshipbeServer) GetProductBySlug(context.Context, *GetProductBySlugRequest) (*Product, error) {
@@ -419,10 +419,10 @@ func (UnimplementedDropshipbeServer) GetProductsByCategory(context.Context, *Get
 func (UnimplementedDropshipbeServer) GetRelatedProducts(context.Context, *GetRelatedProductsRequest) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRelatedProducts not implemented")
 }
-func (UnimplementedDropshipbeServer) GetFeaturedProducts(context.Context, *EmptyRequest) (*ProductListResponse, error) {
+func (UnimplementedDropshipbeServer) GetFeaturedProducts(context.Context, *DefaultRequest) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetFeaturedProducts not implemented")
 }
-func (UnimplementedDropshipbeServer) GetNewProducts(context.Context, *EmptyRequest) (*ProductListResponse, error) {
+func (UnimplementedDropshipbeServer) GetNewProducts(context.Context, *DefaultRequest) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetNewProducts not implemented")
 }
 func (UnimplementedDropshipbeServer) CreateProduct(context.Context, *CreateProductRequest) (*Product, error) {
@@ -446,19 +446,19 @@ func (UnimplementedDropshipbeServer) GetProductReviews(context.Context, *GetProd
 func (UnimplementedDropshipbeServer) CreateProductReview(context.Context, *CreateProductReviewRequest) (*ReviewItem, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateProductReview not implemented")
 }
-func (UnimplementedDropshipbeServer) GetSliderItems(context.Context, *EmptyRequest) (*SliderListResponse, error) {
+func (UnimplementedDropshipbeServer) GetSliderItems(context.Context, *DefaultRequest) (*SliderListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetSliderItems not implemented")
 }
-func (UnimplementedDropshipbeServer) GetCategoryItems(context.Context, *EmptyRequest) (*CategoryListResponse, error) {
+func (UnimplementedDropshipbeServer) GetCategoryItems(context.Context, *DefaultRequest) (*CategoryListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCategoryItems not implemented")
 }
-func (UnimplementedDropshipbeServer) GetBannerItems(context.Context, *EmptyRequest) (*BannerListResponse, error) {
+func (UnimplementedDropshipbeServer) GetBannerItems(context.Context, *DefaultRequest) (*BannerListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBannerItems not implemented")
 }
-func (UnimplementedDropshipbeServer) GetVideoBanner(context.Context, *EmptyRequest) (*Banner, error) {
+func (UnimplementedDropshipbeServer) GetVideoBanner(context.Context, *DefaultRequest) (*Banner, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetVideoBanner not implemented")
 }
-func (UnimplementedDropshipbeServer) GetBlogItems(context.Context, *EmptyRequest) (*BlogListResponse, error) {
+func (UnimplementedDropshipbeServer) GetBlogItems(context.Context, *DefaultRequest) (*BlogListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBlogItems not implemented")
 }
 func (UnimplementedDropshipbeServer) GetBlogBySlug(context.Context, *GetBlogBySlugRequest) (*BlogDetailResponse, error) {
@@ -507,7 +507,7 @@ func RegisterDropshipbeServer(s grpc.ServiceRegistrar, srv DropshipbeServer) {
 }
 
 func _Dropshipbe_GetProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -519,7 +519,7 @@ func _Dropshipbe_GetProducts_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: Dropshipbe_GetProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetProducts(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetProducts(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -579,7 +579,7 @@ func _Dropshipbe_GetRelatedProducts_Handler(srv interface{}, ctx context.Context
 }
 
 func _Dropshipbe_GetFeaturedProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -591,13 +591,13 @@ func _Dropshipbe_GetFeaturedProducts_Handler(srv interface{}, ctx context.Contex
 		FullMethod: Dropshipbe_GetFeaturedProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetFeaturedProducts(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetFeaturedProducts(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetNewProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -609,7 +609,7 @@ func _Dropshipbe_GetNewProducts_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: Dropshipbe_GetNewProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetNewProducts(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetNewProducts(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -741,7 +741,7 @@ func _Dropshipbe_CreateProductReview_Handler(srv interface{}, ctx context.Contex
 }
 
 func _Dropshipbe_GetSliderItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -753,13 +753,13 @@ func _Dropshipbe_GetSliderItems_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: Dropshipbe_GetSliderItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetSliderItems(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetSliderItems(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetCategoryItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -771,13 +771,13 @@ func _Dropshipbe_GetCategoryItems_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: Dropshipbe_GetCategoryItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetCategoryItems(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetCategoryItems(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetBannerItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -789,13 +789,13 @@ func _Dropshipbe_GetBannerItems_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: Dropshipbe_GetBannerItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetBannerItems(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetBannerItems(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetVideoBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -807,13 +807,13 @@ func _Dropshipbe_GetVideoBanner_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: Dropshipbe_GetVideoBanner_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetVideoBanner(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetVideoBanner(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetBlogItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyRequest)
+	in := new(DefaultRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -825,7 +825,7 @@ func _Dropshipbe_GetBlogItems_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: Dropshipbe_GetBlogItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DropshipbeServer).GetBlogItems(ctx, req.(*EmptyRequest))
+		return srv.(DropshipbeServer).GetBlogItems(ctx, req.(*DefaultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
