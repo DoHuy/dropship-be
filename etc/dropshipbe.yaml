@@ -14,12 +14,9 @@ DB:
   MaxOpenConns: 100
   MaxIdleConns: 10
 
-Redis:
-  Host: localhost:6379
-  Pass: SecretPassword123
-  Type: node
-  Key: dropshipbe_cache_key
-
+CacheConf: # module cache go-zero
+  - Host: 127.0.0.1:6379
+    Pass: SecretRedisPassword123
 
 JWT:
   SecretKey: hackathon_super_secret_key_2024

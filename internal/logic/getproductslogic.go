@@ -51,10 +51,13 @@ func (l *GetProductsLogic) convertCategories(categories []model.Category) []*dro
 func (l *GetProductsLogic) convertGaleries(images []model.ProductImage) []*dropshipbe.Gallery {
 	var imageItems []*dropshipbe.Gallery
 	expirationDuration := time.Duration(l.svcCtx.Config.R2.LinkExpiration) * time.Minute
+	contextWithTimeout, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
 	for _, i := range images {
 
 		// Tạo presigned Image URL
-		presignedReq, err := l.svcCtx.PresignClient.PresignGetObject(l.ctx, &s3.GetObjectInput{
+		presignedReq, err := l.svcCtx.PresignClient.PresignGetObject(contextWithTimeout, &s3.GetObjectInput{
 			Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
 			Key:    aws.String(i.ImageURL), // luu image key vào trường ImageURL của model
 		}, s3.WithPresignExpires(expirationDuration))
@@ -64,7 +67,7 @@ func (l *GetProductsLogic) convertGaleries(images []model.ProductImage) []*drops
 			continue // Bỏ qua ảnh này nếu có lỗi
 		}
 
-		presignedVideoReq, err := l.svcCtx.PresignClient.PresignGetObject(l.ctx, &s3.GetObjectInput{
+		presignedVideoReq, err := l.svcCtx.PresignClient.PresignGetObject(contextWithTimeout, &s3.GetObjectInput{
 			Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
 			Key:    aws.String(i.VideoURL), // luu video key vào trường VideoURL của model
 		}, s3.WithPresignExpires(expirationDuration))
@@ -91,6 +94,7 @@ func (l *GetProductsLogic) convertPriceTiers(priceTiers []model.ProductPriceTier
 	for _, pt := range priceTiers {
 		priceTierItems = append(priceTierItems, &dropshipbe.PriceTier{
 			Id:        pt.ID,
+			ProductId: pt.ProductID,
 			Price:     float32(pt.Price),
 			Savings:   pt.SavingsText,
 			Qty:       int32(pt.Qty),
@@ -111,6 +115,7 @@ func (l *GetProductsLogic) convertOptions(options []model.Option) []*dropshipbe.
 				Id:        ov.ID,
 				Value:     ov.Value,
 				ColorCode: ov.ColorCode,
+				OptionId:  ov.OptionID,
 			})
 		}
 		optionItems = append(optionItems, &dropshipbe.Option{
@@ -138,6 +143,7 @@ func (l *GetProductsLogic) convertVariants(variants []model.Variant) []*dropship
 		variantItems = append(variantItems, &dropshipbe.Variant{
 			Id:             v.ID,
 			Sku:            v.Sku,
+			ProductId:      v.ProductID,
 			Price:          float32(v.Price),
 			Barcode:        v.Barcode,
 			CompareAtPrice: float32(v.CompareAtPrice),
@@ -162,7 +168,7 @@ func (l *GetProductsLogic) convertTags(jsonData datatypes.JSON) []string {
 }
 func (l *GetProductsLogic) GetProducts(in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	// todo: add your logic here and delete this line
-	products, err := l.svcCtx.EcommerceRepo.GetProducts(in)
+	products, err := l.svcCtx.EcommerceRepo.GetProducts(l.ctx, in)
 	if err != nil {
 		logx.Errorf("Lỗi khi lấy sản phẩm: %v", err)
 		return nil, err
@@ -209,7 +215,6 @@ func (l *GetProductsLogic) GetProducts(in *dropshipbe.DefaultRequest) (*dropship
 			QuantityEnabled:   p.QuantityEnabled,
 			QuickShop:         p.QuickShop,
 			CreatedAt:         p.CreatedAt.Format(time.RFC3339),
-			UpdatedAt:         p.UpdatedAt.Format(time.RFC3339),
 		})
 	}
 

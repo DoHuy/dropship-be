@@ -1,10 +1,14 @@
 package config
 
-import "github.com/zeromicro/go-zero/zrpc"
+import (
+	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
 	zrpc.RpcServerConf
-	R2 struct {
+	CacheConf cache.CacheConf
+	R2        struct {
 		AccountID      string
 		AccessKey      string
 		SecretKey      string

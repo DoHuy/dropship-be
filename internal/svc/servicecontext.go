@@ -13,6 +13,8 @@ import (
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/syncx"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -76,13 +78,22 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		sqlDB.SetMaxIdleConns(c.DB.MaxIdleConns)
 	}
 
-	// Khởi tạo Repository với kết nối DB vừa tạo
-	ecomRepo := repository.NewEcommerceRepository(db)
+	// Khởi tạo module Cache của go-zero với 4 thành phần:
+	// 1. Cấu hình Redis (c.CacheConf)
+	// 2. singleflight (Chống bão request / Thundering Herd)
+	// 3. stats (Đo lường Hit/Miss rate)
+	// 4. Lỗi mặc định khi không tìm thấy dữ liệu (để tránh lưu cache rác)
+	dropShipCache := cache.New(
+		c.CacheConf,
+		syncx.NewSingleFlight(),
+		cache.NewStat("dropship_cache"),
+		gorm.ErrRecordNotFound,
+	)
 
 	return &ServiceContext{
 		Config:        c,
 		S3Client:      s3Client,
 		PresignClient: presignClient,
-		EcommerceRepo: ecomRepo,
+		EcommerceRepo: repository.NewEcommerceRepository(db, dropShipCache),
 	}
 }

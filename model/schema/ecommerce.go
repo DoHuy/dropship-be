@@ -18,7 +18,7 @@ type Country struct {
 	Currency     string     `gorm:"type:varchar(3);not null" json:"currency"`
 	LanguageCode string     `gorm:"type:char(2);default:'vi'" json:"language_code"`
 	IsActive     *bool      `gorm:"default:true;index:idx_country_active,where:is_active=true" json:"is_active"` // Pointer để handle DB default true
-	CreatedAt    *time.Time `gorm:"type:timestamptz" json:"created_at"`
+	CreatedAt    *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
 }
 
 // Category reflects table "categories"
@@ -86,8 +86,8 @@ type Product struct {
 	QuantityEnabled bool           `gorm:"default:true" json:"quantity_enabled"`
 	QuickShop       bool           `gorm:"default:true" json:"quick_shop"`
 
-	CreatedAt *time.Time `gorm:"type:timestamptz" json:"created_at"`
-	UpdatedAt *time.Time `gorm:"type:timestamptz" json:"updated_at"`
+	CreatedAt *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
+	UpdatedAt *time.Time `gorm:"autoUpdateTime;type:timestamptz" json:"updated_at"`
 
 	// --- Relationships ---
 	Categories []Category `gorm:"many2many:product_categories;" json:"categories,omitempty"`
@@ -113,7 +113,7 @@ type ProductFAQ struct {
 	Answer    string `gorm:"type:text;not null" json:"answer"`
 	SortOrder int    `gorm:"default:0" json:"sort_order"`
 
-	CreatedAt *time.Time `gorm:"autoCreateTime" json:"created_at"`
+	CreatedAt *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
 }
 
 // ProductImage reflects table "product_images"
@@ -189,7 +189,8 @@ type Variant struct {
 	StockQuantity int `gorm:"default:0;check:stock_quantity >= 0" json:"stock_quantity"`
 
 	IsActive  *bool      `gorm:"default:true" json:"is_active"`
-	CreatedAt *time.Time `gorm:"type:timestamptz" json:"created_at"`
+	CreatedAt *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
+	UpdatedAt *time.Time `gorm:"autoUpdateTime;type:timestamptz" json:"updated_at"`
 
 	// Relationships
 	// Many-to-Many để map Variant với OptionValues (VD: Variant A = [Red, XL])

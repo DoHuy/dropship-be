@@ -1,50 +1,59 @@
 package repository
 
 import (
+	"context"
+
+	"dropshipbe/common/constant"
 	"dropshipbe/dropshipbe"
 	model "dropshipbe/model/schema"
 
+	"github.com/zeromicro/go-zero/core/stores/cache"
 	"gorm.io/gorm"
 )
 
 type EcommerceRepository interface {
-	GetProducts(request *dropshipbe.DefaultRequest) ([]model.Product, error)
+	GetProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error)
 }
 
 type defaultEcommerceRepository struct {
-	db *gorm.DB
+	db    *gorm.DB
+	cache cache.Cache // Nhận bộ nhớ đệm đã được tuỳ biến TTL từ bên ngoài
 }
 
-func (d *defaultEcommerceRepository) GetProducts(request *dropshipbe.DefaultRequest) ([]model.Product, error) {
+func NewEcommerceRepository(db *gorm.DB, c cache.Cache) EcommerceRepository {
+	return &defaultEcommerceRepository{
+		db:    db,
+		cache: c,
+	}
+}
+
+func (d *defaultEcommerceRepository) GetProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error) {
 	var products []model.Product
 
-	// Khởi tạo câu truy vấn từ model Product
-	query := d.db.Model(&model.Product{})
+	cacheKey := constant.ProductListByCountryKey(request.CountryCode)
 
-	// 2. Preload các quan hệ cần thiết để tránh N+1 Query
-	query = query.
-		Preload("Country").
-		Preload("Categories").
-		Preload("Images").
-		Preload("PriceTiers").
-		Preload("Options.OptionValues").
-		Preload("Variants.OptionValues")
+	err := d.cache.TakeCtx(ctx, &products, cacheKey, func(v any) error {
 
-	query = query.Where("status = ?", "active")
+		query := d.db.Model(&model.Product{}).
+			Preload("Country").
+			Preload("Categories").
+			Preload("Images").
+			Preload("PriceTiers").
+			Preload("Options.OptionValues").
+			Preload("Variants.OptionValues").
+			Where("status = ?", "active")
 
-	if request.CountryCode != "" {
-		query = query.Joins("JOIN countries ON countries.id = products.country_id").
-			Where("countries.code = ?", request.CountryCode)
-	}
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = products.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
 
-	err := query.Find(&products).Error
+		return query.Find(v).Error
+	})
+
 	if err != nil {
-		return nil, err // Trả về lỗi nếu có vấn đề với Database
+		return nil, err
 	}
 
 	return products, nil
-}
-
-func NewEcommerceRepository(db *gorm.DB) EcommerceRepository {
-	return &defaultEcommerceRepository{db: db}
 }
