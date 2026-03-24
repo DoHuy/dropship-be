@@ -88,6 +88,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		syncx.NewSingleFlight(),
 		cache.NewStat("dropship_cache"),
 		gorm.ErrRecordNotFound,
+		cache.WithExpiry(time.Duration(c.CacheTTL)*time.Minute), // TTL tuỳ chỉnh từ config
 	)
 
 	return &ServiceContext{

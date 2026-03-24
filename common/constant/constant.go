@@ -10,11 +10,6 @@ const (
 	PrefixBlog     = ProjectPrefix + "blog:"
 )
 
-// =========================================================================
-// Các hàm Helper để sinh ra Cache Key động (có chứa biến)
-// =========================================================================
-
-// ProductListByCountryKey tạo key cho danh sách sản phẩm theo quốc gia
 func ProductListByCountryKey(countryCode string) string {
 	if countryCode == "" {
 		return PrefixProduct + "list:all"
@@ -22,12 +17,43 @@ func ProductListByCountryKey(countryCode string) string {
 	return fmt.Sprintf("%slist:country:%s", PrefixProduct, countryCode)
 }
 
-// ProductDetailKey tạo key cho chi tiết 1 sản phẩm (ví dụ dùng cho GetProductBySlug)
 func ProductDetailKey(slug string) string {
 	return fmt.Sprintf("%sdetail:slug:%s", PrefixProduct, slug)
 }
 
 // CategoryListKey tạo key cho danh sách danh mục
-func CategoryListKey() string {
-	return PrefixCategory + "list:all"
+func CategoryListKey(country_code string) string {
+	if country_code == "" {
+		return PrefixCategory + "list:all"
+	}
+	return fmt.Sprintf("%slist:country:%s", PrefixCategory, country_code)
+}
+
+func BannerItemListKey() string {
+	return PrefixProduct + "banner:list:all"
+}
+
+func BlogPostBySlugKey(slug string, country_code string) string {
+	return fmt.Sprintf("%s:country:%s:detail:slug:%s", PrefixBlog, country_code, slug)
+}
+
+func BlogPostListByCountryKey(countryCode string) string {
+	if countryCode == "" {
+		return PrefixBlog + "list:all"
+	}
+	return fmt.Sprintf("%slist:country:%s", PrefixBlog, countryCode)
+}
+
+func FeaturedProductListKey(countryCode string) string {
+	if countryCode == "" {
+		return PrefixProduct + "featured:list:all"
+	}
+	return fmt.Sprintf("%sfeatured:list:country:%s", PrefixProduct, countryCode)
+}
+
+func NewProductListKey(countryCode string) string {
+	if countryCode == "" {
+		return PrefixProduct + "new:list:all"
+	}
+	return fmt.Sprintf("%snew:list:country:%s", PrefixProduct, countryCode)
 }

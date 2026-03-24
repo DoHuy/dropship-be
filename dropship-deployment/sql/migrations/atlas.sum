@@ -1,7 +1,9 @@
-h1:9kl4lP0yeI4VmlaYiwPZxYmppBAA/1ELOCCvLWMYuHI=
+h1:ysqIO+QiHwTeQ1wI0TGpHrS4gITOnSa4/rasVgcceg8=
 20260319103520_initialize.up.sql h1:MX8/9E7KN6UJgGYRJZ2U1a/QktN7rj3mHRP1paVXfy8=
 20260322091422_add_country_to_product.up.sql h1:JqDv82FTFIExLExklgAVuor13bbIa363snuayBP8p98=
 20260322103611_add_price_isnew_to_product.up.sql h1:82/6vXlwAo3MIKEibPh6Am0LOs+D+2YfDSHAwNliyzU=
 20260322112026_remove_image_variant.up.sql h1:CIrVm7bUG4gQBpPqvhq1sPKQp9N5Oh+HT2oW5VKIX0A=
 20260322112154_remove_weigram_variant.up.sql h1:UBw8igWb9IGmXznIkdjKG3UqccjkJjZVGMC2G/zDA/w=
 20260323081435_auto_create_date.up.sql h1:OEZU+YIJkqKbGN9K8012B/CH/mr4ovEEqjrwFZZLzis=
+20260324084951_modify_banner_table.up.sql h1:xNiI4j5AmyOczrb+bmVy4Ho2yPRW2oLVrc5flBNpMd8=
+20260324090956_fix_banner_table.up.sql h1:2w9O0AmnDo2WwgiPTsQH7qoBGOUfRGdoLWLaKLLcuKc=

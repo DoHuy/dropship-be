@@ -17,6 +17,7 @@ type (
 	Banner                       = dropshipbe.Banner
 	BannerListResponse           = dropshipbe.BannerListResponse
 	Blog                         = dropshipbe.Blog
+	BlogCategory                 = dropshipbe.BlogCategory
 	BlogDetailResponse           = dropshipbe.BlogDetailResponse
 	BlogListResponse             = dropshipbe.BlogListResponse
 	Category                     = dropshipbe.Category

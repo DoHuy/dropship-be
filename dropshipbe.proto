@@ -178,11 +178,16 @@ message Banner {
   optional string video_type = 7;
 }
 
+message BlogCategory {
+  string title = 2;
+  string slug = 3;
+}
+
 // 13. Bài viết Blog (Blog Item)
 message Blog {
   uint64 id = 1;
   string slug = 2;
-  string category = 3;
+  BlogCategory category = 3;
   string image_url = 4;
   string alt = 5;
   string title = 6;

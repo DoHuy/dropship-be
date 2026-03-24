@@ -14,3 +14,21 @@ Upstreams:
       - Method: get
         Path: /api/v1/products
         RpcPath: dropshipbe.Dropshipbe/GetProducts
+      - Method: get
+        Path: /api/v1/banners
+        RpcPath: dropshipbe.Dropshipbe/GetBannerItems
+      - Method: get
+        Path: /api/v1/blogs/:slug
+        RpcPath: dropshipbe.Dropshipbe/GetBlogBySlug
+      - Method: get
+        Path: /api/v1/blogs
+        RpcPath: dropshipbe.Dropshipbe/GetBlogItems
+      - Method: get
+        Path: /api/v1/categories
+        RpcPath: dropshipbe.Dropshipbe/GetCategoryItems
+      - Method: get
+        Path: /api/v1/featured-products
+        RpcPath: dropshipbe.Dropshipbe/GetFeaturedProducts
+      - Method: get
+        Path: /api/v1/new-products
+        RpcPath: dropshipbe.Dropshipbe/GetNewProducts                   

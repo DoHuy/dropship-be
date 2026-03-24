@@ -17,7 +17,7 @@ DB:
 CacheConf: # module cache go-zero
   - Host: 127.0.0.1:6379
     Pass: SecretRedisPassword123
-
+CacheTTL: 30 # in minutes
 JWT:
   SecretKey: hackathon_super_secret_key_2024
   ExpireDuration: 72 # in hours

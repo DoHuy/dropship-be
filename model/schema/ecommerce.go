@@ -243,9 +243,12 @@ type Banner struct {
 	ID    uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
 	Title string `gorm:"type:varchar(255);not null" json:"title"`
 
-	ImageURL       string `gorm:"type:varchar(500);not null" json:"image_url"`
-	MobileImageURL string `gorm:"type:varchar(500)" json:"mobile_image_url"`
-	LinkURL        string `gorm:"type:varchar(500)" json:"link_url"`
+	ImageURL    string `gorm:"type:varchar(500);not null" json:"image_url"`
+	VideoURL    string `gorm:"type:varchar(500)" json:"video_url"`
+	Alt         string `gorm:"type:varchar(255)" json:"alt"`
+	Description string `gorm:"type:text" json:"description"`
+	VideoType   string `gorm:"type:varchar(50)" json:"video_type"` // "youtube", "vimeo", "local"
+	LinkURL     string `gorm:"type:varchar(500)" json:"link_url"`
 
 	Position   string `gorm:"type:varchar(50);not null" json:"position"`
 	SortOrder  int    `gorm:"default:0" json:"sort_order"`

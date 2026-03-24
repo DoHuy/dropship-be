@@ -8,6 +8,7 @@ import (
 type Config struct {
 	zrpc.RpcServerConf
 	CacheConf cache.CacheConf
+	CacheTTL  int64
 	R2        struct {
 		AccountID      string
 		AccessKey      string

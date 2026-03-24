@@ -1546,12 +1546,64 @@ func (x *Banner) GetVideoType() string {
 	return ""
 }
 
+type BlogCategory struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Slug          string                 `protobuf:"bytes,3,opt,name=slug,proto3" json:"slug,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BlogCategory) Reset() {
+	*x = BlogCategory{}
+	mi := &file_dropshipbe_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BlogCategory) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlogCategory) ProtoMessage() {}
+
+func (x *BlogCategory) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlogCategory.ProtoReflect.Descriptor instead.
+func (*BlogCategory) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *BlogCategory) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *BlogCategory) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
+}
+
 // 13. Bài viết Blog (Blog Item)
 type Blog struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Slug          string                 `protobuf:"bytes,2,opt,name=slug,proto3" json:"slug,omitempty"`
-	Category      string                 `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
+	Category      *BlogCategory          `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
 	ImageUrl      string                 `protobuf:"bytes,4,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Alt           string                 `protobuf:"bytes,5,opt,name=alt,proto3" json:"alt,omitempty"`
 	Title         string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
@@ -1562,7 +1614,7 @@ type Blog struct {
 
 func (x *Blog) Reset() {
 	*x = Blog{}
-	mi := &file_dropshipbe_proto_msgTypes[16]
+	mi := &file_dropshipbe_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1574,7 +1626,7 @@ func (x *Blog) String() string {
 func (*Blog) ProtoMessage() {}
 
 func (x *Blog) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[16]
+	mi := &file_dropshipbe_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1587,7 +1639,7 @@ func (x *Blog) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Blog.ProtoReflect.Descriptor instead.
 func (*Blog) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{16}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *Blog) GetId() uint64 {
@@ -1604,11 +1656,11 @@ func (x *Blog) GetSlug() string {
 	return ""
 }
 
-func (x *Blog) GetCategory() string {
+func (x *Blog) GetCategory() *BlogCategory {
 	if x != nil {
 		return x.Category
 	}
-	return ""
+	return nil
 }
 
 func (x *Blog) GetImageUrl() string {
@@ -1648,7 +1700,7 @@ type ProductListResponse struct {
 
 func (x *ProductListResponse) Reset() {
 	*x = ProductListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[17]
+	mi := &file_dropshipbe_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1660,7 +1712,7 @@ func (x *ProductListResponse) String() string {
 func (*ProductListResponse) ProtoMessage() {}
 
 func (x *ProductListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[17]
+	mi := &file_dropshipbe_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1673,7 +1725,7 @@ func (x *ProductListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProductListResponse.ProtoReflect.Descriptor instead.
 func (*ProductListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{17}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ProductListResponse) GetProducts() []*Product {
@@ -1693,7 +1745,7 @@ type GetProductBySlugRequest struct {
 
 func (x *GetProductBySlugRequest) Reset() {
 	*x = GetProductBySlugRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[18]
+	mi := &file_dropshipbe_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1705,7 +1757,7 @@ func (x *GetProductBySlugRequest) String() string {
 func (*GetProductBySlugRequest) ProtoMessage() {}
 
 func (x *GetProductBySlugRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[18]
+	mi := &file_dropshipbe_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1718,7 +1770,7 @@ func (x *GetProductBySlugRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductBySlugRequest.ProtoReflect.Descriptor instead.
 func (*GetProductBySlugRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{18}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetProductBySlugRequest) GetSlug() string {
@@ -1745,7 +1797,7 @@ type GetProductsByCategoryRequest struct {
 
 func (x *GetProductsByCategoryRequest) Reset() {
 	*x = GetProductsByCategoryRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[19]
+	mi := &file_dropshipbe_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1757,7 +1809,7 @@ func (x *GetProductsByCategoryRequest) String() string {
 func (*GetProductsByCategoryRequest) ProtoMessage() {}
 
 func (x *GetProductsByCategoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[19]
+	mi := &file_dropshipbe_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1770,7 +1822,7 @@ func (x *GetProductsByCategoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductsByCategoryRequest.ProtoReflect.Descriptor instead.
 func (*GetProductsByCategoryRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{19}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetProductsByCategoryRequest) GetCategory() string {
@@ -1800,7 +1852,7 @@ type ShopSearchParams struct {
 
 func (x *ShopSearchParams) Reset() {
 	*x = ShopSearchParams{}
-	mi := &file_dropshipbe_proto_msgTypes[20]
+	mi := &file_dropshipbe_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1812,7 +1864,7 @@ func (x *ShopSearchParams) String() string {
 func (*ShopSearchParams) ProtoMessage() {}
 
 func (x *ShopSearchParams) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[20]
+	mi := &file_dropshipbe_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1825,7 +1877,7 @@ func (x *ShopSearchParams) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShopSearchParams.ProtoReflect.Descriptor instead.
 func (*ShopSearchParams) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{20}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ShopSearchParams) GetIsFeatured() bool {
@@ -1872,7 +1924,7 @@ type GalleryListResponse struct {
 
 func (x *GalleryListResponse) Reset() {
 	*x = GalleryListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[21]
+	mi := &file_dropshipbe_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1884,7 +1936,7 @@ func (x *GalleryListResponse) String() string {
 func (*GalleryListResponse) ProtoMessage() {}
 
 func (x *GalleryListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[21]
+	mi := &file_dropshipbe_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1897,7 +1949,7 @@ func (x *GalleryListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GalleryListResponse.ProtoReflect.Descriptor instead.
 func (*GalleryListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{21}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *GalleryListResponse) GetGalleries() []*Gallery {
@@ -1916,7 +1968,7 @@ type FaqListResponse struct {
 
 func (x *FaqListResponse) Reset() {
 	*x = FaqListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[22]
+	mi := &file_dropshipbe_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1928,7 +1980,7 @@ func (x *FaqListResponse) String() string {
 func (*FaqListResponse) ProtoMessage() {}
 
 func (x *FaqListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[22]
+	mi := &file_dropshipbe_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1941,7 +1993,7 @@ func (x *FaqListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FaqListResponse.ProtoReflect.Descriptor instead.
 func (*FaqListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{22}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *FaqListResponse) GetFaqs() []*Faq {
@@ -1960,7 +2012,7 @@ type SliderListResponse struct {
 
 func (x *SliderListResponse) Reset() {
 	*x = SliderListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[23]
+	mi := &file_dropshipbe_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1972,7 +2024,7 @@ func (x *SliderListResponse) String() string {
 func (*SliderListResponse) ProtoMessage() {}
 
 func (x *SliderListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[23]
+	mi := &file_dropshipbe_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1985,7 +2037,7 @@ func (x *SliderListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SliderListResponse.ProtoReflect.Descriptor instead.
 func (*SliderListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{23}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *SliderListResponse) GetSliders() []*Slider {
@@ -2004,7 +2056,7 @@ type CategoryListResponse struct {
 
 func (x *CategoryListResponse) Reset() {
 	*x = CategoryListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[24]
+	mi := &file_dropshipbe_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2016,7 +2068,7 @@ func (x *CategoryListResponse) String() string {
 func (*CategoryListResponse) ProtoMessage() {}
 
 func (x *CategoryListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[24]
+	mi := &file_dropshipbe_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2029,7 +2081,7 @@ func (x *CategoryListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CategoryListResponse.ProtoReflect.Descriptor instead.
 func (*CategoryListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{24}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *CategoryListResponse) GetCategories() []*Category {
@@ -2048,7 +2100,7 @@ type BannerListResponse struct {
 
 func (x *BannerListResponse) Reset() {
 	*x = BannerListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[25]
+	mi := &file_dropshipbe_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2060,7 +2112,7 @@ func (x *BannerListResponse) String() string {
 func (*BannerListResponse) ProtoMessage() {}
 
 func (x *BannerListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[25]
+	mi := &file_dropshipbe_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2073,7 +2125,7 @@ func (x *BannerListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BannerListResponse.ProtoReflect.Descriptor instead.
 func (*BannerListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{25}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *BannerListResponse) GetBanners() []*Banner {
@@ -2092,7 +2144,7 @@ type BlogListResponse struct {
 
 func (x *BlogListResponse) Reset() {
 	*x = BlogListResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[26]
+	mi := &file_dropshipbe_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2104,7 +2156,7 @@ func (x *BlogListResponse) String() string {
 func (*BlogListResponse) ProtoMessage() {}
 
 func (x *BlogListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[26]
+	mi := &file_dropshipbe_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2117,7 +2169,7 @@ func (x *BlogListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlogListResponse.ProtoReflect.Descriptor instead.
 func (*BlogListResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{26}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *BlogListResponse) GetBlogs() []*Blog {
@@ -2137,7 +2189,7 @@ type GetBlogBySlugRequest struct {
 
 func (x *GetBlogBySlugRequest) Reset() {
 	*x = GetBlogBySlugRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[27]
+	mi := &file_dropshipbe_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2149,7 +2201,7 @@ func (x *GetBlogBySlugRequest) String() string {
 func (*GetBlogBySlugRequest) ProtoMessage() {}
 
 func (x *GetBlogBySlugRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[27]
+	mi := &file_dropshipbe_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2162,7 +2214,7 @@ func (x *GetBlogBySlugRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBlogBySlugRequest.ProtoReflect.Descriptor instead.
 func (*GetBlogBySlugRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{27}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *GetBlogBySlugRequest) GetSlug() string {
@@ -2188,7 +2240,7 @@ type BlogDetailResponse struct {
 
 func (x *BlogDetailResponse) Reset() {
 	*x = BlogDetailResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[28]
+	mi := &file_dropshipbe_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2200,7 +2252,7 @@ func (x *BlogDetailResponse) String() string {
 func (*BlogDetailResponse) ProtoMessage() {}
 
 func (x *BlogDetailResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[28]
+	mi := &file_dropshipbe_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2213,7 +2265,7 @@ func (x *BlogDetailResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlogDetailResponse.ProtoReflect.Descriptor instead.
 func (*BlogDetailResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{28}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *BlogDetailResponse) GetBlog() *Blog {
@@ -2233,7 +2285,7 @@ type GetRelatedProductsRequest struct {
 
 func (x *GetRelatedProductsRequest) Reset() {
 	*x = GetRelatedProductsRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[29]
+	mi := &file_dropshipbe_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2245,7 +2297,7 @@ func (x *GetRelatedProductsRequest) String() string {
 func (*GetRelatedProductsRequest) ProtoMessage() {}
 
 func (x *GetRelatedProductsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[29]
+	mi := &file_dropshipbe_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2258,7 +2310,7 @@ func (x *GetRelatedProductsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRelatedProductsRequest.ProtoReflect.Descriptor instead.
 func (*GetRelatedProductsRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{29}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *GetRelatedProductsRequest) GetId() uint64 {
@@ -2285,7 +2337,7 @@ type GetProductReviewsRequest struct {
 
 func (x *GetProductReviewsRequest) Reset() {
 	*x = GetProductReviewsRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[30]
+	mi := &file_dropshipbe_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2297,7 +2349,7 @@ func (x *GetProductReviewsRequest) String() string {
 func (*GetProductReviewsRequest) ProtoMessage() {}
 
 func (x *GetProductReviewsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[30]
+	mi := &file_dropshipbe_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2310,7 +2362,7 @@ func (x *GetProductReviewsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductReviewsRequest.ProtoReflect.Descriptor instead.
 func (*GetProductReviewsRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{30}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetProductReviewsRequest) GetId() uint64 {
@@ -2337,7 +2389,7 @@ type GetSocialProductVideoRequest struct {
 
 func (x *GetSocialProductVideoRequest) Reset() {
 	*x = GetSocialProductVideoRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[31]
+	mi := &file_dropshipbe_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2349,7 +2401,7 @@ func (x *GetSocialProductVideoRequest) String() string {
 func (*GetSocialProductVideoRequest) ProtoMessage() {}
 
 func (x *GetSocialProductVideoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[31]
+	mi := &file_dropshipbe_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2362,7 +2414,7 @@ func (x *GetSocialProductVideoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSocialProductVideoRequest.ProtoReflect.Descriptor instead.
 func (*GetSocialProductVideoRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{31}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *GetSocialProductVideoRequest) GetId() uint64 {
@@ -2389,7 +2441,7 @@ type GetProductFaqsRequest struct {
 
 func (x *GetProductFaqsRequest) Reset() {
 	*x = GetProductFaqsRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[32]
+	mi := &file_dropshipbe_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2401,7 +2453,7 @@ func (x *GetProductFaqsRequest) String() string {
 func (*GetProductFaqsRequest) ProtoMessage() {}
 
 func (x *GetProductFaqsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[32]
+	mi := &file_dropshipbe_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2414,7 +2466,7 @@ func (x *GetProductFaqsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProductFaqsRequest.ProtoReflect.Descriptor instead.
 func (*GetProductFaqsRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{32}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetProductFaqsRequest) GetId() uint64 {
@@ -2440,7 +2492,7 @@ type CreateProductRequest struct {
 
 func (x *CreateProductRequest) Reset() {
 	*x = CreateProductRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[33]
+	mi := &file_dropshipbe_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2452,7 +2504,7 @@ func (x *CreateProductRequest) String() string {
 func (*CreateProductRequest) ProtoMessage() {}
 
 func (x *CreateProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[33]
+	mi := &file_dropshipbe_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2465,7 +2517,7 @@ func (x *CreateProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProductRequest.ProtoReflect.Descriptor instead.
 func (*CreateProductRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{33}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *CreateProductRequest) GetProduct() *Product {
@@ -2486,7 +2538,7 @@ type FileData struct {
 
 func (x *FileData) Reset() {
 	*x = FileData{}
-	mi := &file_dropshipbe_proto_msgTypes[34]
+	mi := &file_dropshipbe_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2498,7 +2550,7 @@ func (x *FileData) String() string {
 func (*FileData) ProtoMessage() {}
 
 func (x *FileData) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[34]
+	mi := &file_dropshipbe_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2511,7 +2563,7 @@ func (x *FileData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileData.ProtoReflect.Descriptor instead.
 func (*FileData) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{34}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *FileData) GetFilename() string {
@@ -2537,7 +2589,7 @@ type UploadFileRequest struct {
 
 func (x *UploadFileRequest) Reset() {
 	*x = UploadFileRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[35]
+	mi := &file_dropshipbe_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2549,7 +2601,7 @@ func (x *UploadFileRequest) String() string {
 func (*UploadFileRequest) ProtoMessage() {}
 
 func (x *UploadFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[35]
+	mi := &file_dropshipbe_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2562,7 +2614,7 @@ func (x *UploadFileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadFileRequest.ProtoReflect.Descriptor instead.
 func (*UploadFileRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{35}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *UploadFileRequest) GetFiles() []*FileData {
@@ -2582,7 +2634,7 @@ type UploadedFileInfo struct {
 
 func (x *UploadedFileInfo) Reset() {
 	*x = UploadedFileInfo{}
-	mi := &file_dropshipbe_proto_msgTypes[36]
+	mi := &file_dropshipbe_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2594,7 +2646,7 @@ func (x *UploadedFileInfo) String() string {
 func (*UploadedFileInfo) ProtoMessage() {}
 
 func (x *UploadedFileInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[36]
+	mi := &file_dropshipbe_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2607,7 +2659,7 @@ func (x *UploadedFileInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadedFileInfo.ProtoReflect.Descriptor instead.
 func (*UploadedFileInfo) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{36}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *UploadedFileInfo) GetFileId() string {
@@ -2633,7 +2685,7 @@ type UploadFileResponse struct {
 
 func (x *UploadFileResponse) Reset() {
 	*x = UploadFileResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[37]
+	mi := &file_dropshipbe_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2645,7 +2697,7 @@ func (x *UploadFileResponse) String() string {
 func (*UploadFileResponse) ProtoMessage() {}
 
 func (x *UploadFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[37]
+	mi := &file_dropshipbe_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2658,7 +2710,7 @@ func (x *UploadFileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadFileResponse.ProtoReflect.Descriptor instead.
 func (*UploadFileResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{37}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *UploadFileResponse) GetFiles() []*UploadedFileInfo {
@@ -2677,7 +2729,7 @@ type DeleteFileRequest struct {
 
 func (x *DeleteFileRequest) Reset() {
 	*x = DeleteFileRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[38]
+	mi := &file_dropshipbe_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2689,7 +2741,7 @@ func (x *DeleteFileRequest) String() string {
 func (*DeleteFileRequest) ProtoMessage() {}
 
 func (x *DeleteFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[38]
+	mi := &file_dropshipbe_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2702,7 +2754,7 @@ func (x *DeleteFileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFileRequest.ProtoReflect.Descriptor instead.
 func (*DeleteFileRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{38}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *DeleteFileRequest) GetFileUrl() string {
@@ -2721,7 +2773,7 @@ type DeleteFileResponse struct {
 
 func (x *DeleteFileResponse) Reset() {
 	*x = DeleteFileResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[39]
+	mi := &file_dropshipbe_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2733,7 +2785,7 @@ func (x *DeleteFileResponse) String() string {
 func (*DeleteFileResponse) ProtoMessage() {}
 
 func (x *DeleteFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[39]
+	mi := &file_dropshipbe_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2746,7 +2798,7 @@ func (x *DeleteFileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteFileResponse.ProtoReflect.Descriptor instead.
 func (*DeleteFileResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{39}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *DeleteFileResponse) GetSuccess() bool {
@@ -2767,7 +2819,7 @@ type CreateProductFaqRequest struct {
 
 func (x *CreateProductFaqRequest) Reset() {
 	*x = CreateProductFaqRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[40]
+	mi := &file_dropshipbe_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2779,7 +2831,7 @@ func (x *CreateProductFaqRequest) String() string {
 func (*CreateProductFaqRequest) ProtoMessage() {}
 
 func (x *CreateProductFaqRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[40]
+	mi := &file_dropshipbe_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2792,7 +2844,7 @@ func (x *CreateProductFaqRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProductFaqRequest.ProtoReflect.Descriptor instead.
 func (*CreateProductFaqRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{40}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *CreateProductFaqRequest) GetProductId() uint64 {
@@ -2830,7 +2882,7 @@ type CreateProductReviewRequest struct {
 
 func (x *CreateProductReviewRequest) Reset() {
 	*x = CreateProductReviewRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[41]
+	mi := &file_dropshipbe_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2842,7 +2894,7 @@ func (x *CreateProductReviewRequest) String() string {
 func (*CreateProductReviewRequest) ProtoMessage() {}
 
 func (x *CreateProductReviewRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[41]
+	mi := &file_dropshipbe_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2855,7 +2907,7 @@ func (x *CreateProductReviewRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateProductReviewRequest.ProtoReflect.Descriptor instead.
 func (*CreateProductReviewRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{41}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *CreateProductReviewRequest) GetProductId() uint64 {
@@ -2915,7 +2967,7 @@ type CreateNewBlogRequest struct {
 
 func (x *CreateNewBlogRequest) Reset() {
 	*x = CreateNewBlogRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[42]
+	mi := &file_dropshipbe_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2927,7 +2979,7 @@ func (x *CreateNewBlogRequest) String() string {
 func (*CreateNewBlogRequest) ProtoMessage() {}
 
 func (x *CreateNewBlogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[42]
+	mi := &file_dropshipbe_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2940,7 +2992,7 @@ func (x *CreateNewBlogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNewBlogRequest.ProtoReflect.Descriptor instead.
 func (*CreateNewBlogRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{42}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *CreateNewBlogRequest) GetTitle() string {
@@ -3004,7 +3056,7 @@ type CreateOptionRequest struct {
 
 func (x *CreateOptionRequest) Reset() {
 	*x = CreateOptionRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[43]
+	mi := &file_dropshipbe_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3016,7 +3068,7 @@ func (x *CreateOptionRequest) String() string {
 func (*CreateOptionRequest) ProtoMessage() {}
 
 func (x *CreateOptionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[43]
+	mi := &file_dropshipbe_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3029,7 +3081,7 @@ func (x *CreateOptionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOptionRequest.ProtoReflect.Descriptor instead.
 func (*CreateOptionRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{43}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *CreateOptionRequest) GetProductId() uint64 {
@@ -3071,7 +3123,7 @@ type CreateOptionValueRequest struct {
 
 func (x *CreateOptionValueRequest) Reset() {
 	*x = CreateOptionValueRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[44]
+	mi := &file_dropshipbe_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3083,7 +3135,7 @@ func (x *CreateOptionValueRequest) String() string {
 func (*CreateOptionValueRequest) ProtoMessage() {}
 
 func (x *CreateOptionValueRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[44]
+	mi := &file_dropshipbe_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3096,7 +3148,7 @@ func (x *CreateOptionValueRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOptionValueRequest.ProtoReflect.Descriptor instead.
 func (*CreateOptionValueRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{44}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *CreateOptionValueRequest) GetOptionId() uint64 {
@@ -3130,7 +3182,7 @@ type LoginRequest struct {
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_dropshipbe_proto_msgTypes[45]
+	mi := &file_dropshipbe_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3142,7 +3194,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[45]
+	mi := &file_dropshipbe_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3155,7 +3207,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{45}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *LoginRequest) GetEmail() string {
@@ -3182,7 +3234,7 @@ type LoginResponse struct {
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_dropshipbe_proto_msgTypes[46]
+	mi := &file_dropshipbe_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3194,7 +3246,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_dropshipbe_proto_msgTypes[46]
+	mi := &file_dropshipbe_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3207,7 +3259,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_dropshipbe_proto_rawDescGZIP(), []int{46}
+	return file_dropshipbe_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *LoginResponse) GetAccessToken() string {
@@ -3402,11 +3454,14 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"video_type\x18\a \x01(\tH\x01R\tvideoType\x88\x01\x01B\f\n" +
 	"\n" +
 	"_video_urlB\r\n" +
-	"\v_video_type\"\xa5\x01\n" +
+	"\v_video_type\"8\n" +
+	"\fBlogCategory\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12\x12\n" +
+	"\x04slug\x18\x03 \x01(\tR\x04slug\"\xbf\x01\n" +
 	"\x04Blog\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x12\n" +
-	"\x04slug\x18\x02 \x01(\tR\x04slug\x12\x1a\n" +
-	"\bcategory\x18\x03 \x01(\tR\bcategory\x12\x1b\n" +
+	"\x04slug\x18\x02 \x01(\tR\x04slug\x124\n" +
+	"\bcategory\x18\x03 \x01(\v2\x18.dropshipbe.BlogCategoryR\bcategory\x12\x1b\n" +
 	"\timage_url\x18\x04 \x01(\tR\bimageUrl\x12\x10\n" +
 	"\x03alt\x18\x05 \x01(\tR\x03alt\x12\x14\n" +
 	"\x05title\x18\x06 \x01(\tR\x05title\x12\x18\n" +
@@ -3556,7 +3611,7 @@ func file_dropshipbe_proto_rawDescGZIP() []byte {
 	return file_dropshipbe_proto_rawDescData
 }
 
-var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 49)
+var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
 var file_dropshipbe_proto_goTypes = []any{
 	(*Request)(nil),                      // 0: dropshipbe.Request
 	(*Response)(nil),                     // 1: dropshipbe.Response
@@ -3574,44 +3629,45 @@ var file_dropshipbe_proto_goTypes = []any{
 	(*Faq)(nil),                          // 13: dropshipbe.Faq
 	(*Slider)(nil),                       // 14: dropshipbe.Slider
 	(*Banner)(nil),                       // 15: dropshipbe.Banner
-	(*Blog)(nil),                         // 16: dropshipbe.Blog
-	(*ProductListResponse)(nil),          // 17: dropshipbe.ProductListResponse
-	(*GetProductBySlugRequest)(nil),      // 18: dropshipbe.GetProductBySlugRequest
-	(*GetProductsByCategoryRequest)(nil), // 19: dropshipbe.GetProductsByCategoryRequest
-	(*ShopSearchParams)(nil),             // 20: dropshipbe.ShopSearchParams
-	(*GalleryListResponse)(nil),          // 21: dropshipbe.GalleryListResponse
-	(*FaqListResponse)(nil),              // 22: dropshipbe.FaqListResponse
-	(*SliderListResponse)(nil),           // 23: dropshipbe.SliderListResponse
-	(*CategoryListResponse)(nil),         // 24: dropshipbe.CategoryListResponse
-	(*BannerListResponse)(nil),           // 25: dropshipbe.BannerListResponse
-	(*BlogListResponse)(nil),             // 26: dropshipbe.BlogListResponse
-	(*GetBlogBySlugRequest)(nil),         // 27: dropshipbe.GetBlogBySlugRequest
-	(*BlogDetailResponse)(nil),           // 28: dropshipbe.BlogDetailResponse
-	(*GetRelatedProductsRequest)(nil),    // 29: dropshipbe.GetRelatedProductsRequest
-	(*GetProductReviewsRequest)(nil),     // 30: dropshipbe.GetProductReviewsRequest
-	(*GetSocialProductVideoRequest)(nil), // 31: dropshipbe.GetSocialProductVideoRequest
-	(*GetProductFaqsRequest)(nil),        // 32: dropshipbe.GetProductFaqsRequest
-	(*CreateProductRequest)(nil),         // 33: dropshipbe.CreateProductRequest
-	(*FileData)(nil),                     // 34: dropshipbe.FileData
-	(*UploadFileRequest)(nil),            // 35: dropshipbe.UploadFileRequest
-	(*UploadedFileInfo)(nil),             // 36: dropshipbe.UploadedFileInfo
-	(*UploadFileResponse)(nil),           // 37: dropshipbe.UploadFileResponse
-	(*DeleteFileRequest)(nil),            // 38: dropshipbe.DeleteFileRequest
-	(*DeleteFileResponse)(nil),           // 39: dropshipbe.DeleteFileResponse
-	(*CreateProductFaqRequest)(nil),      // 40: dropshipbe.CreateProductFaqRequest
-	(*CreateProductReviewRequest)(nil),   // 41: dropshipbe.CreateProductReviewRequest
-	(*CreateNewBlogRequest)(nil),         // 42: dropshipbe.CreateNewBlogRequest
-	(*CreateOptionRequest)(nil),          // 43: dropshipbe.CreateOptionRequest
-	(*CreateOptionValueRequest)(nil),     // 44: dropshipbe.CreateOptionValueRequest
-	(*LoginRequest)(nil),                 // 45: dropshipbe.LoginRequest
-	(*LoginResponse)(nil),                // 46: dropshipbe.LoginResponse
-	nil,                                  // 47: dropshipbe.Product.MetadataEntry
-	nil,                                  // 48: dropshipbe.ReviewSummary.RatingEntry
+	(*BlogCategory)(nil),                 // 16: dropshipbe.BlogCategory
+	(*Blog)(nil),                         // 17: dropshipbe.Blog
+	(*ProductListResponse)(nil),          // 18: dropshipbe.ProductListResponse
+	(*GetProductBySlugRequest)(nil),      // 19: dropshipbe.GetProductBySlugRequest
+	(*GetProductsByCategoryRequest)(nil), // 20: dropshipbe.GetProductsByCategoryRequest
+	(*ShopSearchParams)(nil),             // 21: dropshipbe.ShopSearchParams
+	(*GalleryListResponse)(nil),          // 22: dropshipbe.GalleryListResponse
+	(*FaqListResponse)(nil),              // 23: dropshipbe.FaqListResponse
+	(*SliderListResponse)(nil),           // 24: dropshipbe.SliderListResponse
+	(*CategoryListResponse)(nil),         // 25: dropshipbe.CategoryListResponse
+	(*BannerListResponse)(nil),           // 26: dropshipbe.BannerListResponse
+	(*BlogListResponse)(nil),             // 27: dropshipbe.BlogListResponse
+	(*GetBlogBySlugRequest)(nil),         // 28: dropshipbe.GetBlogBySlugRequest
+	(*BlogDetailResponse)(nil),           // 29: dropshipbe.BlogDetailResponse
+	(*GetRelatedProductsRequest)(nil),    // 30: dropshipbe.GetRelatedProductsRequest
+	(*GetProductReviewsRequest)(nil),     // 31: dropshipbe.GetProductReviewsRequest
+	(*GetSocialProductVideoRequest)(nil), // 32: dropshipbe.GetSocialProductVideoRequest
+	(*GetProductFaqsRequest)(nil),        // 33: dropshipbe.GetProductFaqsRequest
+	(*CreateProductRequest)(nil),         // 34: dropshipbe.CreateProductRequest
+	(*FileData)(nil),                     // 35: dropshipbe.FileData
+	(*UploadFileRequest)(nil),            // 36: dropshipbe.UploadFileRequest
+	(*UploadedFileInfo)(nil),             // 37: dropshipbe.UploadedFileInfo
+	(*UploadFileResponse)(nil),           // 38: dropshipbe.UploadFileResponse
+	(*DeleteFileRequest)(nil),            // 39: dropshipbe.DeleteFileRequest
+	(*DeleteFileResponse)(nil),           // 40: dropshipbe.DeleteFileResponse
+	(*CreateProductFaqRequest)(nil),      // 41: dropshipbe.CreateProductFaqRequest
+	(*CreateProductReviewRequest)(nil),   // 42: dropshipbe.CreateProductReviewRequest
+	(*CreateNewBlogRequest)(nil),         // 43: dropshipbe.CreateNewBlogRequest
+	(*CreateOptionRequest)(nil),          // 44: dropshipbe.CreateOptionRequest
+	(*CreateOptionValueRequest)(nil),     // 45: dropshipbe.CreateOptionValueRequest
+	(*LoginRequest)(nil),                 // 46: dropshipbe.LoginRequest
+	(*LoginResponse)(nil),                // 47: dropshipbe.LoginResponse
+	nil,                                  // 48: dropshipbe.Product.MetadataEntry
+	nil,                                  // 49: dropshipbe.ReviewSummary.RatingEntry
 }
 var file_dropshipbe_proto_depIdxs = []int32{
 	5,  // 0: dropshipbe.Option.option_values:type_name -> dropshipbe.OptionValue
 	7,  // 1: dropshipbe.Variant.options:type_name -> dropshipbe.VariantOption
-	47, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
+	48, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
 	3,  // 3: dropshipbe.Product.categories:type_name -> dropshipbe.Category
 	4,  // 4: dropshipbe.Product.galleries:type_name -> dropshipbe.Gallery
 	4,  // 5: dropshipbe.Product.description_images:type_name -> dropshipbe.Gallery
@@ -3619,75 +3675,76 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	8,  // 7: dropshipbe.Product.variants:type_name -> dropshipbe.Variant
 	9,  // 8: dropshipbe.Product.product_price_tiers:type_name -> dropshipbe.PriceTier
 	11, // 9: dropshipbe.ReviewSummary.reviews:type_name -> dropshipbe.ReviewItem
-	48, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
-	10, // 11: dropshipbe.ProductListResponse.products:type_name -> dropshipbe.Product
-	4,  // 12: dropshipbe.GalleryListResponse.galleries:type_name -> dropshipbe.Gallery
-	13, // 13: dropshipbe.FaqListResponse.faqs:type_name -> dropshipbe.Faq
-	14, // 14: dropshipbe.SliderListResponse.sliders:type_name -> dropshipbe.Slider
-	3,  // 15: dropshipbe.CategoryListResponse.categories:type_name -> dropshipbe.Category
-	15, // 16: dropshipbe.BannerListResponse.banners:type_name -> dropshipbe.Banner
-	16, // 17: dropshipbe.BlogListResponse.blogs:type_name -> dropshipbe.Blog
-	16, // 18: dropshipbe.BlogDetailResponse.blog:type_name -> dropshipbe.Blog
-	10, // 19: dropshipbe.CreateProductRequest.product:type_name -> dropshipbe.Product
-	34, // 20: dropshipbe.UploadFileRequest.files:type_name -> dropshipbe.FileData
-	36, // 21: dropshipbe.UploadFileResponse.files:type_name -> dropshipbe.UploadedFileInfo
-	2,  // 22: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
-	18, // 23: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
-	19, // 24: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
-	29, // 25: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
-	2,  // 26: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
-	2,  // 27: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
-	33, // 28: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
-	20, // 29: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
-	31, // 30: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
-	32, // 31: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
-	40, // 32: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
-	30, // 33: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
-	41, // 34: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
-	2,  // 35: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 36: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 37: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 38: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
-	2,  // 39: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
-	27, // 40: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
-	42, // 41: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
-	43, // 42: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
-	44, // 43: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
-	45, // 44: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
-	35, // 45: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
-	38, // 46: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
-	0,  // 47: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
-	17, // 48: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 49: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
-	17, // 50: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
-	17, // 51: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
-	17, // 52: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
-	17, // 53: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 54: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
-	17, // 55: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
-	21, // 56: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
-	22, // 57: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
-	13, // 58: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
-	12, // 59: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
-	11, // 60: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
-	23, // 61: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
-	24, // 62: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
-	25, // 63: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
-	15, // 64: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
-	26, // 65: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
-	28, // 66: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
-	16, // 67: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
-	6,  // 68: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
-	5,  // 69: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
-	46, // 70: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
-	37, // 71: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
-	39, // 72: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
-	1,  // 73: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
-	48, // [48:74] is the sub-list for method output_type
-	22, // [22:48] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	49, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
+	16, // 11: dropshipbe.Blog.category:type_name -> dropshipbe.BlogCategory
+	10, // 12: dropshipbe.ProductListResponse.products:type_name -> dropshipbe.Product
+	4,  // 13: dropshipbe.GalleryListResponse.galleries:type_name -> dropshipbe.Gallery
+	13, // 14: dropshipbe.FaqListResponse.faqs:type_name -> dropshipbe.Faq
+	14, // 15: dropshipbe.SliderListResponse.sliders:type_name -> dropshipbe.Slider
+	3,  // 16: dropshipbe.CategoryListResponse.categories:type_name -> dropshipbe.Category
+	15, // 17: dropshipbe.BannerListResponse.banners:type_name -> dropshipbe.Banner
+	17, // 18: dropshipbe.BlogListResponse.blogs:type_name -> dropshipbe.Blog
+	17, // 19: dropshipbe.BlogDetailResponse.blog:type_name -> dropshipbe.Blog
+	10, // 20: dropshipbe.CreateProductRequest.product:type_name -> dropshipbe.Product
+	35, // 21: dropshipbe.UploadFileRequest.files:type_name -> dropshipbe.FileData
+	37, // 22: dropshipbe.UploadFileResponse.files:type_name -> dropshipbe.UploadedFileInfo
+	2,  // 23: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
+	19, // 24: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
+	20, // 25: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
+	30, // 26: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
+	2,  // 27: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
+	2,  // 28: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
+	34, // 29: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
+	21, // 30: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
+	32, // 31: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
+	33, // 32: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
+	41, // 33: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
+	31, // 34: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
+	42, // 35: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
+	2,  // 36: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 37: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 38: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 39: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
+	2,  // 40: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
+	28, // 41: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
+	43, // 42: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
+	44, // 43: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
+	45, // 44: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
+	46, // 45: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
+	36, // 46: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
+	39, // 47: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
+	0,  // 48: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
+	18, // 49: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 50: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
+	18, // 51: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
+	18, // 52: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 53: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 54: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 55: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
+	18, // 56: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
+	22, // 57: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
+	23, // 58: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
+	13, // 59: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
+	12, // 60: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
+	11, // 61: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
+	24, // 62: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
+	25, // 63: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
+	26, // 64: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
+	15, // 65: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
+	27, // 66: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
+	29, // 67: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
+	17, // 68: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
+	6,  // 69: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
+	5,  // 70: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
+	47, // 71: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
+	38, // 72: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
+	40, // 73: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
+	1,  // 74: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
+	49, // [49:75] is the sub-list for method output_type
+	23, // [23:49] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_dropshipbe_proto_init() }
@@ -3704,7 +3761,7 @@ func file_dropshipbe_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dropshipbe_proto_rawDesc), len(file_dropshipbe_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   49,
+			NumMessages:   50,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
