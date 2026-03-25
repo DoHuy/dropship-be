@@ -25,7 +25,19 @@ func NewGetProductFaqsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 // --- FAQs ---
 func (l *GetProductFaqsLogic) GetProductFaqs(in *dropshipbe.GetProductFaqsRequest) (*dropshipbe.FaqListResponse, error) {
-	// todo: add your logic here and delete this line
+	faqs, err := l.svcCtx.EcommerceRepo.GetProductFaqs(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return &dropshipbe.FaqListResponse{}, nil
+	var faqItems []*dropshipbe.Faq
+	for _, f := range faqs {
+		faqItems = append(faqItems, &dropshipbe.Faq{
+			Id:       f.ID,
+			Question: f.Question,
+			Answer:   f.Answer,
+		})
+	}
+
+	return &dropshipbe.FaqListResponse{Faqs: faqItems}, err
 }

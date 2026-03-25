@@ -13,17 +13,215 @@ import (
 
 type EcommerceRepository interface {
 	GetProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error)
+	GetShop(ctx context.Context, request *dropshipbe.ShopSearchParams) ([]model.Product, error)
 	GetFeaturedProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error)
 	GetNewProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error)
+	GetRelatedProducts(ctx context.Context, request *dropshipbe.GetRelatedProductsRequest) ([]model.Product, error)
 	GetBannerItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Banner, error)
 	GetBlogBySlug(ctx context.Context, request *dropshipbe.GetBlogBySlugRequest) (*model.BlogPost, error)
 	GetBlogItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.BlogPost, error)
 	GetCategoryItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Category, error)
+	GetProductBySlug(ctx context.Context, request *dropshipbe.GetProductBySlugRequest) (*model.Product, error)
+	GetProductFaqs(ctx context.Context, request *dropshipbe.GetProductFaqsRequest) ([]model.ProductFAQ, error)
+	GetProductReviews(ctx context.Context, request *dropshipbe.GetProductReviewsRequest) ([]model.ProductReview, error)
+	GetProductsByCategory(ctx context.Context, request *dropshipbe.GetProductsByCategoryRequest) ([]model.Product, error)
+	GetSliderItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Slider, error)
+	GetSocialProductVideos(ctx context.Context, request *dropshipbe.GetSocialProductVideoRequest) ([]model.ProductImage, error)
+	GetVideoBanner(ctx context.Context, request *dropshipbe.DefaultRequest) (*model.Banner, error)
 }
 
 type defaultEcommerceRepository struct {
 	db    *gorm.DB
 	cache cache.Cache // Nhận bộ nhớ đệm đã được tuỳ biến TTL từ bên ngoài
+}
+
+// GetSocialProductVideos implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetSocialProductVideos(ctx context.Context, request *dropshipbe.GetSocialProductVideoRequest) ([]model.ProductImage, error) {
+	var videos []model.ProductImage
+	cacheKey := constant.SocialProductVideoListKey(request.Id, request.CountryCode)
+
+	err := d.cache.TakeCtx(ctx, &videos, cacheKey, func(v any) error {
+		query := d.db.Model(&model.ProductImage{}).Where("product_id = ? AND media_type = ?", request.Id, "social_video")
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return videos, nil
+}
+
+// GetVideoBanner implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetVideoBanner(ctx context.Context, request *dropshipbe.DefaultRequest) (*model.Banner, error) {
+	var banner *model.Banner
+	cacheKey := constant.VideoBannerKey(request.CountryCode)
+
+	err := d.cache.TakeCtx(ctx, &banner, cacheKey, func(v any) error {
+		query := d.db.Model(&model.Banner{}).Where("is_active = ?", true)
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = banner.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+		return query.First(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return banner, nil
+}
+
+func (d *defaultEcommerceRepository) GetSliderItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Slider, error) {
+	var sliders []model.Slider
+	cacheKey := constant.SliderItemListKey(request.CountryCode)
+
+	err := d.cache.TakeCtx(ctx, &sliders, cacheKey, func(v any) error {
+		query := d.db.Model(&model.Slider{}).Where("is_active = ?", true)
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = sliders.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return sliders, nil
+}
+
+// GetShop implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetShop(ctx context.Context, request *dropshipbe.ShopSearchParams) ([]model.Product, error) {
+	var products []model.Product
+	cacheKey := constant.ShopSearchKey(request.IsFeatured, request.IsNew, request.IsOnSale, request.IsTrending, request.CountryCode)
+	err := d.cache.TakeCtx(ctx, &products, cacheKey, func(v any) error {
+		query := d.db.Model(&model.Product{}).
+			Preload("Country").
+			Preload("Categories").
+			Preload("Images").
+			Preload("PriceTiers").
+			Preload("Options.OptionValues").
+			Preload("Variants.OptionValues").
+			Where("status = ?", "active")
+
+		if request.IsFeatured {
+			query = query.Where("is_featured = ?", true)
+		}
+		if request.IsNew {
+			query = query.Where("is_new = ?", true)
+		}
+		if request.IsOnSale {
+			query = query.Where("is_on_sale = ?", true)
+		}
+		if request.IsTrending {
+			query = query.Where("is_trending = ?", true)
+		}
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = products.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
+// GetProductsByCategory implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetProductsByCategory(ctx context.Context, request *dropshipbe.GetProductsByCategoryRequest) ([]model.Product, error) {
+	var products []model.Product
+	cacheKey := constant.ProductListByCategoryKey(request.Category, request.CountryCode)
+	err := d.cache.TakeCtx(ctx, &products, cacheKey, func(v any) error {
+		query := d.db.Model(&model.Product{}).
+			Preload("Country").
+			Preload("Categories").
+			Preload("Images").
+			Preload("PriceTiers").
+			Preload("Options.OptionValues").
+			Preload("Variants.OptionValues").
+			Joins("JOIN product_categories ON product_categories.product_id = products.id").
+			Joins("JOIN categories ON categories.id = product_categories.category_id").
+			Where("categories.slug = ? AND products.status = ?", request.Category, "active")
+
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = products.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
+
+// GetProductReviews implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetProductReviews(ctx context.Context, request *dropshipbe.GetProductReviewsRequest) ([]model.ProductReview, error) {
+	var reviews []model.ProductReview
+	cacheKey := constant.ProductReviewListKey(request.Id, request.CountryCode)
+	err := d.cache.TakeCtx(ctx, &reviews, cacheKey, func(v any) error {
+		query := d.db.Model(&model.ProductReview{}).Where("product_id = ?", request.Id)
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return reviews, nil
+}
+
+func (d *defaultEcommerceRepository) GetProductFaqs(ctx context.Context, request *dropshipbe.GetProductFaqsRequest) ([]model.ProductFAQ, error) {
+	var faqs []model.ProductFAQ
+	cacheKey := constant.ProductFaqListKey(request.Id, request.CountryCode)
+	err := d.cache.TakeCtx(ctx, &faqs, cacheKey, func(v any) error {
+		query := d.db.Model(&model.ProductFAQ{}).Where("product_id = ?", request.Id)
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return faqs, nil
+}
+
+// GetProductBySlug implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetProductBySlug(ctx context.Context, request *dropshipbe.GetProductBySlugRequest) (*model.Product, error) {
+	var product model.Product
+	cacheKey := constant.ProductDetailKey(request.Slug, request.CountryCode)
+	err := d.cache.TakeCtx(ctx, &product, cacheKey, func(v any) error {
+		query := d.db.Model(&model.Product{}).
+			Preload("Country").
+			Preload("Categories").
+			Preload("Images").
+			Preload("PriceTiers").
+			Preload("Options.OptionValues").
+			Preload("Variants.OptionValues")
+
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = products.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+
+		return query.Where("slug = ?", request.Slug).First(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
 }
 
 // GetCategoryItems implements [EcommerceRepository].
@@ -181,6 +379,36 @@ func (d *defaultEcommerceRepository) GetFeaturedProducts(ctx context.Context, re
 	return products, nil
 }
 
+func (d *defaultEcommerceRepository) GetRelatedProducts(ctx context.Context, request *dropshipbe.GetRelatedProductsRequest) ([]model.Product, error) {
+	var products []model.Product
+
+	cacheKey := constant.RelatedProductListKey(request.Id, request.CountryCode)
+
+	err := d.cache.TakeCtx(ctx, &products, cacheKey, func(v any) error {
+
+		query := d.db.Model(&model.Product{}).
+			Preload("Country").
+			Preload("Categories").
+			Preload("Images").
+			Preload("PriceTiers").
+			Preload("Options.OptionValues").
+			Preload("Variants.OptionValues").
+			Where("status = ? AND related_product_id = ?", "active", request.Id)
+
+		if request.CountryCode != "" {
+			query = query.Joins("JOIN countries ON countries.code = products.country_code").
+				Where("countries.code = ?", request.CountryCode)
+		}
+
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
 func (d *defaultEcommerceRepository) GetNewProducts(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Product, error) {
 	var products []model.Product
 

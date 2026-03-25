@@ -1,4 +1,4 @@
-h1:ysqIO+QiHwTeQ1wI0TGpHrS4gITOnSa4/rasVgcceg8=
+h1:uyIOvSTRyr5MUNq/15tH7hvM5mRsNFBB9kCXntrBwA4=
 20260319103520_initialize.up.sql h1:MX8/9E7KN6UJgGYRJZ2U1a/QktN7rj3mHRP1paVXfy8=
 20260322091422_add_country_to_product.up.sql h1:JqDv82FTFIExLExklgAVuor13bbIa363snuayBP8p98=
 20260322103611_add_price_isnew_to_product.up.sql h1:82/6vXlwAo3MIKEibPh6Am0LOs+D+2YfDSHAwNliyzU=
@@ -7,3 +7,10 @@ h1:ysqIO+QiHwTeQ1wI0TGpHrS4gITOnSa4/rasVgcceg8=
 20260323081435_auto_create_date.up.sql h1:OEZU+YIJkqKbGN9K8012B/CH/mr4ovEEqjrwFZZLzis=
 20260324084951_modify_banner_table.up.sql h1:xNiI4j5AmyOczrb+bmVy4Ho2yPRW2oLVrc5flBNpMd8=
 20260324090956_fix_banner_table.up.sql h1:2w9O0AmnDo2WwgiPTsQH7qoBGOUfRGdoLWLaKLLcuKc=
+20260325083951_add_related_product_id.up.sql h1:WSssPehGzdfQDHIa96/bRfnYWc+M37Qa/EMtVnEiDqc=
+20260325085527_add_is_on_sale_to_product.up.sql h1:0mlOk9WHk/rcjJHrWmtFZEBA4r9y47ztflatsXR9IBM=
+20260325094436_create_sliders_table.up.sql h1:xyjJxzstrctPqusQzoO5o4dPm91TkBR8u0XSO+xdRO4=
+20260325094942_add_country_sliders_table.up.sql h1:YwCVSo4IEsNMytaSKr6YJb0v3pBd9i6ETSJvqStGctc=
+20260325100637_add_type_to_product_image.up.sql h1:D1P5T5JrhkiQIntRfMBmlLzUA63XhwCPxXMiaBuQ7ik=
+20260325101435_add_highlight_to_product_image.up.sql h1:nIsA67Aa8Di+sPgYGKmFRtGK7Xcl/+CNAFH/COHDie0=
+20260325102220_add_country_banner.up.sql h1:agaW/bquYbRZn+d8Vdry1ayZBoTxYGE6Y5+SdU76edc=

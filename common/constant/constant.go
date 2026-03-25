@@ -1,6 +1,8 @@
 package constant
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const (
 	ProjectPrefix = "dropship:"
@@ -17,8 +19,8 @@ func ProductListByCountryKey(countryCode string) string {
 	return fmt.Sprintf("%slist:country:%s", PrefixProduct, countryCode)
 }
 
-func ProductDetailKey(slug string) string {
-	return fmt.Sprintf("%sdetail:slug:%s", PrefixProduct, slug)
+func ProductDetailKey(slug string, country_code string) string {
+	return fmt.Sprintf("%sdetail:slug:%s:country:%s", PrefixProduct, slug, country_code)
 }
 
 // CategoryListKey tạo key cho danh sách danh mục
@@ -56,4 +58,48 @@ func NewProductListKey(countryCode string) string {
 		return PrefixProduct + "new:list:all"
 	}
 	return fmt.Sprintf("%snew:list:country:%s", PrefixProduct, countryCode)
+}
+
+func RelatedProductListKey(relatedId uint64, countryCode string) string {
+	if countryCode == "" {
+		return fmt.Sprintf("%srelated:list:relatedId:%d:all", PrefixProduct, relatedId)
+	}
+	return fmt.Sprintf("%srelated:list:relatedId:%d:country:%s", PrefixProduct, relatedId, countryCode)
+}
+
+func ProductFaqListKey(productId uint64, countryCode string) string {
+	return fmt.Sprintf("%sfaq:list:product:%d:country:%s", PrefixProduct, productId, countryCode)
+}
+
+func ProductReviewListKey(productId uint64, countryCode string) string {
+	return fmt.Sprintf("%sreview:list:product:%d:country:%s", PrefixProduct, productId, countryCode)
+}
+
+func ProductListByCategoryKey(categoryId string, countryCode string) string {
+	if countryCode == "" {
+		return fmt.Sprintf("%slist:category:%s:all", PrefixProduct, categoryId)
+	}
+	return fmt.Sprintf("%slist:category:%s:country:%s", PrefixProduct, categoryId, countryCode)
+}
+
+func ShopSearchKey(isFeatured, isNew, isOnSale, isTrending bool, countryCode string) string {
+	if countryCode == "" {
+		return fmt.Sprintf("%sshop:search:featured:%t:new:%t:on_sale:%t:trending:%t:all", PrefixProduct, isFeatured, isNew, isOnSale, isTrending)
+	}
+	return fmt.Sprintf("%sshop:search:featured:%t:new:%t:on_sale:%t:trending:%t:country:%s", PrefixProduct, isFeatured, isNew, isOnSale, isTrending, countryCode)
+}
+
+func SliderItemListKey(country_code string) string {
+	if country_code == "" {
+		return PrefixProduct + "slider:list:all"
+	}
+	return fmt.Sprintf("%sslider:list:country:%s", PrefixProduct, country_code)
+}
+
+func SocialProductVideoListKey(productId uint64, country_code string) string {
+	return fmt.Sprintf("%ssocial_video:list:product:%d:country:%s", PrefixProduct, productId, country_code)
+}
+
+func VideoBannerKey(country_code string) string {
+	return fmt.Sprintf("%svideo_banner:country:%s", PrefixProduct, country_code)
 }

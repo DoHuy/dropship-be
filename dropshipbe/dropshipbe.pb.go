@@ -276,7 +276,9 @@ type Gallery struct {
 	ImageUrl      string                 `protobuf:"bytes,3,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	VideoUrl      string                 `protobuf:"bytes,4,opt,name=video_url,json=videoUrl,proto3" json:"video_url,omitempty"`
 	AltText       string                 `protobuf:"bytes,5,opt,name=alt_text,json=altText,proto3" json:"alt_text,omitempty"`
-	Position      int32                  `protobuf:"varint,6,opt,name=position,proto3" json:"position,omitempty"`
+	MediaType     string                 `protobuf:"bytes,6,opt,name=media_type,json=mediaType,proto3" json:"media_type,omitempty"` // "gallery", "description", "social_video"
+	Highlight     bool                   `protobuf:"varint,7,opt,name=highlight,proto3" json:"highlight,omitempty"`                 // Dùng để đánh dấu ảnh chính trong gallery
+	Position      int32                  `protobuf:"varint,8,opt,name=position,proto3" json:"position,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -344,6 +346,20 @@ func (x *Gallery) GetAltText() string {
 		return x.AltText
 	}
 	return ""
+}
+
+func (x *Gallery) GetMediaType() string {
+	if x != nil {
+		return x.MediaType
+	}
+	return ""
+}
+
+func (x *Gallery) GetHighlight() bool {
+	if x != nil {
+		return x.Highlight
+	}
+	return false
 }
 
 func (x *Gallery) GetPosition() int32 {
@@ -1398,6 +1414,7 @@ type Slider struct {
 	ImgSrc        string                 `protobuf:"bytes,1,opt,name=img_src,json=imgSrc,proto3" json:"img_src,omitempty"`
 	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	SubText       string                 `protobuf:"bytes,3,opt,name=sub_text,json=subText,proto3" json:"sub_text,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1449,6 +1466,13 @@ func (x *Slider) GetTitle() string {
 func (x *Slider) GetSubText() string {
 	if x != nil {
 		return x.SubText
+	}
+	return ""
+}
+
+func (x *Slider) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -3302,15 +3326,18 @@ const file_dropshipbe_proto_rawDesc = "" +
 	" \x01(\tR\n" +
 	"buttonTextB\f\n" +
 	"\n" +
-	"_parent_id\"\xa9\x01\n" +
+	"_parent_id\"\xe6\x01\n" +
 	"\aGallery\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x02 \x01(\x04R\tproductId\x12\x1b\n" +
 	"\timage_url\x18\x03 \x01(\tR\bimageUrl\x12\x1b\n" +
 	"\tvideo_url\x18\x04 \x01(\tR\bvideoUrl\x12\x19\n" +
-	"\balt_text\x18\x05 \x01(\tR\aaltText\x12\x1a\n" +
-	"\bposition\x18\x06 \x01(\x05R\bposition\"o\n" +
+	"\balt_text\x18\x05 \x01(\tR\aaltText\x12\x1d\n" +
+	"\n" +
+	"media_type\x18\x06 \x01(\tR\tmediaType\x12\x1c\n" +
+	"\thighlight\x18\a \x01(\bR\thighlight\x12\x1a\n" +
+	"\bposition\x18\b \x01(\x05R\bposition\"o\n" +
 	"\vOptionValue\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1b\n" +
 	"\toption_id\x18\x02 \x01(\x04R\boptionId\x12\x14\n" +
@@ -3438,11 +3465,12 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\x03Faq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1a\n" +
 	"\bquestion\x18\x02 \x01(\tR\bquestion\x12\x16\n" +
-	"\x06answer\x18\x03 \x01(\tR\x06answer\"R\n" +
+	"\x06answer\x18\x03 \x01(\tR\x06answer\"t\n" +
 	"\x06Slider\x12\x17\n" +
 	"\aimg_src\x18\x01 \x01(\tR\x06imgSrc\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x19\n" +
-	"\bsub_text\x18\x03 \x01(\tR\asubText\"\xe2\x01\n" +
+	"\bsub_text\x18\x03 \x01(\tR\asubText\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"\xe2\x01\n" +
 	"\x06Banner\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1b\n" +
 	"\timage_url\x18\x02 \x01(\tR\bimageUrl\x12\x10\n" +

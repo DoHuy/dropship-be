@@ -38,7 +38,9 @@ message Gallery {
   string image_url = 3;
   string video_url = 4;
   string alt_text = 5;
-  int32 position = 6;
+  string media_type = 6; // "gallery", "description", "social_video"
+  bool highlight = 7; // Dùng để đánh dấu ảnh chính trong gallery
+  int32 position = 8;
 }
 
 message OptionValue {
@@ -165,7 +167,8 @@ message Slider {
   string img_src = 1;
   string title = 2;
   string sub_text = 3;
-}
+  string description = 4;
+} 
 
 // 12. Biểu ngữ (Banner)
 message Banner {

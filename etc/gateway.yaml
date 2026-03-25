@@ -31,4 +31,32 @@ Upstreams:
         RpcPath: dropshipbe.Dropshipbe/GetFeaturedProducts
       - Method: get
         Path: /api/v1/new-products
-        RpcPath: dropshipbe.Dropshipbe/GetNewProducts                   
+        RpcPath: dropshipbe.Dropshipbe/GetNewProducts
+      - Method: get
+        Path: /api/v1/products/:slug
+        RpcPath: dropshipbe.Dropshipbe/GetProductBySlug
+      - Method: get
+        Path: /api/v1/products/:id/faqs
+        RpcPath: dropshipbe.Dropshipbe/GetProductFaqs
+      - Method: get
+        Path: /api/v1/products/:id/reviews
+        RpcPath: dropshipbe.Dropshipbe/GetProductReviews
+      - Method: get
+        Path: /api/v1/categories/:category/products
+        RpcPath: dropshipbe.Dropshipbe/GetProductsByCategory   
+      - Method: get
+        Path: /api/v1/related-products
+        RpcPath: dropshipbe.Dropshipbe/GetRelatedProducts
+      - Method: get
+        Path: /api/v1/shop
+        RpcPath: dropshipbe.Dropshipbe/GetShop
+      - Method: get
+        Path: /api/v1/slider-items
+        RpcPath: dropshipbe.Dropshipbe/GetSliderItems
+      - Method: get
+        Path: /api/v1/social-product-videos
+        RpcPath: dropshipbe.Dropshipbe/GetSocialProductVideos
+      - Method: get
+        Path: /api/v1/video-banner
+        RpcPath: dropshipbe.Dropshipbe/GetVideoBanner           
+                           

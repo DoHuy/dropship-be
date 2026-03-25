@@ -1,6 +1,10 @@
 package model
 
 import (
+	"database/sql/driver"
+	"encoding/json"
+	"errors"
+	"fmt"
 	"time"
 
 	"gorm.io/datatypes"
@@ -43,11 +47,11 @@ type Category struct {
 // Product reflects table "products"
 type Product struct {
 	// --- Định danh cơ bản ---
-	ID          uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
-	CountryCode string `gorm:"type:char(2);not null;index:idx_product_country_slug,priority:1" json:"country_code"`
-
-	Name string `gorm:"type:varchar(255);not null" json:"name"`                                           // Maps to DTO.Name
-	Slug string `gorm:"type:varchar(255);not null;index:idx_product_country_slug,priority:2" json:"slug"` // Maps to DTO.Slug
+	ID               uint64  `gorm:"primaryKey;autoIncrement" json:"id"`
+	CountryCode      string  `gorm:"type:char(2);not null;index:idx_product_country_slug,priority:1" json:"country_code"`
+	RelatedProductID *uint64 `gorm:"index" json:"related_product_id"`                                                  // [NEW] Dùng để liên kết sản phẩm liên quan
+	Name             string  `gorm:"type:varchar(255);not null" json:"name"`                                           // Maps to DTO.Name
+	Slug             string  `gorm:"type:varchar(255);not null;index:idx_product_country_slug,priority:2" json:"slug"` // Maps to DTO.Slug
 
 	// --- Metadata & Specs ---
 	// Lưu trữ các field: BatteryLife, BluetoothVersion, Weight, WowDelay dưới dạng JSON
@@ -62,6 +66,7 @@ type Product struct {
 	IsFeatured      bool   `gorm:"default:false" json:"is_featured"`
 	IsNew           bool   `gorm:"default:false" json:"is_new"`
 	IsTrending      bool   `gorm:"default:false" json:"is_trending"` // Maps to DTO.IsTrending
+	IsOnSale        bool   `gorm:"default:false" json:"is_on_sale"`  // Maps to DTO.IsOnSale
 	MetaTitle       string `gorm:"type:varchar(255)" json:"meta_title"`
 	MetaDescription string `gorm:"type:varchar(500)" json:"meta_description"`
 	Vendor          string `gorm:"type:varchar(100)" json:"vendor"`
@@ -122,6 +127,8 @@ type ProductImage struct {
 	ProductID uint64 `gorm:"not null" json:"product_id"`
 	ImageURL  string `gorm:"type:varchar(500);not null" json:"image_url"`
 	VideoURL  string `gorm:"type:varchar(500);not null" json:"video_url"`
+	MediaType string `gorm:"type:varchar(50);default:'gallery'" json:"type"` // "gallery", "description", "social_video"
+	Highlight bool   `gorm:"default:false" json:"highlight"`                 // Dùng để đánh dấu ảnh chính trong gallery
 	AltText   string `gorm:"type:varchar(255)" json:"alt_text"`
 	Position  int    `gorm:"default:0" json:"position"`
 }
@@ -240,8 +247,10 @@ type Coupon struct {
 
 // Banner reflects table "banners"
 type Banner struct {
-	ID    uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
-	Title string `gorm:"type:varchar(255);not null" json:"title"`
+	ID          uint64   `gorm:"primaryKey;autoIncrement" json:"id"`
+	Title       string   `gorm:"type:varchar(255);not null" json:"title"`
+	CountryCode string   `gorm:"type:char(2);default:'VN'" json:"country_code"`
+	Country     *Country `gorm:"foreignKey:CountryCode;references:Code" json:"country,omitempty"`
 
 	ImageURL    string `gorm:"type:varchar(500);not null" json:"image_url"`
 	VideoURL    string `gorm:"type:varchar(500)" json:"video_url"`
@@ -569,6 +578,27 @@ type InventoryTransaction struct {
 
 // ProductReview reflects table "product_reviews"
 // Maps to ReviewItemDTO & ReviewAggregateDTO
+// ReviewMedia định nghĩa cấu trúc của cột Media
+type ReviewMedia struct {
+	Images []string `json:"images"`
+	Videos []string `json:"videos"`
+}
+
+// 1. Value: Chuyển đổi Struct sang JSON để lưu vào Database
+func (rm ReviewMedia) Value() (driver.Value, error) {
+	return json.Marshal(rm)
+}
+
+// 2. Scan: Chuyển đổi dữ liệu từ Database (JSON) sang Struct
+func (rm *ReviewMedia) Scan(value interface{}) error {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return errors.New(fmt.Sprint("Failed to unmarshal JSONB value:", value))
+	}
+
+	return json.Unmarshal(bytes, rm)
+}
+
 type ProductReview struct {
 	ID        uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
 	ProductID uint64 `gorm:"not null;index" json:"product_id"`
@@ -584,7 +614,7 @@ type ProductReview struct {
 
 	// --- Media (Multi Images & Videos) ---
 	// Lưu cấu trúc JSON: {"images": ["url1", "url2"], "videos": ["url3"]}
-	Media datatypes.JSON `gorm:"type:jsonb" json:"media"`
+	Media *ReviewMedia `gorm:"type:jsonb" json:"media"`
 
 	// --- Status ---
 	IsVerified bool   `gorm:"default:false" json:"is_verified"` // Maps to DTO.Verified
@@ -605,3 +635,18 @@ type FileMetadata struct {
 }
 
 func (FileMetadata) TableName() string { return "file_metadata" }
+
+type Slider struct {
+	ID          uint           `gorm:"primaryKey" json:"id"`
+	Title       string         `gorm:"type:varchar(255);not null" json:"title"`
+	ImageURL    string         `gorm:"type:varchar(500);not null" json:"image_url"`
+	SubText     string         `gorm:"type:text" json:"sub_text"`
+	Description string         `gorm:"type:text" json:"description"`
+	Position    int            `gorm:"default:0" json:"position"`
+	CountryCode string         `gorm:"type:char(2);not null;index" json:"country_code"`
+	Country     *Country       `gorm:"foreignKey:CountryCode;references:Code" json:"country,omitempty"`
+	IsActive    bool           `gorm:"default:true" json:"is_active"`
+	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `gorm:"index;type:timestamptz" json:"deleted_at"`
+}
