@@ -28,11 +28,36 @@ type EcommerceRepository interface {
 	GetSliderItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Slider, error)
 	GetSocialProductVideos(ctx context.Context, request *dropshipbe.GetSocialProductVideoRequest) ([]model.ProductImage, error)
 	GetVideoBanner(ctx context.Context, request *dropshipbe.DefaultRequest) (*model.Banner, error)
+	CreateProductReview(ctx context.Context, request *dropshipbe.CreateProductReviewRequest) (*model.ProductReview, error)
 }
 
 type defaultEcommerceRepository struct {
 	db    *gorm.DB
 	cache cache.Cache // Nhận bộ nhớ đệm đã được tuỳ biến TTL từ bên ngoài
+}
+
+// CreateProductReview implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) CreateProductReview(ctx context.Context, request *dropshipbe.CreateProductReviewRequest) (*model.ProductReview, error) {
+	review := &model.ProductReview{
+		ProductID:    request.ProductId,
+		AuthorName:   request.Name,
+		AuthorEmail:  request.Email,
+		AuthorAvatar: request.Avatar,
+		Rating:       int(request.Rating),
+		Content:      request.Comment,
+		IsVerified:   true,
+		Media: &model.ReviewMedia{
+			Images: request.Images,
+			Videos: request.Videos,
+		},
+		Status: "active",
+	}
+
+	if err := d.db.Create(review).Error; err != nil {
+		return nil, err
+	}
+
+	return review, nil
 }
 
 // GetSocialProductVideos implements [EcommerceRepository].
@@ -170,7 +195,7 @@ func (d *defaultEcommerceRepository) GetProductReviews(ctx context.Context, requ
 	var reviews []model.ProductReview
 	cacheKey := constant.ProductReviewListKey(request.Id, request.CountryCode)
 	err := d.cache.TakeCtx(ctx, &reviews, cacheKey, func(v any) error {
-		query := d.db.Model(&model.ProductReview{}).Where("product_id = ?", request.Id)
+		query := d.db.Model(&model.ProductReview{}).Where("product_id = ? AND is_verified = ? AND status = ?", request.Id, true, "active")
 		return query.Find(v).Error
 	})
 

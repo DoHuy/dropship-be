@@ -318,10 +318,12 @@ message CreateProductFaqRequest {
 message CreateProductReviewRequest {
   uint64 product_id = 1;
   string name = 2;
-  int32 rating = 3;
-  string comment = 4;
-  repeated string images = 5;
-  repeated string videos = 6;
+  string email = 3;
+  string avatar= 4;
+  int32 rating = 5;
+  string comment = 6;
+  repeated string images = 7;
+  repeated string videos = 8;
 }
 
 message CreateNewBlogRequest {

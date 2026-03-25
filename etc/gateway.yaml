@@ -58,5 +58,8 @@ Upstreams:
         RpcPath: dropshipbe.Dropshipbe/GetSocialProductVideos
       - Method: get
         Path: /api/v1/video-banner
-        RpcPath: dropshipbe.Dropshipbe/GetVideoBanner           
+        RpcPath: dropshipbe.Dropshipbe/GetVideoBanner
+      - Method: post
+        Path: /api/v1/products/reviews
+        RpcPath: dropshipbe.Dropshipbe/CreateProductReview             
                            
