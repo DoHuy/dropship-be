@@ -13,6 +13,7 @@ import (
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/syncx"
 	"gorm.io/driver/postgres"
@@ -21,10 +22,13 @@ import (
 )
 
 type ServiceContext struct {
-	Config        config.Config
-	S3Client      *s3.Client
-	PresignClient *s3.PresignClient
-	EcommerceRepo repository.EcommerceRepository
+	Config                       config.Config
+	S3Client                     *s3.Client
+	PresignClient                *s3.PresignClient
+	EcommerceRepo                repository.EcommerceRepository
+	KqOrderPusherClient          *kq.Pusher
+	KqNotificationPusherClient   *kq.Pusher
+	KqEmailMarketingPusherClient *kq.Pusher
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -71,30 +75,36 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		log.Fatalf("Không thể kết nối Database: %v", err)
 	}
 
-	// Tùy chọn: Cấu hình Connection Pool cho GORM để tăng hiệu suất
 	sqlDB, err := db.DB()
 	if err == nil {
 		sqlDB.SetMaxOpenConns(c.DB.MaxOpenConns)
 		sqlDB.SetMaxIdleConns(c.DB.MaxIdleConns)
 	}
 
-	// Khởi tạo module Cache của go-zero với 4 thành phần:
-	// 1. Cấu hình Redis (c.CacheConf)
-	// 2. singleflight (Chống bão request / Thundering Herd)
-	// 3. stats (Đo lường Hit/Miss rate)
-	// 4. Lỗi mặc định khi không tìm thấy dữ liệu (để tránh lưu cache rác)
 	dropShipCache := cache.New(
 		c.CacheConf,
 		syncx.NewSingleFlight(),
 		cache.NewStat("dropship_cache"),
 		gorm.ErrRecordNotFound,
-		cache.WithExpiry(time.Duration(c.CacheTTL)*time.Minute), // TTL tuỳ chỉnh từ config
+		cache.WithExpiry(time.Duration(c.CacheTTL)*time.Minute),
 	)
 
+	// 1. Chuyển đổi FlushInterval từ int (mili-giây) sang kiểu time.Duration của Go
+	flushDuration := time.Duration(c.KqPusherConf.FlushInterval) * time.Millisecond
+
+	// 2. Tạo một mảng chứa các tùy chọn (Options) tối ưu
+	pushOptions := []kq.PushOption{
+		kq.WithChunkSize(c.KqPusherConf.ChunkSize),
+		kq.WithFlushInterval(flushDuration),
+	}
+
 	return &ServiceContext{
-		Config:        c,
-		S3Client:      s3Client,
-		PresignClient: presignClient,
-		EcommerceRepo: repository.NewEcommerceRepository(db, dropShipCache),
+		Config:                       c,
+		S3Client:                     s3Client,
+		PresignClient:                presignClient,
+		EcommerceRepo:                repository.NewEcommerceRepository(db, dropShipCache),
+		KqOrderPusherClient:          kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.OrderTopic, pushOptions...),
+		KqNotificationPusherClient:   kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.NotificationTopic, pushOptions...),
+		KqEmailMarketingPusherClient: kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.EmailMarketingTopic, pushOptions...),
 	}
 }

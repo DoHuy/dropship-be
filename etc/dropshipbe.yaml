@@ -37,3 +37,15 @@ VALIDATE:
     - image/jpeg
     - image/png
     - image/gif
+
+KqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092  
+    - 127.0.0.1:9093 
+    - 127.0.0.1:9094
+  OrderTopic: "order-events"
+  NotificationTopic: "notification-events"  
+  EmailMarketingTopic: "email-marketing-events"
+  # Cấu hình tối ưu Pusher
+  ChunkSize: 500       # Gom 500 tin nhắn mới gửi 1 lần
+  FlushInterval: 100   # Hoặc tối đa 100 mili-giây sẽ gửi 1 lần (tùy điều kiện nào đến trước) 

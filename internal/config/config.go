@@ -26,4 +26,12 @@ type Config struct {
 		MaxOpenConns int
 		MaxIdleConns int
 	}
+	KqPusherConf struct {
+		Brokers             []string
+		OrderTopic          string
+		NotificationTopic   string
+		EmailMarketingTopic string
+		ChunkSize           int `json:",default=500"`
+		FlushInterval       int `json:",default=100"` // Flush interval in milliseconds
+	}
 }
