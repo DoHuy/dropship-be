@@ -85,18 +85,27 @@ migrate-hash: ## Update hash if you manually edited .sql files
 status: ## Check migration status in the DB
 	atlas migrate status --env $(ATLAS_ENV) --url "$(DB_DSN)"
 
-
+# ==============================================================================
+# 4. CODE GENERATION & RUN SERVICES
+# ==============================================================================
 
 # Khai báo các lệnh giả (không phải tên file)
 .PHONY: gen rpc gw
 
-# Lệnh sinh mã nguồn Protobuf và Gateway Descriptor
+# Lệnh sinh mã nguồn Protobuf, Validate và Gateway Descriptor
 gen:
-	@echo "Đang sinh mã nguồn gRPC..."
+	@echo "1. Đang sinh mã protobuf validation..."
+	protoc -I . \
+		--validate_out="lang=go,paths=source_relative:./dropshipbe" \
+		dropshipbe.proto
+		
+	@echo "2. Đang sinh mã nguồn gRPC (go-zero)..."
 	goctl rpc protoc dropshipbe.proto --go_out=. --go-grpc_out=. --zrpc_out=.
-	@echo "Đang sinh tệp mô tả cho Gateway..."
-	protoc --descriptor_set_out=dropshipbe.pb dropshipbe.proto
-	@echo "Hoàn tất!"
+	
+	@echo "3. Đang sinh tệp mô tả cho Gateway..."
+	protoc -I . --include_imports --descriptor_set_out=dropshipbe.pb dropshipbe.proto
+	
+	@echo "Hoàn tất sinh mã!"
 
 # Lệnh chạy máy chủ gRPC
 rpc:
@@ -106,4 +115,4 @@ rpc:
 # Lệnh chạy máy chủ Gateway
 gw:
 	@echo "Khởi động API Gateway..."
-	go run gateway/gateway.go -f etc/gateway.yaml	
+	go run gateway/gateway.go -f etc/gateway.yaml

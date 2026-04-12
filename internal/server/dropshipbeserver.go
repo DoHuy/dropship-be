@@ -158,6 +158,34 @@ func (s *DropshipbeServer) DeleteFile(ctx context.Context, in *dropshipbe.Delete
 	return l.DeleteFile(in)
 }
 
+// --- Orders & Checkout ---
+func (s *DropshipbeServer) CreateOrder(ctx context.Context, in *dropshipbe.CreateOrderRequest) (*dropshipbe.CreateOrderResponse, error) {
+	l := logic.NewCreateOrderLogic(ctx, s.svcCtx)
+	return l.CreateOrder(in)
+}
+
+func (s *DropshipbeServer) CaptureOrder(ctx context.Context, in *dropshipbe.CaptureOrderRequest) (*dropshipbe.CaptureOrderResponse, error) {
+	l := logic.NewCaptureOrderLogic(ctx, s.svcCtx)
+	return l.CaptureOrder(in)
+}
+
+// --- Webhooks (Đã khôi phục) ---
+func (s *DropshipbeServer) HookPaymentSuccess(ctx context.Context, in *dropshipbe.PayPalWebhookRequest) (*dropshipbe.WebhookResponse, error) {
+	l := logic.NewHookPaymentSuccessLogic(ctx, s.svcCtx)
+	return l.HookPaymentSuccess(in)
+}
+
+func (s *DropshipbeServer) HookPaymentRefund(ctx context.Context, in *dropshipbe.PayPalWebhookRequest) (*dropshipbe.WebhookResponse, error) {
+	l := logic.NewHookPaymentRefundLogic(ctx, s.svcCtx)
+	return l.HookPaymentRefund(in)
+}
+
+func (s *DropshipbeServer) HookPaymentFailed(ctx context.Context, in *dropshipbe.PayPalWebhookRequest) (*dropshipbe.WebhookResponse, error) {
+	l := logic.NewHookPaymentFailedLogic(ctx, s.svcCtx)
+	return l.HookPaymentFailed(in)
+}
+
+// --- System ---
 func (s *DropshipbeServer) Ping(ctx context.Context, in *dropshipbe.Request) (*dropshipbe.Response, error) {
 	l := logic.NewPingLogic(ctx, s.svcCtx)
 	return l.Ping(in)

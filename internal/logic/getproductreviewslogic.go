@@ -45,6 +45,19 @@ func (l *GetProductReviewsLogic) GetProductReviews(in *dropshipbe.GetProductRevi
 
 		var mediaURLs []string
 		var videoURLs []string
+		var authorAvatar string
+
+		if r.AuthorAvatar != "" {
+			presignedURL, err := l.svcCtx.PresignClient.PresignGetObject(contextWithTimeout, &s3.GetObjectInput{
+				Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
+				Key:    aws.String(r.AuthorAvatar),
+			}, s3.WithPresignExpires(time.Duration(l.svcCtx.Config.R2.LinkExpiration)*time.Minute))
+			if err != nil {
+				logx.Errorf("Lỗi khi tạo presigned URL cho review author avatar image: %v", err)
+			}
+
+			authorAvatar = presignedURL.URL
+		}
 
 		if r.Media != nil {
 			for _, imageKey := range r.Media.Images {
@@ -80,6 +93,9 @@ func (l *GetProductReviewsLogic) GetProductReviews(in *dropshipbe.GetProductRevi
 				Comment:  r.Content,
 				Images:   r.Media.Images,
 				Videos:   r.Media.Videos,
+				Name:     r.AuthorName,
+				Date:     r.CreatedAt.Format(time.RFC3339),
+				Avatar:   authorAvatar,
 			})
 		}
 	}

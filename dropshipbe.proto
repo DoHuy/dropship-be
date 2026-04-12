@@ -3,6 +3,9 @@ syntax = "proto3";
 package dropshipbe;
 option go_package="./dropshipbe";
 
+// Thêm thư viện validate vào đây
+import "validate/validate.proto";
+
 message Request {
   string ping = 1;
 }
@@ -194,7 +197,7 @@ message Blog {
   string image_url = 4;
   string alt = 5;
   string title = 6;
-  string content = 7; // Đã thêm trường nội dung bài viết
+  string content = 7; 
 }
 
 // ==========================================
@@ -211,7 +214,7 @@ message GetProductBySlugRequest {
 }
 
 message GetProductsByCategoryRequest {
-  string category = 1; // Thường dùng slug hoặc ID của category
+  string category = 1; 
   string country_code = 2;
 }
 
@@ -282,14 +285,14 @@ message CreateProductRequest {
   Product product = 1;
 }
 
-// --- CẬP NHẬT: TẢI LÊN NHIỀU FILE ---
+// --- TẢI LÊN NHIỀU FILE ---
 message FileData {
   string filename = 1;
   bytes content = 2;
 }
 
 message UploadFileRequest {
-  repeated FileData files = 1; // Sử dụng mảng để chứa nhiều file
+  repeated FileData files = 1; 
 }
 
 message UploadedFileInfo {
@@ -297,9 +300,8 @@ message UploadedFileInfo {
   string url = 2;
 }
 message UploadFileResponse {
-  repeated UploadedFileInfo files = 1; // Trả về danh sách các file đã upload thành công
+  repeated UploadedFileInfo files = 1; 
 }
-// -------------------------------------
 
 message DeleteFileRequest {
   string file_url = 1;
@@ -316,12 +318,12 @@ message CreateProductFaqRequest {
 }
 
 message CreateProductReviewRequest {
-  uint64 product_id = 1;
-  string name = 2;
-  string email = 3;
-  string avatar= 4;
-  int32 rating = 5;
-  string comment = 6;
+  uint64 product_id = 1 [(validate.rules).uint64.gt = 0];
+  string name = 2 [(validate.rules).string = {min_len: 2, max_len: 100}];
+  string email = 3 [(validate.rules).string.email = true];
+  string avatar = 4;
+  int32 rating = 5 [(validate.rules).int32 = {gte: 1, lte: 5}];
+  string comment = 6 [(validate.rules).string.max_len = 1000];
   repeated string images = 7;
   repeated string videos = 8;
 }
@@ -352,18 +354,77 @@ message CreateOptionValueRequest {
 // --- XÁC THỰC (AUTHENTICATION) ---
 
 message LoginRequest {
-  string email = 1;
-  string password = 2;
+  string email = 1 [(validate.rules).string.email = true];
+  string password = 2 [(validate.rules).string.min_len = 6];
 }
 
 message LoginResponse {
-  string access_token = 1; // Mã thông báo (JWT) để dùng cho các request sau
-  int64 access_expire = 2; // Thời gian hết hạn của token (tính bằng Unix timestamp)
+  string access_token = 1; 
+  int64 access_expire = 2; 
+}
+
+// ==========================================
+// ĐƠN HÀNG & THANH TOÁN (ORDER & CHECKOUT)
+// ==========================================
+
+message CartItem {
+  uint64 variant_id = 1 [(validate.rules).uint64.gt = 0]; 
+  uint64 product_id = 2 [(validate.rules).uint64.gt = 0]; 
+  int32 quantity = 3 [(validate.rules).int32.gt = 0];     
+}
+
+message CreateOrderRequest {
+  repeated CartItem items = 1 [(validate.rules).repeated.min_items = 1]; 
+  string customer_email = 2 [(validate.rules).string.email = true]; 
+  string customer_name = 3 [(validate.rules).string = {min_len: 2}];
+  
+  // ---> Phần bạn vừa bổ sung <---
+  string shipping_address = 4 [(validate.rules).string.max_len = 1000];
+  string shipping_method = 5 [(validate.rules).string.max_len = 100];
+}
+
+message CreateOrderResponse {
+  string local_order_id = 1;  
+  string paypal_order_id = 2; 
+  float total_amount = 3;     
+}
+
+message CaptureOrderRequest {
+  string paypal_order_id = 1 [(validate.rules).string.min_len = 5]; 
+}
+
+message CaptureOrderResponse {
+  bool success = 1;
+  string status = 2;  
+  string message = 3; 
+}
+
+// ==========================================
+// WEBHOOKS (PAYPAL) - KHÔI PHỤC LẠI
+// ==========================================
+
+message PayPalWebhookResource {
+  string id = 1;       // ID của Capture, Refund hoặc Order
+  string status = 2;   // Trạng thái (VD: COMPLETED, REFUNDED)
+}
+
+message PayPalWebhookRequest {
+  string id = 1;           // ID của chính sự kiện Webhook
+  string event_type = 2;   // VD: PAYMENT.CAPTURE.COMPLETED
+  string summary = 3;      
+  PayPalWebhookResource resource = 4; 
+}
+
+message WebhookResponse {
+  bool success = 1;            
+  string message = 2;          
+  string transaction_id = 3;   
+  string processed_at = 4;     
+  string action_taken = 5;     
 }
 
 // ==========================================
 // DỊCH VỤ (SERVICE) THUẦN TÚY
-// (Routing đã được chuyển sang gateway.yaml)
 // ==========================================
 
 service Dropshipbe {
@@ -413,5 +474,15 @@ service Dropshipbe {
   rpc UploadFile (UploadFileRequest) returns (UploadFileResponse);
   rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
 
+  // --- Orders & Checkout ---
+  rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+  rpc CaptureOrder (CaptureOrderRequest) returns (CaptureOrderResponse);
+
+  // --- Webhooks (Đã khôi phục) ---
+  rpc HookPaymentSuccess (PayPalWebhookRequest) returns (WebhookResponse);
+  rpc HookPaymentRefund (PayPalWebhookRequest) returns (WebhookResponse);
+  rpc HookPaymentFailed (PayPalWebhookRequest) returns (WebhookResponse);
+
+  // --- System ---
   rpc Ping(Request) returns(Response);
 }

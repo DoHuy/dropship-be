@@ -175,7 +175,6 @@ func (l *GetShopLogic) GetShop(in *dropshipbe.ShopSearchParams) (*dropshipbe.Pro
 		return nil, err
 	}
 
-	// Chuyển đổi dữ liệu từ model sang response
 	var productItems []*dropshipbe.Product
 	for _, p := range products {
 		productItems = append(productItems, &dropshipbe.Product{

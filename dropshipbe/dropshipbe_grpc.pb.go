@@ -44,6 +44,11 @@ const (
 	Dropshipbe_Login_FullMethodName                  = "/dropshipbe.Dropshipbe/Login"
 	Dropshipbe_UploadFile_FullMethodName             = "/dropshipbe.Dropshipbe/UploadFile"
 	Dropshipbe_DeleteFile_FullMethodName             = "/dropshipbe.Dropshipbe/DeleteFile"
+	Dropshipbe_CreateOrder_FullMethodName            = "/dropshipbe.Dropshipbe/CreateOrder"
+	Dropshipbe_CaptureOrder_FullMethodName           = "/dropshipbe.Dropshipbe/CaptureOrder"
+	Dropshipbe_HookPaymentSuccess_FullMethodName     = "/dropshipbe.Dropshipbe/HookPaymentSuccess"
+	Dropshipbe_HookPaymentRefund_FullMethodName      = "/dropshipbe.Dropshipbe/HookPaymentRefund"
+	Dropshipbe_HookPaymentFailed_FullMethodName      = "/dropshipbe.Dropshipbe/HookPaymentFailed"
 	Dropshipbe_Ping_FullMethodName                   = "/dropshipbe.Dropshipbe/Ping"
 )
 
@@ -86,6 +91,14 @@ type DropshipbeClient interface {
 	// --- Files ---
 	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error)
 	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error)
+	// --- Orders & Checkout ---
+	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
+	CaptureOrder(ctx context.Context, in *CaptureOrderRequest, opts ...grpc.CallOption) (*CaptureOrderResponse, error)
+	// --- Webhooks (Đã khôi phục) ---
+	HookPaymentSuccess(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+	HookPaymentRefund(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+	HookPaymentFailed(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+	// --- System ---
 	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
@@ -347,6 +360,56 @@ func (c *dropshipbeClient) DeleteFile(ctx context.Context, in *DeleteFileRequest
 	return out, nil
 }
 
+func (c *dropshipbeClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateOrderResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_CreateOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dropshipbeClient) CaptureOrder(ctx context.Context, in *CaptureOrderRequest, opts ...grpc.CallOption) (*CaptureOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CaptureOrderResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_CaptureOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dropshipbeClient) HookPaymentSuccess(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WebhookResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_HookPaymentSuccess_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dropshipbeClient) HookPaymentRefund(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WebhookResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_HookPaymentRefund_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dropshipbeClient) HookPaymentFailed(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WebhookResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_HookPaymentFailed_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *dropshipbeClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Response)
@@ -396,6 +459,14 @@ type DropshipbeServer interface {
 	// --- Files ---
 	UploadFile(context.Context, *UploadFileRequest) (*UploadFileResponse, error)
 	DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error)
+	// --- Orders & Checkout ---
+	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
+	CaptureOrder(context.Context, *CaptureOrderRequest) (*CaptureOrderResponse, error)
+	// --- Webhooks (Đã khôi phục) ---
+	HookPaymentSuccess(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error)
+	HookPaymentRefund(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error)
+	HookPaymentFailed(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error)
+	// --- System ---
 	Ping(context.Context, *Request) (*Response, error)
 	mustEmbedUnimplementedDropshipbeServer()
 }
@@ -481,6 +552,21 @@ func (UnimplementedDropshipbeServer) UploadFile(context.Context, *UploadFileRequ
 }
 func (UnimplementedDropshipbeServer) DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteFile not implemented")
+}
+func (UnimplementedDropshipbeServer) CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateOrder not implemented")
+}
+func (UnimplementedDropshipbeServer) CaptureOrder(context.Context, *CaptureOrderRequest) (*CaptureOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CaptureOrder not implemented")
+}
+func (UnimplementedDropshipbeServer) HookPaymentSuccess(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HookPaymentSuccess not implemented")
+}
+func (UnimplementedDropshipbeServer) HookPaymentRefund(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HookPaymentRefund not implemented")
+}
+func (UnimplementedDropshipbeServer) HookPaymentFailed(context.Context, *PayPalWebhookRequest) (*WebhookResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HookPaymentFailed not implemented")
 }
 func (UnimplementedDropshipbeServer) Ping(context.Context, *Request) (*Response, error) {
 	return nil, status.Error(codes.Unimplemented, "method Ping not implemented")
@@ -956,6 +1042,96 @@ func _Dropshipbe_DeleteFile_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Dropshipbe_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).CreateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_CreateOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).CreateOrder(ctx, req.(*CreateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dropshipbe_CaptureOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CaptureOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).CaptureOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_CaptureOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).CaptureOrder(ctx, req.(*CaptureOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dropshipbe_HookPaymentSuccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayPalWebhookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).HookPaymentSuccess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_HookPaymentSuccess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).HookPaymentSuccess(ctx, req.(*PayPalWebhookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dropshipbe_HookPaymentRefund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayPalWebhookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).HookPaymentRefund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_HookPaymentRefund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).HookPaymentRefund(ctx, req.(*PayPalWebhookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dropshipbe_HookPaymentFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayPalWebhookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).HookPaymentFailed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_HookPaymentFailed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).HookPaymentFailed(ctx, req.(*PayPalWebhookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Dropshipbe_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
@@ -1080,6 +1256,26 @@ var Dropshipbe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteFile",
 			Handler:    _Dropshipbe_DeleteFile_Handler,
+		},
+		{
+			MethodName: "CreateOrder",
+			Handler:    _Dropshipbe_CreateOrder_Handler,
+		},
+		{
+			MethodName: "CaptureOrder",
+			Handler:    _Dropshipbe_CaptureOrder_Handler,
+		},
+		{
+			MethodName: "HookPaymentSuccess",
+			Handler:    _Dropshipbe_HookPaymentSuccess_Handler,
+		},
+		{
+			MethodName: "HookPaymentRefund",
+			Handler:    _Dropshipbe_HookPaymentRefund_Handler,
+		},
+		{
+			MethodName: "HookPaymentFailed",
+			Handler:    _Dropshipbe_HookPaymentFailed_Handler,
 		},
 		{
 			MethodName: "Ping",

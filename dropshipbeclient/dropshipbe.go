@@ -20,11 +20,16 @@ type (
 	BlogCategory                 = dropshipbe.BlogCategory
 	BlogDetailResponse           = dropshipbe.BlogDetailResponse
 	BlogListResponse             = dropshipbe.BlogListResponse
+	CaptureOrderRequest          = dropshipbe.CaptureOrderRequest
+	CaptureOrderResponse         = dropshipbe.CaptureOrderResponse
+	CartItem                     = dropshipbe.CartItem
 	Category                     = dropshipbe.Category
 	CategoryListResponse         = dropshipbe.CategoryListResponse
 	CreateNewBlogRequest         = dropshipbe.CreateNewBlogRequest
 	CreateOptionRequest          = dropshipbe.CreateOptionRequest
 	CreateOptionValueRequest     = dropshipbe.CreateOptionValueRequest
+	CreateOrderRequest           = dropshipbe.CreateOrderRequest
+	CreateOrderResponse          = dropshipbe.CreateOrderResponse
 	CreateProductFaqRequest      = dropshipbe.CreateProductFaqRequest
 	CreateProductRequest         = dropshipbe.CreateProductRequest
 	CreateProductReviewRequest   = dropshipbe.CreateProductReviewRequest
@@ -47,6 +52,8 @@ type (
 	LoginResponse                = dropshipbe.LoginResponse
 	Option                       = dropshipbe.Option
 	OptionValue                  = dropshipbe.OptionValue
+	PayPalWebhookRequest         = dropshipbe.PayPalWebhookRequest
+	PayPalWebhookResource        = dropshipbe.PayPalWebhookResource
 	PriceTier                    = dropshipbe.PriceTier
 	Product                      = dropshipbe.Product
 	ProductListResponse          = dropshipbe.ProductListResponse
@@ -62,6 +69,7 @@ type (
 	UploadedFileInfo             = dropshipbe.UploadedFileInfo
 	Variant                      = dropshipbe.Variant
 	VariantOption                = dropshipbe.VariantOption
+	WebhookResponse              = dropshipbe.WebhookResponse
 
 	Dropshipbe interface {
 		// --- Products ---
@@ -99,6 +107,14 @@ type (
 		// --- Files ---
 		UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error)
 		DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error)
+		// --- Orders & Checkout ---
+		CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
+		CaptureOrder(ctx context.Context, in *CaptureOrderRequest, opts ...grpc.CallOption) (*CaptureOrderResponse, error)
+		// --- Webhooks (Đã khôi phục) ---
+		HookPaymentSuccess(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+		HookPaymentRefund(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+		HookPaymentFailed(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error)
+		// --- System ---
 		Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	}
 
@@ -248,6 +264,34 @@ func (m *defaultDropshipbe) DeleteFile(ctx context.Context, in *DeleteFileReques
 	return client.DeleteFile(ctx, in, opts...)
 }
 
+// --- Orders & Checkout ---
+func (m *defaultDropshipbe) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.CreateOrder(ctx, in, opts...)
+}
+
+func (m *defaultDropshipbe) CaptureOrder(ctx context.Context, in *CaptureOrderRequest, opts ...grpc.CallOption) (*CaptureOrderResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.CaptureOrder(ctx, in, opts...)
+}
+
+// --- Webhooks (Đã khôi phục) ---
+func (m *defaultDropshipbe) HookPaymentSuccess(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.HookPaymentSuccess(ctx, in, opts...)
+}
+
+func (m *defaultDropshipbe) HookPaymentRefund(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.HookPaymentRefund(ctx, in, opts...)
+}
+
+func (m *defaultDropshipbe) HookPaymentFailed(ctx context.Context, in *PayPalWebhookRequest, opts ...grpc.CallOption) (*WebhookResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.HookPaymentFailed(ctx, in, opts...)
+}
+
+// --- System ---
 func (m *defaultDropshipbe) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.Ping(ctx, in, opts...)

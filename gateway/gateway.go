@@ -111,19 +111,15 @@ func handleUploadFormData(svc dropshipbeclient.Dropshipbe) http.HandlerFunc {
 			})
 		}
 
-		// 4. Gọi sang gRPC Server
-		// Sử dụng r.Context() để nếu client ngắt kết nối (Cancel), gRPC cũng sẽ dừng xử lý (Graceful)
 		resp, err := svc.UploadFile(r.Context(), &dropshipbe.UploadFileRequest{
 			Files: fileDataList,
 		})
 
 		if err != nil {
-			// Bạn có thể log err chi tiết ở đây cho server-side
 			http.Error(w, "Lỗi hệ thống khi upload: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// 5. Trả về kết quả thành công theo format chuẩn {code, msg, data}
 		httpx.OkJson(w, resp)
 	}
 }

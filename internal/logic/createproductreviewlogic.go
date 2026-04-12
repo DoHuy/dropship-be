@@ -10,6 +10,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/zeromicro/go-zero/core/logx"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type CreateProductReviewLogic struct {
@@ -27,6 +29,17 @@ func NewCreateProductReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *CreateProductReviewLogic) CreateProductReview(in *dropshipbe.CreateProductReviewRequest) (*dropshipbe.ReviewItem, error) {
+
+	//validate
+	if err := in.Validate(); err != nil {
+		// Ghi log lỗi để dễ dàng debug ở phía server
+		l.Logger.Errorf("[CreateProductReview] Dữ liệu không hợp lệ: %v", err)
+
+		// Trả về mã lỗi gRPC chuẩn (InvalidArgument)
+		// Khi API Gateway nhận được lỗi này, nó sẽ tự động chuyển thành HTTP 400 Bad Request
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
 	// todo: add your logic here and delete this line
 	review, err := l.svcCtx.EcommerceRepo.CreateProductReview(l.ctx, in)
 	if err != nil {

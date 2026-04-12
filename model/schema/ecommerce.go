@@ -21,7 +21,7 @@ type Country struct {
 	Name         string     `gorm:"type:varchar(100);not null" json:"name"`
 	Currency     string     `gorm:"type:varchar(3);not null" json:"currency"`
 	LanguageCode string     `gorm:"type:char(2);default:'vi'" json:"language_code"`
-	IsActive     *bool      `gorm:"default:true;index:idx_country_active,where:is_active=true" json:"is_active"` // Pointer để handle DB default true
+	IsActive     *bool      `gorm:"default:true;index:idx_country_active,where:is_active=true" json:"is_active"`
 	CreatedAt    *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
 }
 

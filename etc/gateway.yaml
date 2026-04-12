@@ -61,5 +61,11 @@ Upstreams:
         RpcPath: dropshipbe.Dropshipbe/GetVideoBanner
       - Method: post
         Path: /api/v1/products/reviews
-        RpcPath: dropshipbe.Dropshipbe/CreateProductReview             
+        RpcPath: dropshipbe.Dropshipbe/CreateProductReview
+      - Method: post
+        Path: /api/v1/order/create
+        RpcPath: dropshipbe.Dropshipbe/CreateOrder
+      - Method: post
+        Path: /api/v1/order/capture
+        RpcPath: dropshipbe.Dropshipbe/CaptureOrder                 
                            

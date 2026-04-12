@@ -7,6 +7,7 @@
 package dropshipbe
 
 import (
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1631,7 +1632,7 @@ type Blog struct {
 	ImageUrl      string                 `protobuf:"bytes,4,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	Alt           string                 `protobuf:"bytes,5,opt,name=alt,proto3" json:"alt,omitempty"`
 	Title         string                 `protobuf:"bytes,6,opt,name=title,proto3" json:"title,omitempty"`
-	Content       string                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"` // Đã thêm trường nội dung bài viết
+	Content       string                 `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1813,7 +1814,7 @@ func (x *GetProductBySlugRequest) GetCountryCode() string {
 
 type GetProductsByCategoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Category      string                 `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"` // Thường dùng slug hoặc ID của category
+	Category      string                 `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
 	CountryCode   string                 `protobuf:"bytes,2,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2551,7 +2552,7 @@ func (x *CreateProductRequest) GetProduct() *Product {
 	return nil
 }
 
-// --- CẬP NHẬT: TẢI LÊN NHIỀU FILE ---
+// --- TẢI LÊN NHIỀU FILE ---
 type FileData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Filename      string                 `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`
@@ -2606,7 +2607,7 @@ func (x *FileData) GetContent() []byte {
 
 type UploadFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Files         []*FileData            `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"` // Sử dụng mảng để chứa nhiều file
+	Files         []*FileData            `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2702,7 +2703,7 @@ func (x *UploadedFileInfo) GetUrl() string {
 
 type UploadFileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Files         []*UploadedFileInfo    `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"` // Trả về danh sách các file đã upload thành công
+	Files         []*UploadedFileInfo    `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3266,8 +3267,8 @@ func (x *LoginRequest) GetPassword() string {
 
 type LoginResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`     // Mã thông báo (JWT) để dùng cho các request sau
-	AccessExpire  int64                  `protobuf:"varint,2,opt,name=access_expire,json=accessExpire,proto3" json:"access_expire,omitempty"` // Thời gian hết hạn của token (tính bằng Unix timestamp)
+	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	AccessExpire  int64                  `protobuf:"varint,2,opt,name=access_expire,json=accessExpire,proto3" json:"access_expire,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3316,12 +3317,509 @@ func (x *LoginResponse) GetAccessExpire() int64 {
 	return 0
 }
 
+type CartItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VariantId     uint64                 `protobuf:"varint,1,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	ProductId     uint64                 `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Quantity      int32                  `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CartItem) Reset() {
+	*x = CartItem{}
+	mi := &file_dropshipbe_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CartItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CartItem) ProtoMessage() {}
+
+func (x *CartItem) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CartItem.ProtoReflect.Descriptor instead.
+func (*CartItem) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *CartItem) GetVariantId() uint64 {
+	if x != nil {
+		return x.VariantId
+	}
+	return 0
+}
+
+func (x *CartItem) GetProductId() uint64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *CartItem) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+type CreateOrderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*CartItem            `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	CustomerEmail string                 `protobuf:"bytes,2,opt,name=customer_email,json=customerEmail,proto3" json:"customer_email,omitempty"`
+	CustomerName  string                 `protobuf:"bytes,3,opt,name=customer_name,json=customerName,proto3" json:"customer_name,omitempty"`
+	// ---> Phần bạn vừa bổ sung <---
+	ShippingAddress string `protobuf:"bytes,4,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
+	ShippingMethod  string `protobuf:"bytes,5,opt,name=shipping_method,json=shippingMethod,proto3" json:"shipping_method,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateOrderRequest) Reset() {
+	*x = CreateOrderRequest{}
+	mi := &file_dropshipbe_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrderRequest) ProtoMessage() {}
+
+func (x *CreateOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrderRequest.ProtoReflect.Descriptor instead.
+func (*CreateOrderRequest) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *CreateOrderRequest) GetItems() []*CartItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *CreateOrderRequest) GetCustomerEmail() string {
+	if x != nil {
+		return x.CustomerEmail
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetCustomerName() string {
+	if x != nil {
+		return x.CustomerName
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetShippingAddress() string {
+	if x != nil {
+		return x.ShippingAddress
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetShippingMethod() string {
+	if x != nil {
+		return x.ShippingMethod
+	}
+	return ""
+}
+
+type CreateOrderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LocalOrderId  string                 `protobuf:"bytes,1,opt,name=local_order_id,json=localOrderId,proto3" json:"local_order_id,omitempty"`
+	PaypalOrderId string                 `protobuf:"bytes,2,opt,name=paypal_order_id,json=paypalOrderId,proto3" json:"paypal_order_id,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,3,opt,name=total_amount,json=totalAmount,proto3" json:"total_amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrderResponse) Reset() {
+	*x = CreateOrderResponse{}
+	mi := &file_dropshipbe_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrderResponse) ProtoMessage() {}
+
+func (x *CreateOrderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrderResponse.ProtoReflect.Descriptor instead.
+func (*CreateOrderResponse) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *CreateOrderResponse) GetLocalOrderId() string {
+	if x != nil {
+		return x.LocalOrderId
+	}
+	return ""
+}
+
+func (x *CreateOrderResponse) GetPaypalOrderId() string {
+	if x != nil {
+		return x.PaypalOrderId
+	}
+	return ""
+}
+
+func (x *CreateOrderResponse) GetTotalAmount() float32 {
+	if x != nil {
+		return x.TotalAmount
+	}
+	return 0
+}
+
+type CaptureOrderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PaypalOrderId string                 `protobuf:"bytes,1,opt,name=paypal_order_id,json=paypalOrderId,proto3" json:"paypal_order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CaptureOrderRequest) Reset() {
+	*x = CaptureOrderRequest{}
+	mi := &file_dropshipbe_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CaptureOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CaptureOrderRequest) ProtoMessage() {}
+
+func (x *CaptureOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CaptureOrderRequest.ProtoReflect.Descriptor instead.
+func (*CaptureOrderRequest) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *CaptureOrderRequest) GetPaypalOrderId() string {
+	if x != nil {
+		return x.PaypalOrderId
+	}
+	return ""
+}
+
+type CaptureOrderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CaptureOrderResponse) Reset() {
+	*x = CaptureOrderResponse{}
+	mi := &file_dropshipbe_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CaptureOrderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CaptureOrderResponse) ProtoMessage() {}
+
+func (x *CaptureOrderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CaptureOrderResponse.ProtoReflect.Descriptor instead.
+func (*CaptureOrderResponse) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *CaptureOrderResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *CaptureOrderResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *CaptureOrderResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type PayPalWebhookResource struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`         // ID của Capture, Refund hoặc Order
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // Trạng thái (VD: COMPLETED, REFUNDED)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PayPalWebhookResource) Reset() {
+	*x = PayPalWebhookResource{}
+	mi := &file_dropshipbe_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PayPalWebhookResource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PayPalWebhookResource) ProtoMessage() {}
+
+func (x *PayPalWebhookResource) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PayPalWebhookResource.ProtoReflect.Descriptor instead.
+func (*PayPalWebhookResource) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *PayPalWebhookResource) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *PayPalWebhookResource) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type PayPalWebhookRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                // ID của chính sự kiện Webhook
+	EventType     string                 `protobuf:"bytes,2,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"` // VD: PAYMENT.CAPTURE.COMPLETED
+	Summary       string                 `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`
+	Resource      *PayPalWebhookResource `protobuf:"bytes,4,opt,name=resource,proto3" json:"resource,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PayPalWebhookRequest) Reset() {
+	*x = PayPalWebhookRequest{}
+	mi := &file_dropshipbe_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PayPalWebhookRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PayPalWebhookRequest) ProtoMessage() {}
+
+func (x *PayPalWebhookRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PayPalWebhookRequest.ProtoReflect.Descriptor instead.
+func (*PayPalWebhookRequest) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *PayPalWebhookRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *PayPalWebhookRequest) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *PayPalWebhookRequest) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *PayPalWebhookRequest) GetResource() *PayPalWebhookResource {
+	if x != nil {
+		return x.Resource
+	}
+	return nil
+}
+
+type WebhookResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TransactionId string                 `protobuf:"bytes,3,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
+	ProcessedAt   string                 `protobuf:"bytes,4,opt,name=processed_at,json=processedAt,proto3" json:"processed_at,omitempty"`
+	ActionTaken   string                 `protobuf:"bytes,5,opt,name=action_taken,json=actionTaken,proto3" json:"action_taken,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WebhookResponse) Reset() {
+	*x = WebhookResponse{}
+	mi := &file_dropshipbe_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WebhookResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WebhookResponse) ProtoMessage() {}
+
+func (x *WebhookResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WebhookResponse.ProtoReflect.Descriptor instead.
+func (*WebhookResponse) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *WebhookResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *WebhookResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *WebhookResponse) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *WebhookResponse) GetProcessedAt() string {
+	if x != nil {
+		return x.ProcessedAt
+	}
+	return ""
+}
+
+func (x *WebhookResponse) GetActionTaken() string {
+	if x != nil {
+		return x.ActionTaken
+	}
+	return ""
+}
+
 var File_dropshipbe_proto protoreflect.FileDescriptor
 
 const file_dropshipbe_proto_rawDesc = "" +
 	"\n" +
 	"\x10dropshipbe.proto\x12\n" +
-	"dropshipbe\"\x1d\n" +
+	"dropshipbe\x1a\x17validate/validate.proto\"\x1d\n" +
 	"\aRequest\x12\x12\n" +
 	"\x04ping\x18\x01 \x01(\tR\x04ping\"\x1e\n" +
 	"\bResponse\x12\x12\n" +
@@ -3578,15 +4076,15 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\n" +
 	"product_id\x18\x01 \x01(\x04R\tproductId\x12\x1a\n" +
 	"\bquestion\x18\x02 \x01(\tR\bquestion\x12\x16\n" +
-	"\x06answer\x18\x03 \x01(\tR\x06answer\"\xdf\x01\n" +
-	"\x1aCreateProductReviewRequest\x12\x1d\n" +
+	"\x06answer\x18\x03 \x01(\tR\x06answer\"\x91\x02\n" +
+	"\x1aCreateProductReviewRequest\x12&\n" +
 	"\n" +
-	"product_id\x18\x01 \x01(\x04R\tproductId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x12\x16\n" +
-	"\x06avatar\x18\x04 \x01(\tR\x06avatar\x12\x16\n" +
-	"\x06rating\x18\x05 \x01(\x05R\x06rating\x12\x18\n" +
-	"\acomment\x18\x06 \x01(\tR\acomment\x12\x16\n" +
+	"product_id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\tproductId\x12\x1d\n" +
+	"\x04name\x18\x02 \x01(\tB\t\xfaB\x06r\x04\x10\x02\x18dR\x04name\x12\x1d\n" +
+	"\x05email\x18\x03 \x01(\tB\a\xfaB\x04r\x02`\x01R\x05email\x12\x16\n" +
+	"\x06avatar\x18\x04 \x01(\tR\x06avatar\x12!\n" +
+	"\x06rating\x18\x05 \x01(\x05B\t\xfaB\x06\x1a\x04\x18\x05(\x01R\x06rating\x12\"\n" +
+	"\acomment\x18\x06 \x01(\tB\b\xfaB\x05r\x03\x18\xe8\aR\acomment\x12\x16\n" +
 	"\x06images\x18\a \x03(\tR\x06images\x12\x16\n" +
 	"\x06videos\x18\b \x03(\tR\x06videos\"\xc8\x01\n" +
 	"\x14CreateNewBlogRequest\x12\x14\n" +
@@ -3607,13 +4105,50 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\toption_id\x18\x01 \x01(\x04R\boptionId\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value\x12\x1d\n" +
 	"\n" +
-	"color_code\x18\x03 \x01(\tR\tcolorCode\"@\n" +
-	"\fLoginRequest\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"W\n" +
+	"color_code\x18\x03 \x01(\tR\tcolorCode\"R\n" +
+	"\fLoginRequest\x12\x1d\n" +
+	"\x05email\x18\x01 \x01(\tB\a\xfaB\x04r\x02`\x01R\x05email\x12#\n" +
+	"\bpassword\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x06R\bpassword\"W\n" +
 	"\rLoginResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
-	"\raccess_expire\x18\x02 \x01(\x03R\faccessExpire2\x81\x10\n" +
+	"\raccess_expire\x18\x02 \x01(\x03R\faccessExpire\"\x7f\n" +
+	"\bCartItem\x12&\n" +
+	"\n" +
+	"variant_id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\tvariantId\x12&\n" +
+	"\n" +
+	"product_id\x18\x02 \x01(\x04B\a\xfaB\x042\x02 \x00R\tproductId\x12#\n" +
+	"\bquantity\x18\x03 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\bquantity\"\x8f\x02\n" +
+	"\x12CreateOrderRequest\x124\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.dropshipbe.CartItemB\b\xfaB\x05\x92\x01\x02\b\x01R\x05items\x12.\n" +
+	"\x0ecustomer_email\x18\x02 \x01(\tB\a\xfaB\x04r\x02`\x01R\rcustomerEmail\x12,\n" +
+	"\rcustomer_name\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x02R\fcustomerName\x123\n" +
+	"\x10shipping_address\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\xe8\aR\x0fshippingAddress\x120\n" +
+	"\x0fshipping_method\x18\x05 \x01(\tB\a\xfaB\x04r\x02\x18dR\x0eshippingMethod\"\x86\x01\n" +
+	"\x13CreateOrderResponse\x12$\n" +
+	"\x0elocal_order_id\x18\x01 \x01(\tR\flocalOrderId\x12&\n" +
+	"\x0fpaypal_order_id\x18\x02 \x01(\tR\rpaypalOrderId\x12!\n" +
+	"\ftotal_amount\x18\x03 \x01(\x02R\vtotalAmount\"F\n" +
+	"\x13CaptureOrderRequest\x12/\n" +
+	"\x0fpaypal_order_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x05R\rpaypalOrderId\"b\n" +
+	"\x14CaptureOrderResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\"?\n" +
+	"\x15PayPalWebhookResource\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\x9e\x01\n" +
+	"\x14PayPalWebhookRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x02 \x01(\tR\teventType\x12\x18\n" +
+	"\asummary\x18\x03 \x01(\tR\asummary\x12=\n" +
+	"\bresource\x18\x04 \x01(\v2!.dropshipbe.PayPalWebhookResourceR\bresource\"\xb2\x01\n" +
+	"\x0fWebhookResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
+	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12!\n" +
+	"\fprocessed_at\x18\x04 \x01(\tR\vprocessedAt\x12!\n" +
+	"\faction_taken\x18\x05 \x01(\tR\vactionTaken2\xa1\x13\n" +
 	"\n" +
 	"Dropshipbe\x12J\n" +
 	"\vGetProducts\x12\x1a.dropshipbe.DefaultRequest\x1a\x1f.dropshipbe.ProductListResponse\x12L\n" +
@@ -3642,7 +4177,12 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\n" +
 	"UploadFile\x12\x1d.dropshipbe.UploadFileRequest\x1a\x1e.dropshipbe.UploadFileResponse\x12K\n" +
 	"\n" +
-	"DeleteFile\x12\x1d.dropshipbe.DeleteFileRequest\x1a\x1e.dropshipbe.DeleteFileResponse\x121\n" +
+	"DeleteFile\x12\x1d.dropshipbe.DeleteFileRequest\x1a\x1e.dropshipbe.DeleteFileResponse\x12N\n" +
+	"\vCreateOrder\x12\x1e.dropshipbe.CreateOrderRequest\x1a\x1f.dropshipbe.CreateOrderResponse\x12Q\n" +
+	"\fCaptureOrder\x12\x1f.dropshipbe.CaptureOrderRequest\x1a .dropshipbe.CaptureOrderResponse\x12S\n" +
+	"\x12HookPaymentSuccess\x12 .dropshipbe.PayPalWebhookRequest\x1a\x1b.dropshipbe.WebhookResponse\x12R\n" +
+	"\x11HookPaymentRefund\x12 .dropshipbe.PayPalWebhookRequest\x1a\x1b.dropshipbe.WebhookResponse\x12R\n" +
+	"\x11HookPaymentFailed\x12 .dropshipbe.PayPalWebhookRequest\x1a\x1b.dropshipbe.WebhookResponse\x121\n" +
 	"\x04Ping\x12\x13.dropshipbe.Request\x1a\x14.dropshipbe.ResponseB\x0eZ\f./dropshipbeb\x06proto3"
 
 var (
@@ -3657,7 +4197,7 @@ func file_dropshipbe_proto_rawDescGZIP() []byte {
 	return file_dropshipbe_proto_rawDescData
 }
 
-var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
+var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 58)
 var file_dropshipbe_proto_goTypes = []any{
 	(*Request)(nil),                      // 0: dropshipbe.Request
 	(*Response)(nil),                     // 1: dropshipbe.Response
@@ -3707,13 +4247,21 @@ var file_dropshipbe_proto_goTypes = []any{
 	(*CreateOptionValueRequest)(nil),     // 45: dropshipbe.CreateOptionValueRequest
 	(*LoginRequest)(nil),                 // 46: dropshipbe.LoginRequest
 	(*LoginResponse)(nil),                // 47: dropshipbe.LoginResponse
-	nil,                                  // 48: dropshipbe.Product.MetadataEntry
-	nil,                                  // 49: dropshipbe.ReviewSummary.RatingEntry
+	(*CartItem)(nil),                     // 48: dropshipbe.CartItem
+	(*CreateOrderRequest)(nil),           // 49: dropshipbe.CreateOrderRequest
+	(*CreateOrderResponse)(nil),          // 50: dropshipbe.CreateOrderResponse
+	(*CaptureOrderRequest)(nil),          // 51: dropshipbe.CaptureOrderRequest
+	(*CaptureOrderResponse)(nil),         // 52: dropshipbe.CaptureOrderResponse
+	(*PayPalWebhookResource)(nil),        // 53: dropshipbe.PayPalWebhookResource
+	(*PayPalWebhookRequest)(nil),         // 54: dropshipbe.PayPalWebhookRequest
+	(*WebhookResponse)(nil),              // 55: dropshipbe.WebhookResponse
+	nil,                                  // 56: dropshipbe.Product.MetadataEntry
+	nil,                                  // 57: dropshipbe.ReviewSummary.RatingEntry
 }
 var file_dropshipbe_proto_depIdxs = []int32{
 	5,  // 0: dropshipbe.Option.option_values:type_name -> dropshipbe.OptionValue
 	7,  // 1: dropshipbe.Variant.options:type_name -> dropshipbe.VariantOption
-	48, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
+	56, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
 	3,  // 3: dropshipbe.Product.categories:type_name -> dropshipbe.Category
 	4,  // 4: dropshipbe.Product.galleries:type_name -> dropshipbe.Gallery
 	4,  // 5: dropshipbe.Product.description_images:type_name -> dropshipbe.Gallery
@@ -3721,7 +4269,7 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	8,  // 7: dropshipbe.Product.variants:type_name -> dropshipbe.Variant
 	9,  // 8: dropshipbe.Product.product_price_tiers:type_name -> dropshipbe.PriceTier
 	11, // 9: dropshipbe.ReviewSummary.reviews:type_name -> dropshipbe.ReviewItem
-	49, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
+	57, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
 	16, // 11: dropshipbe.Blog.category:type_name -> dropshipbe.BlogCategory
 	10, // 12: dropshipbe.ProductListResponse.products:type_name -> dropshipbe.Product
 	4,  // 13: dropshipbe.GalleryListResponse.galleries:type_name -> dropshipbe.Gallery
@@ -3734,63 +4282,75 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	10, // 20: dropshipbe.CreateProductRequest.product:type_name -> dropshipbe.Product
 	35, // 21: dropshipbe.UploadFileRequest.files:type_name -> dropshipbe.FileData
 	37, // 22: dropshipbe.UploadFileResponse.files:type_name -> dropshipbe.UploadedFileInfo
-	2,  // 23: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
-	19, // 24: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
-	20, // 25: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
-	30, // 26: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
-	2,  // 27: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
-	2,  // 28: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
-	34, // 29: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
-	21, // 30: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
-	32, // 31: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
-	33, // 32: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
-	41, // 33: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
-	31, // 34: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
-	42, // 35: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
-	2,  // 36: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 37: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 38: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 39: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
-	2,  // 40: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
-	28, // 41: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
-	43, // 42: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
-	44, // 43: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
-	45, // 44: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
-	46, // 45: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
-	36, // 46: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
-	39, // 47: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
-	0,  // 48: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
-	18, // 49: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 50: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
-	18, // 51: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
-	18, // 52: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 53: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 54: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 55: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
-	18, // 56: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
-	22, // 57: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
-	23, // 58: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
-	13, // 59: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
-	12, // 60: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
-	11, // 61: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
-	24, // 62: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
-	25, // 63: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
-	26, // 64: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
-	15, // 65: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
-	27, // 66: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
-	29, // 67: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
-	17, // 68: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
-	6,  // 69: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
-	5,  // 70: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
-	47, // 71: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
-	38, // 72: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
-	40, // 73: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
-	1,  // 74: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
-	49, // [49:75] is the sub-list for method output_type
-	23, // [23:49] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	48, // 23: dropshipbe.CreateOrderRequest.items:type_name -> dropshipbe.CartItem
+	53, // 24: dropshipbe.PayPalWebhookRequest.resource:type_name -> dropshipbe.PayPalWebhookResource
+	2,  // 25: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
+	19, // 26: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
+	20, // 27: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
+	30, // 28: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
+	2,  // 29: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
+	2,  // 30: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
+	34, // 31: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
+	21, // 32: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
+	32, // 33: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
+	33, // 34: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
+	41, // 35: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
+	31, // 36: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
+	42, // 37: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
+	2,  // 38: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 39: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 40: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 41: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
+	2,  // 42: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
+	28, // 43: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
+	43, // 44: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
+	44, // 45: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
+	45, // 46: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
+	46, // 47: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
+	36, // 48: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
+	39, // 49: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
+	49, // 50: dropshipbe.Dropshipbe.CreateOrder:input_type -> dropshipbe.CreateOrderRequest
+	51, // 51: dropshipbe.Dropshipbe.CaptureOrder:input_type -> dropshipbe.CaptureOrderRequest
+	54, // 52: dropshipbe.Dropshipbe.HookPaymentSuccess:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 53: dropshipbe.Dropshipbe.HookPaymentRefund:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 54: dropshipbe.Dropshipbe.HookPaymentFailed:input_type -> dropshipbe.PayPalWebhookRequest
+	0,  // 55: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
+	18, // 56: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 57: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
+	18, // 58: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
+	18, // 59: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 60: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 61: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 62: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
+	18, // 63: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
+	22, // 64: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
+	23, // 65: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
+	13, // 66: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
+	12, // 67: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
+	11, // 68: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
+	24, // 69: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
+	25, // 70: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
+	26, // 71: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
+	15, // 72: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
+	27, // 73: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
+	29, // 74: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
+	17, // 75: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
+	6,  // 76: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
+	5,  // 77: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
+	47, // 78: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
+	38, // 79: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
+	40, // 80: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
+	50, // 81: dropshipbe.Dropshipbe.CreateOrder:output_type -> dropshipbe.CreateOrderResponse
+	52, // 82: dropshipbe.Dropshipbe.CaptureOrder:output_type -> dropshipbe.CaptureOrderResponse
+	55, // 83: dropshipbe.Dropshipbe.HookPaymentSuccess:output_type -> dropshipbe.WebhookResponse
+	55, // 84: dropshipbe.Dropshipbe.HookPaymentRefund:output_type -> dropshipbe.WebhookResponse
+	55, // 85: dropshipbe.Dropshipbe.HookPaymentFailed:output_type -> dropshipbe.WebhookResponse
+	1,  // 86: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
+	56, // [56:87] is the sub-list for method output_type
+	25, // [25:56] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_dropshipbe_proto_init() }
@@ -3807,7 +4367,7 @@ func file_dropshipbe_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dropshipbe_proto_rawDesc), len(file_dropshipbe_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   50,
+			NumMessages:   58,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
