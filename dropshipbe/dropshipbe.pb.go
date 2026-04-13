@@ -3378,13 +3378,13 @@ func (x *CartItem) GetQuantity() int32 {
 }
 
 type CreateOrderRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*CartItem            `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	CustomerEmail string                 `protobuf:"bytes,2,opt,name=customer_email,json=customerEmail,proto3" json:"customer_email,omitempty"`
-	CustomerName  string                 `protobuf:"bytes,3,opt,name=customer_name,json=customerName,proto3" json:"customer_name,omitempty"`
-	// ---> Phần bạn vừa bổ sung <---
-	ShippingAddress string `protobuf:"bytes,4,opt,name=shipping_address,json=shippingAddress,proto3" json:"shipping_address,omitempty"`
-	ShippingMethod  string `protobuf:"bytes,5,opt,name=shipping_method,json=shippingMethod,proto3" json:"shipping_method,omitempty"`
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Items           []*CartItem            `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	CustomerEmail   *string                `protobuf:"bytes,2,opt,name=customer_email,json=customerEmail,proto3,oneof" json:"customer_email,omitempty"`
+	CustomerName    *string                `protobuf:"bytes,3,opt,name=customer_name,json=customerName,proto3,oneof" json:"customer_name,omitempty"`
+	CustomerPhone   *string                `protobuf:"bytes,4,opt,name=customer_phone,json=customerPhone,proto3,oneof" json:"customer_phone,omitempty"`
+	ShippingAddress *string                `protobuf:"bytes,5,opt,name=shipping_address,json=shippingAddress,proto3,oneof" json:"shipping_address,omitempty"`
+	ShippingMethod  string                 `protobuf:"bytes,6,opt,name=shipping_method,json=shippingMethod,proto3" json:"shipping_method,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -3427,22 +3427,29 @@ func (x *CreateOrderRequest) GetItems() []*CartItem {
 }
 
 func (x *CreateOrderRequest) GetCustomerEmail() string {
-	if x != nil {
-		return x.CustomerEmail
+	if x != nil && x.CustomerEmail != nil {
+		return *x.CustomerEmail
 	}
 	return ""
 }
 
 func (x *CreateOrderRequest) GetCustomerName() string {
-	if x != nil {
-		return x.CustomerName
+	if x != nil && x.CustomerName != nil {
+		return *x.CustomerName
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetCustomerPhone() string {
+	if x != nil && x.CustomerPhone != nil {
+		return *x.CustomerPhone
 	}
 	return ""
 }
 
 func (x *CreateOrderRequest) GetShippingAddress() string {
-	if x != nil {
-		return x.ShippingAddress
+	if x != nil && x.ShippingAddress != nil {
+		return *x.ShippingAddress
 	}
 	return ""
 }
@@ -4117,13 +4124,20 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"variant_id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\tvariantId\x12&\n" +
 	"\n" +
 	"product_id\x18\x02 \x01(\x04B\a\xfaB\x042\x02 \x00R\tproductId\x12#\n" +
-	"\bquantity\x18\x03 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\bquantity\"\x8f\x02\n" +
+	"\bquantity\x18\x03 \x01(\x05B\a\xfaB\x04\x1a\x02 \x00R\bquantity\"\xbc\x03\n" +
 	"\x12CreateOrderRequest\x124\n" +
-	"\x05items\x18\x01 \x03(\v2\x14.dropshipbe.CartItemB\b\xfaB\x05\x92\x01\x02\b\x01R\x05items\x12.\n" +
-	"\x0ecustomer_email\x18\x02 \x01(\tB\a\xfaB\x04r\x02`\x01R\rcustomerEmail\x12,\n" +
-	"\rcustomer_name\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x02R\fcustomerName\x123\n" +
-	"\x10shipping_address\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\xe8\aR\x0fshippingAddress\x120\n" +
-	"\x0fshipping_method\x18\x05 \x01(\tB\a\xfaB\x04r\x02\x18dR\x0eshippingMethod\"\x86\x01\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.dropshipbe.CartItemB\b\xfaB\x05\x92\x01\x02\b\x01R\x05items\x126\n" +
+	"\x0ecustomer_email\x18\x02 \x01(\tB\n" +
+	"\xfaB\ar\x05\xd0\x01\x01`\x01H\x00R\rcustomerEmail\x88\x01\x01\x124\n" +
+	"\rcustomer_name\x18\x03 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x02\xd0\x01\x01H\x01R\fcustomerName\x88\x01\x01\x12F\n" +
+	"\x0ecustomer_phone\x18\x04 \x01(\tB\x1a\xfaB\x17r\x152\x10^\\+?[0-9]{7,15}$\xd0\x01\x01H\x02R\rcustomerPhone\x88\x01\x01\x12;\n" +
+	"\x10shipping_address\x18\x05 \x01(\tB\v\xfaB\br\x06\x18\xe8\a\xd0\x01\x01H\x03R\x0fshippingAddress\x88\x01\x01\x120\n" +
+	"\x0fshipping_method\x18\x06 \x01(\tB\a\xfaB\x04r\x02\x18dR\x0eshippingMethodB\x11\n" +
+	"\x0f_customer_emailB\x10\n" +
+	"\x0e_customer_nameB\x11\n" +
+	"\x0f_customer_phoneB\x13\n" +
+	"\x11_shipping_address\"\x86\x01\n" +
 	"\x13CreateOrderResponse\x12$\n" +
 	"\x0elocal_order_id\x18\x01 \x01(\tR\flocalOrderId\x12&\n" +
 	"\x0fpaypal_order_id\x18\x02 \x01(\tR\rpaypalOrderId\x12!\n" +
@@ -4361,6 +4375,7 @@ func file_dropshipbe_proto_init() {
 	file_dropshipbe_proto_msgTypes[3].OneofWrappers = []any{}
 	file_dropshipbe_proto_msgTypes[9].OneofWrappers = []any{}
 	file_dropshipbe_proto_msgTypes[15].OneofWrappers = []any{}
+	file_dropshipbe_proto_msgTypes[49].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -35,8 +35,9 @@ type Config struct {
 		FlushInterval       int `json:",default=100"` // Flush interval in milliseconds
 	}
 	PayPal struct {
-		Mode     string
-		ClientID string
-		Secret   string
+		Mode          string
+		ClientID      string
+		Secret        string
+		PaypalBaseURL string
 	}
 }

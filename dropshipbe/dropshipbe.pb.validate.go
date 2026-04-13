@@ -6266,40 +6266,6 @@ func (m *CreateOrderRequest) validate(all bool) error {
 
 	}
 
-	if err := m._validateEmail(m.GetCustomerEmail()); err != nil {
-		err = CreateOrderRequestValidationError{
-			field:  "CustomerEmail",
-			reason: "value must be a valid email address",
-			cause:  err,
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if utf8.RuneCountInString(m.GetCustomerName()) < 2 {
-		err := CreateOrderRequestValidationError{
-			field:  "CustomerName",
-			reason: "value length must be at least 2 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if utf8.RuneCountInString(m.GetShippingAddress()) > 1000 {
-		err := CreateOrderRequestValidationError{
-			field:  "ShippingAddress",
-			reason: "value length must be at most 1000 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if utf8.RuneCountInString(m.GetShippingMethod()) > 100 {
 		err := CreateOrderRequestValidationError{
 			field:  "ShippingMethod",
@@ -6309,6 +6275,83 @@ func (m *CreateOrderRequest) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.CustomerEmail != nil {
+
+		if m.GetCustomerEmail() != "" {
+
+			if err := m._validateEmail(m.GetCustomerEmail()); err != nil {
+				err = CreateOrderRequestValidationError{
+					field:  "CustomerEmail",
+					reason: "value must be a valid email address",
+					cause:  err,
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.CustomerName != nil {
+
+		if m.GetCustomerName() != "" {
+
+			if utf8.RuneCountInString(m.GetCustomerName()) < 2 {
+				err := CreateOrderRequestValidationError{
+					field:  "CustomerName",
+					reason: "value length must be at least 2 runes",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.CustomerPhone != nil {
+
+		if m.GetCustomerPhone() != "" {
+
+			if !_CreateOrderRequest_CustomerPhone_Pattern.MatchString(m.GetCustomerPhone()) {
+				err := CreateOrderRequestValidationError{
+					field:  "CustomerPhone",
+					reason: "value does not match regex pattern \"^\\\\+?[0-9]{7,15}$\"",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.ShippingAddress != nil {
+
+		if m.GetShippingAddress() != "" {
+
+			if utf8.RuneCountInString(m.GetShippingAddress()) > 1000 {
+				err := CreateOrderRequestValidationError{
+					field:  "ShippingAddress",
+					reason: "value length must be at most 1000 runes",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -6440,6 +6483,8 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateOrderRequestValidationError{}
+
+var _CreateOrderRequest_CustomerPhone_Pattern = regexp.MustCompile("^\\+?[0-9]{7,15}$")
 
 // Validate checks the field values on CreateOrderResponse with the rules
 // defined in the proto definition for this message. If any rules are

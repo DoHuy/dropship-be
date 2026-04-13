@@ -375,16 +375,21 @@ message CartItem {
 
 message CreateOrderRequest {
   repeated CartItem items = 1 [(validate.rules).repeated.min_items = 1]; 
-  string customer_email = 2 [(validate.rules).string.email = true]; 
-  string customer_name = 3 [(validate.rules).string = {min_len: 2}];
   
-  string shipping_address = 4 [(validate.rules).string.max_len = 1000];
-  string shipping_method = 5 [(validate.rules).string.max_len = 100];
+  optional string customer_email = 2 [(validate.rules).string = {email: true, ignore_empty: true}]; 
+  
+  optional string customer_name = 3 [(validate.rules).string = {min_len: 2, ignore_empty: true}];
+  
+  optional string customer_phone = 4 [(validate.rules).string = {pattern: "^\\+?[0-9]{7,15}$", ignore_empty: true}];
+  
+  optional string shipping_address = 5 [(validate.rules).string = {max_len: 1000, ignore_empty: true}];
+  
+  string shipping_method = 6 [(validate.rules).string.max_len = 100];
 }
 
 message CreateOrderResponse {
   string local_order_id = 1;  
-  string paypal_order_id = 2; 
+  string paypal_order_id = 2;
   float total_amount = 3;     
 }
 

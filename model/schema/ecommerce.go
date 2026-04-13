@@ -202,6 +202,7 @@ type Variant struct {
 	// Relationships
 	// Many-to-Many để map Variant với OptionValues (VD: Variant A = [Red, XL])
 	OptionValues []OptionValue `gorm:"many2many:variant_value_map;" json:"option_values,omitempty"`
+	Product      *Product      `gorm:"foreignKey:ProductID" json:"product,omitempty"`
 }
 
 // ==========================================
@@ -308,6 +309,35 @@ type Order struct {
 	Shipments    []Shipment    `gorm:"foreignKey:OrderID" json:"shipments,omitempty"`
 	CouponUsages []CouponUsage `gorm:"foreignKey:OrderID" json:"coupon_usages,omitempty"`
 	Transactions []Transaction `gorm:"foreignKey:OrderID" json:"transactions,omitempty"`
+	OrderItems   []OrderItem   `gorm:"foreignKey:OrderID" json:"order_items,omitempty"`
+}
+
+// OrderItem reflects table "order_items"
+type OrderItem struct {
+	ID        uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
+	OrderID   uint64 `gorm:"not null;index" json:"order_id"`
+	VariantID uint64 `gorm:"not null;index" json:"variant_id"`
+	ProductID uint64 `gorm:"not null;index" json:"product_id"` // Stored for easier analytics without joining Variants
+
+	// --- Historical Snapshots ---
+	// Crucial: Store these so that if a product name/sku changes later, the order receipt remains accurate.
+	ProductName string `gorm:"type:varchar(255);not null" json:"product_name"`
+	VariantName string `gorm:"type:varchar(255)" json:"variant_name"` // e.g., "Color: Red, Size: XL"
+	Sku         string `gorm:"type:varchar(100)" json:"sku"`
+
+	// --- Pricing & Quantity ---
+	Quantity int     `gorm:"not null;check:quantity > 0" json:"quantity"`
+	Price    float64 `gorm:"type:numeric(15,2);not null" json:"price"` // Unit price AT THE TIME OF PURCHASE
+	Total    float64 `gorm:"type:numeric(15,2);not null" json:"total"` // Usually Quantity * Price
+
+	CreatedAt *time.Time     `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
+	UpdatedAt *time.Time     `gorm:"autoUpdateTime;type:timestamptz" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"index;type:timestamptz" json:"deleted_at"`
+
+	// --- Relationships ---
+	Order   *Order   `gorm:"foreignKey:OrderID" json:"order,omitempty"`
+	Variant *Variant `gorm:"foreignKey:VariantID" json:"variant,omitempty"`
+	Product *Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`
 }
 
 // CouponUsage reflects table "coupon_usages"
@@ -345,6 +375,7 @@ type Transaction struct {
 	CreatedAt *time.Time     `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
 	UpdatedAt *time.Time     `gorm:"autoUpdateTime;type:timestamptz" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index;type:timestamptz" json:"deleted_at"`
+	Order     *Order         `gorm:"foreignKey:OrderID" json:"order,omitempty"`
 }
 
 // ==========================================

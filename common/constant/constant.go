@@ -2,6 +2,7 @@ package constant
 
 import (
 	"fmt"
+	"time"
 )
 
 const (
@@ -106,4 +107,8 @@ func VideoBannerKey(country_code string) string {
 
 func ProductVariantStock(variantID string) string {
 	return fmt.Sprintf("%s:VariantID:stock:%s", PrefixProduct, variantID)
+}
+
+func CreateOrderNumber() string {
+	return fmt.Sprintf("ORD-%d", time.Now().Unix())
 }

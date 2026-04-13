@@ -60,3 +60,4 @@ PayPal:
   Mode: ${PAYPAL_MODE} 
   ClientID: ${PAYPAL_CLIENT_ID}
   Secret: ${PAYPAL_SECRET}
+  PaypalBaseURL: ${PAYPAL_BASE_URL}
