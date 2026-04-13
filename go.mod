@@ -8,6 +8,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.32.12
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.12
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.97.1
+	github.com/envoyproxy/protoc-gen-validate v1.3.0
+	github.com/joho/godotenv v1.5.1
 	github.com/zeromicro/go-queue v1.2.2
 	github.com/zeromicro/go-zero v1.10.0
 	google.golang.org/grpc v1.79.3
@@ -57,7 +59,6 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/envoyproxy/go-control-plane/envoy v1.36.0 // indirect
-	github.com/envoyproxy/protoc-gen-validate v1.3.0 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/fullstorydev/grpcurl v1.9.3 // indirect

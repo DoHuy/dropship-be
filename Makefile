@@ -5,27 +5,14 @@
 # Ensure Bash shell is used to avoid syntax errors
 SHELL := /bin/bash
 
-# --- Xác định file cấu hình YAML ---
-# Bạn có thể thay đổi đường dẫn này trỏ tới file yaml thực tế của bạn
-CONFIG_FILE := etc/dropshipbe.yaml
-
-# Kiểm tra xem công cụ yq đã được cài đặt chưa
-YQ_CHECK := $(shell command -v yq 2> /dev/null)
-ifndef YQ_CHECK
-$(error "Lỗi: Không tìm thấy 'yq'. Vui lòng cài đặt yq (https://github.com/mikefarah/yq) để đọc file YAML")
+# --- Đọc các biến môi trường trực tiếp từ file .env ---
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
 endif
 
-# --- Parse cấu hình từ file YAML ---
-# Sử dụng yq để lấy các giá trị nằm trong node Posgres
-DB_HOST := $(shell yq '.DB.Host' $(CONFIG_FILE))
-DB_PORT := $(shell yq '.DB.Port' $(CONFIG_FILE))
-DB_USER := $(shell yq '.DB.User' $(CONFIG_FILE))
-DB_PASS := $(shell yq '.DB.Password' $(CONFIG_FILE))
-DB_NAME := $(shell yq '.DB.DBName' $(CONFIG_FILE))
-DB_SSL  := $(shell yq '.DB.SSLMode' $(CONFIG_FILE))
-
-# --- Database Connection String ---
-DB_DSN := postgres://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSL)
+# --- Database Connection String (Lấy thẳng từ biến môi trường) ---
+DB_DSN := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSL_MODE)
 
 # Default env for Atlas (defaults to local if not provided)
 ATLAS_ENV ?= local
@@ -45,12 +32,13 @@ help: ## Display list of commands
 .PHONY: debug
 debug: ## Check if environment variables are loaded correctly
 	@echo "--- Debug Config ---"
-	@echo "DB Host  : [$(DB_HOST)]"
-	@echo "DB User  : [$(DB_USER)]"
-	@echo "DB Name  : [$(DB_NAME)]"
-	@echo "SSL Mode : [$(DB_SSL)]"
-	@echo "Full DSN : $(DB_DSN)"
-	@echo "Atlas Env: [$(ATLAS_ENV)]"
+	@echo "DB Host    : [$(DB_HOST)]"
+	@echo "DB User    : [$(DB_USER)]"
+	@echo "DB Name    : [$(DB_NAME)]"
+	@echo "SSL Mode   : [$(DB_SSL_MODE)]"
+	@echo "Full DSN   : $(DB_DSN)"
+	@echo "Atlas Env  : [$(ATLAS_ENV)]"
+	@echo "PayPal Mode: [$(PAYPAL_MODE)]"
 
 # ==============================================================================
 # 3. DATABASE MANAGEMENT WITH ATLAS (MIGRATIONS)

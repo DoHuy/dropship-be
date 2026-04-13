@@ -1,38 +1,45 @@
-Name: dropshipbe.rpc
-ListenOn: 0.0.0.0:8080
-# Etcd:
-#   Hosts:
-#   - 127.0.0.1:2379
-#   Key: dropshipbe.rpc
-DB:
-  Host: localhost
-  Port: 5432
-  User: huydv
-  Password: SecretPassword123
-  DBName: uk_dropship_db
-  SSLMode: disable
-  MaxOpenConns: 100
-  MaxIdleConns: 10
+Name: ${APP_NAME}
+ListenOn: ${LISTEN_ON}
 
-CacheConf: # module cache go-zero
-  - Host: 127.0.0.1:6379
-    Pass: SecretRedisPassword123
-CacheTTL: 30 # in minutes
+Log:
+  ServiceName: ${APP_NAME}
+  Mode: ${LOG_MODE}      
+  Level: ${LOG_LEVEL}       
+  Path: ${LOG_PATH}         
+  KeepDays: ${LOG_KEEP_DAYS}   
+  Encoding: ${LOG_ENCODING}
+
+DB:
+  Host: ${DB_HOST}
+  Port: ${DB_PORT}
+  User: ${DB_USER}
+  Password: ${DB_PASSWORD}
+  DBName: ${DB_NAME}
+  SSLMode: ${DB_SSL_MODE}
+  MaxOpenConns: ${DB_MAX_OPEN_CONNS}
+  MaxIdleConns: ${DB_MAX_IDLE_CONNS}
+
+CacheConf: 
+  - Host: ${CACHE_HOST}
+    Pass: ${CACHE_PASS}
+
+CacheTTL: ${CACHE_TTL_MINUTES} 
+
 JWT:
-  SecretKey: hackathon_super_secret_key_2024
-  ExpireDuration: 72 # in hours
+  SecretKey: ${JWT_SECRET_KEY}
+  ExpireDuration: ${JWT_EXPIRE_HOURS}
 
 R2:
-  AccountID: c9d03a66f0127f656366a6df5069fa51
-  AccessKey: 28e4570a75dc0484f7498c1e27c77b31
-  SecretKey: 44f5a7fd59cb33b23750a0cf2751b36617c104ef929d1ba7b209cee911872936
-  BucketName: dropshipbe
-  LinkExpiration: 30 # in minutes
+  AccountID: ${R2_ACCOUNT_ID}
+  AccessKey: ${R2_ACCESS_KEY}
+  SecretKey: ${R2_SECRET_KEY}
+  BucketName: ${R2_BUCKET_NAME}
+  LinkExpiration: ${R2_LINK_EXPIRATION_MINUTES}
 
 VALIDATE:
   EmailRegex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
   PhoneRegex: "^\\+?[1-9]\\d{1,14}$"
-  StorageMaxSize: 10485760 # 10 MB in bytes
+  StorageMaxSize: ${VALIDATE_STORAGE_MAX_SIZE} 
   AllowedFileTypes:
     - image/jpeg
     - image/png
@@ -40,12 +47,16 @@ VALIDATE:
 
 KqPusherConf:
   Brokers:
-    - 127.0.0.1:9092  
-    - 127.0.0.1:9093 
-    - 127.0.0.1:9094
-  OrderTopic: "order-events"
-  NotificationTopic: "notification-events"  
-  EmailMarketingTopic: "email-marketing-events"
-  # Cấu hình tối ưu Pusher
-  ChunkSize: 500       # Gom 500 tin nhắn mới gửi 1 lần
-  FlushInterval: 100   # Hoặc tối đa 100 mili-giây sẽ gửi 1 lần (tùy điều kiện nào đến trước) 
+    - ${KAFKA_BROKER_1}  
+    - ${KAFKA_BROKER_2} 
+    - ${KAFKA_BROKER_3}
+  OrderTopic: ${KQPUSHER_ORDER_TOPIC}
+  NotificationTopic: ${KQPUSHER_NOTIFICATION_TOPIC}  
+  EmailMarketingTopic: ${KQPUSHER_EMAIL_MARKETING_TOPIC}
+  ChunkSize: ${KQPUSHER_CHUNK_SIZE}       
+  FlushInterval: ${KQPUSHER_FLUSH_INTERVAL}   
+
+PayPal:
+  Mode: ${PAYPAL_MODE} 
+  ClientID: ${PAYPAL_CLIENT_ID}
+  Secret: ${PAYPAL_SECRET}

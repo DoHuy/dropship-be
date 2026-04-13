@@ -34,4 +34,9 @@ type Config struct {
 		ChunkSize           int `json:",default=500"`
 		FlushInterval       int `json:",default=100"` // Flush interval in milliseconds
 	}
+	PayPal struct {
+		Mode     string
+		ClientID string
+		Secret   string
+	}
 }

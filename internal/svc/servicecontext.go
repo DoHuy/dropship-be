@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/syncx"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -25,6 +26,8 @@ type ServiceContext struct {
 	Config                       config.Config
 	S3Client                     *s3.Client
 	PresignClient                *s3.PresignClient
+	DB                           *gorm.DB
+	Redis                        *redis.Redis
 	EcommerceRepo                repository.EcommerceRepository
 	KqOrderPusherClient          *kq.Pusher
 	KqNotificationPusherClient   *kq.Pusher
@@ -98,8 +101,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		kq.WithFlushInterval(flushDuration),
 	}
 
+	// 4. [BỔ SUNG] Khởi tạo Redis Client độc lập cho Inventory (Lấy từ node Cache đầu tiên)
+	var rds *redis.Redis
+	if len(c.CacheConf) > 0 {
+		rds = redis.New(c.CacheConf[0].Host, redis.WithPass(c.CacheConf[0].Pass))
+	} else {
+		log.Fatalf("Lỗi: Không tìm thấy cấu hình Cache/Redis")
+	}
+
 	return &ServiceContext{
 		Config:                       c,
+		DB:                           db,
+		Redis:                        rds,
 		S3Client:                     s3Client,
 		PresignClient:                presignClient,
 		EcommerceRepo:                repository.NewEcommerceRepository(db, dropShipCache),

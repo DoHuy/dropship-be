@@ -7,8 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
+	"github.com/joho/godotenv"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/gateway"
 	"github.com/zeromicro/go-zero/rest"
@@ -20,9 +22,17 @@ var gatewayConfigFile = flag.String("f", "etc/gateway.yaml", "tệp cấu hình 
 
 func main() {
 	flag.Parse()
+	// 1. Tải file .env giống như cách chúng ta đã làm cho RPC Server
+	if err := godotenv.Load(); err != nil {
+		log.Println("Cảnh báo: Không tìm thấy file .env cho Gateway, sẽ dùng biến môi trường hệ thống.")
+	}
 
 	var c gateway.GatewayConf
-	conf.MustLoad(*gatewayConfigFile, &c)
+	// Sử dụng conf.UseEnv() để tự động ánh xạ các biến ${ENV} trong file gateway.yaml
+	err := conf.Load(*gatewayConfigFile, &c, conf.UseEnv())
+	if err != nil {
+		log.Fatalf("❌ LỖI: Load file YAML Gateway thất bại: %v", err)
+	}
 
 	gw := gateway.MustNewServer(c)
 	defer gw.Stop()

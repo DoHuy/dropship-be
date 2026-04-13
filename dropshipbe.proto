@@ -378,7 +378,6 @@ message CreateOrderRequest {
   string customer_email = 2 [(validate.rules).string.email = true]; 
   string customer_name = 3 [(validate.rules).string = {min_len: 2}];
   
-  // ---> Phần bạn vừa bổ sung <---
   string shipping_address = 4 [(validate.rules).string.max_len = 1000];
   string shipping_method = 5 [(validate.rules).string.max_len = 100];
 }

@@ -103,3 +103,7 @@ func SocialProductVideoListKey(productId uint64, country_code string) string {
 func VideoBannerKey(country_code string) string {
 	return fmt.Sprintf("%svideo_banner:country:%s", PrefixProduct, country_code)
 }
+
+func ProductVariantStock(variantID string) string {
+	return fmt.Sprintf("%s:VariantID:stock:%s", PrefixProduct, variantID)
+}

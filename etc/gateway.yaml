@@ -1,10 +1,10 @@
-Name: dropship-gateway
-Host: 0.0.0.0
-Port: 8888
+Name: ${GATEWAY_NAME}
+Host: ${GATEWAY_HOST}
+Port: ${GATEWAY_PORT}
 
 Upstreams:
   - Grpc:
-      Target: 127.0.0.1:8080
+      Target: ${RPC_SERVER_TARGET}
     ProtoSets:
       - dropshipbe.pb
     Mappings:
