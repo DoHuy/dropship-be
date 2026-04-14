@@ -78,7 +78,7 @@ status: ## Check migration status in the DB
 # ==============================================================================
 
 # Khai báo các lệnh giả (không phải tên file)
-.PHONY: gen rpc gw
+.PHONY: gen rpc gw mq
 
 # Lệnh sinh mã nguồn Protobuf, Validate và Gateway Descriptor
 gen:
@@ -104,3 +104,8 @@ rpc:
 gw:
 	@echo "Khởi động API Gateway..."
 	go run gateway/gateway.go -f etc/gateway.yaml
+
+# Lệnh chạy message queue consumers
+mq:
+	@echo "Khởi động Message Queue (Kafka Consumer)..."
+	go run mq/mq.go -f etc/mq.yaml

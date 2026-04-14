@@ -182,8 +182,8 @@ func (l *CaptureOrderLogic) CaptureOrder(in *dropshipbe.CaptureOrderRequest) (*d
 		"event_type":     "ORDER_PAID",
 		"order_id":       order.ID,
 		"order_number":   order.OrderNumber,
-		"customer_email": paypalEmail,  // Sử dụng email lấy từ PayPal
-		"customer_name":  shippingName, // Sử dụng tên lấy từ PayPal
+		"customer_email": paypalEmail,
+		"customer_name":  shippingName,
 		"total_amount":   order.TotalPrice,
 		"currency":       order.Currency,
 		"timestamp":      time.Now().Unix(),
@@ -193,8 +193,8 @@ func (l *CaptureOrderLogic) CaptureOrder(in *dropshipbe.CaptureOrderRequest) (*d
 	if err != nil {
 		l.Logger.Errorf("Failed to Marshal Kafka Event for order %s: %v", order.OrderNumber, err)
 	} else {
-		if l.svcCtx.KqOrderPusherClient != nil {
-			err = l.svcCtx.KqOrderPusherClient.Push(l.ctx, string(msgBytes))
+		if l.svcCtx.KqNotificationPusherClient != nil {
+			err = l.svcCtx.KqNotificationPusherClient.Push(l.ctx, string(msgBytes))
 			if err != nil {
 				l.Logger.Errorf("Failed to push Kafka event for order %s: %v", order.OrderNumber, err)
 			} else {

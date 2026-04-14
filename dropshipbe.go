@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("❌ LỖI: Không thể đọc file .env! Hãy đảm bảo file tên là '.env' nằm cùng thư mục với dropshipbe.go. Chi tiết: %v", err)
+		log.Fatalf("❌ Hãy đảm bảo toàn bộ các biến môi trường trong .env được export: %v", err)
 	}
 
 	// 2. [DEBUG] Kiểm tra thực tế giá trị biến LOG_MODE
@@ -36,7 +36,7 @@ func main() {
 	fmt.Printf("🔍 DEBUG: Chương trình đọc được biến LOG_MODE = '%s'\n", logMode)
 
 	if logMode == "" {
-		log.Fatalf("❌ LỖI: File .env đã được đọc, nhưng LOG_MODE bị trống. Hãy kiểm tra lại nội dung file .env!")
+		log.Fatalf("❌ Hãy đảm bảo toàn bộ các biến môi trường trong .env được export")
 	}
 
 	// 3. Load config với tuỳ chọn conf.UseEnv() để go-zero tự map biến

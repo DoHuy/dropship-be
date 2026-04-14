@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+  # ==========================================
+  # 1. DATABASE & CACHE
+  # ==========================================
   db:
     image: postgres:15-alpine
     container_name: uk_dropship_db
@@ -29,7 +32,7 @@ services:
       - uk_dropship_net
 
   # ==========================================
-  # KAFKA CLUSTER (3 BROKERS - CONFLUENT IMAGE)
+  # 2. KAFKA CLUSTER (3 BROKERS - KRAFT MODE)
   # ==========================================
   kafka1:
     image: confluentinc/cp-kafka:7.6.0
@@ -111,6 +114,74 @@ services:
       - kafka1
       - kafka2
       - kafka3
+
+  # ==========================================
+  # 3. APPLICATION SERVICES (GO-ZERO)
+  # ==========================================
+  
+  dropship-rpc:
+    build:
+      context: . 
+      args:
+        BUILD_TARGET: dropshipbe.go
+    container_name: uk_dropship_rpc
+    restart: always
+    env_file:
+      - .env
+    environment:
+      # OVERRIDE: Trong Docker network, phải gọi tên container thay vì localhost
+      - DB_HOST=db
+      - REDIS_HOST=redis
+      - KAFKA_BROKER_1=kafka1:29092
+      - KAFKA_BROKER_2=kafka2:29092
+      - KAFKA_BROKER_3=kafka3:29092
+    command: ["./app_service", "-f", "etc/dropshipbe.yaml"]
+    networks:
+      - uk_dropship_net
+    depends_on:
+      - db
+      - redis
+      - kafka1
+
+  dropship-gateway:
+    build:
+      context: .
+      args:
+        BUILD_TARGET: gateway/gateway.go
+    container_name: uk_dropship_gateway
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+    command: ["./app_service", "-f", "etc/gateway.yaml"]
+    ports:
+      - "8888:8888" # Cổng Public để Frontend gọi vào
+    networks:
+      - uk_dropship_net
+    depends_on:
+      - dropship-rpc
+
+  dropship-mq:
+    build:
+      context: .
+      args:
+        BUILD_TARGET: mq/mq.go
+    container_name: uk_dropship_mq
+    restart: always
+    env_file:
+      - .env
+    environment:
+      # OVERRIDE: MQ Service kết nối đến Kafka nội bộ
+      - KAFKA_BROKER_1=kafka1:29092
+      - KAFKA_BROKER_2=kafka2:29092
+      - KAFKA_BROKER_3=kafka3:29092
+    command: ["./app_service", "-f", "etc/mq.yaml"]
+    networks:
+      - uk_dropship_net
+    depends_on:
+      - dropship-rpc
+      - kafka1
 
 volumes:
   postgres_data:

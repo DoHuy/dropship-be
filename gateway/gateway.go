@@ -22,13 +22,11 @@ var gatewayConfigFile = flag.String("f", "etc/gateway.yaml", "tệp cấu hình 
 
 func main() {
 	flag.Parse()
-	// 1. Tải file .env giống như cách chúng ta đã làm cho RPC Server
 	if err := godotenv.Load(); err != nil {
-		log.Println("Cảnh báo: Không tìm thấy file .env cho Gateway, sẽ dùng biến môi trường hệ thống.")
+		log.Fatalf("❌ Hãy đảm bảo toàn bộ các biến môi trường trong .env được export: %v", err)
 	}
 
 	var c gateway.GatewayConf
-	// Sử dụng conf.UseEnv() để tự động ánh xạ các biến ${ENV} trong file gateway.yaml
 	err := conf.Load(*gatewayConfigFile, &c, conf.UseEnv())
 	if err != nil {
 		log.Fatalf("❌ LỖI: Load file YAML Gateway thất bại: %v", err)
