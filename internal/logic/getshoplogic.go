@@ -129,6 +129,12 @@ func (l *GetShopLogic) convertOptions(options []model.Option) []*dropshipbe.Opti
 
 func (l *GetShopLogic) convertVariants(variants []model.Variant) []*dropshipbe.Variant {
 	var variantItems []*dropshipbe.Variant
+
+	expirationDuration := time.Duration(l.svcCtx.Config.R2.LinkExpiration) * time.Minute
+	contextWithTimeout, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+
+	defer cancel()
+
 	for _, v := range variants {
 		var variantOptionValueItems []*dropshipbe.VariantOption
 		for _, ov := range v.OptionValues {
@@ -139,10 +145,21 @@ func (l *GetShopLogic) convertVariants(variants []model.Variant) []*dropshipbe.V
 				OptionValue:   ov.Value,
 			})
 		}
+
+		presignedImage, err := l.svcCtx.PresignClient.PresignGetObject(contextWithTimeout, &s3.GetObjectInput{
+			Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
+			Key:    aws.String(v.ImageURL),
+		}, s3.WithPresignExpires(expirationDuration))
+
+		if err != nil {
+			l.Logger.Errorf("Lỗi khi tạo presigned URL cho image variant %s: %v", v.ImageURL, err)
+			continue // Bỏ qua video này nếu có lỗi
+		}
 		variantItems = append(variantItems, &dropshipbe.Variant{
 			Id:             v.ID,
 			Sku:            v.Sku,
 			ProductId:      v.ProductID,
+			ImageUrl:       presignedImage.URL,
 			Price:          float32(v.Price),
 			Barcode:        v.Barcode,
 			CompareAtPrice: float32(v.CompareAtPrice),

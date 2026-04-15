@@ -184,9 +184,9 @@ type Variant struct {
 	ID        uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
 	ProductID uint64 `gorm:"not null;index" json:"product_id"`
 
-	Sku     string `gorm:"type:varchar(100);not null;uniqueIndex:idx_variants_sku" json:"sku"`
-	Barcode string `gorm:"type:varchar(100)" json:"barcode"`
-
+	Sku      string `gorm:"type:varchar(100);not null;uniqueIndex:idx_variants_sku" json:"sku"`
+	Barcode  string `gorm:"type:varchar(100)" json:"barcode"`
+	ImageURL string `gorm:"type:varchar(255)" json:"image_url,omitempty"`
 	// Pricing
 	Price          float64 `gorm:"type:numeric(15,2);not null" json:"price"`
 	CompareAtPrice float64 `gorm:"type:numeric(15,2)" json:"compare_at_price"`

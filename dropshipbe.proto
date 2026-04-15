@@ -81,6 +81,7 @@ message Variant {
   repeated VariantOption options = 9;
   bool is_active = 10;
   string created_at = 11;
+  string image_url = 12;
 }
 
 // 7. Bậc giá (Price Tier)

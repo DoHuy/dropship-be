@@ -603,6 +603,7 @@ type Variant struct {
 	Options        []*VariantOption       `protobuf:"bytes,9,rep,name=options,proto3" json:"options,omitempty"`
 	IsActive       bool                   `protobuf:"varint,10,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	CreatedAt      string                 `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ImageUrl       string                 `protobuf:"bytes,12,opt,name=image_url,json=imageUrl,proto3" json:"image_url,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -710,6 +711,13 @@ func (x *Variant) GetIsActive() bool {
 func (x *Variant) GetCreatedAt() string {
 	if x != nil {
 		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Variant) GetImageUrl() string {
+	if x != nil {
+		return x.ImageUrl
 	}
 	return ""
 }
@@ -3878,7 +3886,7 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\voption_code\x18\x02 \x01(\tR\n" +
 	"optionCode\x12&\n" +
 	"\x0foption_value_id\x18\x03 \x01(\x04R\roptionValueId\x12!\n" +
-	"\foption_value\x18\x04 \x01(\tR\voptionValue\"\xdb\x02\n" +
+	"\foption_value\x18\x04 \x01(\tR\voptionValue\"\xf8\x02\n" +
 	"\aVariant\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1d\n" +
 	"\n" +
@@ -3894,7 +3902,8 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\tis_active\x18\n" +
 	" \x01(\bR\bisActive\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\v \x01(\tR\tcreatedAt\"\xa3\x02\n" +
+	"created_at\x18\v \x01(\tR\tcreatedAt\x12\x1b\n" +
+	"\timage_url\x18\f \x01(\tR\bimageUrl\"\xa3\x02\n" +
 	"\tPriceTier\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x1d\n" +
 	"\n" +

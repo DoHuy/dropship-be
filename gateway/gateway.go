@@ -5,7 +5,6 @@ import (
 	"dropshipbe/dropshipbe"
 	"dropshipbe/dropshipbeclient"
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -70,7 +69,7 @@ func main() {
 	// Đăng ký Middleware ở đây:
 	gw.Use(middleware.BuildCommonResponse)
 
-	fmt.Printf("Bắt đầu Gateway Server (REST API) tại %s:%d...\n", c.Host, c.Port)
+	log.Printf("Bắt đầu Gateway Server (REST API) tại %s:%d...\n", c.Host, c.Port)
 	gw.Start()
 }
 

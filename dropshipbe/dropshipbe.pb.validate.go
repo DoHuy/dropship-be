@@ -1005,6 +1005,8 @@ func (m *Variant) validate(all bool) error {
 
 	// no validation rules for CreatedAt
 
+	// no validation rules for ImageUrl
+
 	if len(errors) > 0 {
 		return VariantMultiError(errors)
 	}

@@ -63,7 +63,7 @@ func (l *GetFeaturedProductsLogic) convertGaleries(images []model.ProductImage) 
 		}, s3.WithPresignExpires(expirationDuration))
 
 		if err != nil {
-			logx.Errorf("Lỗi khi tạo presigned URL cho image %s: %v", i.ImageURL, err)
+			l.Logger.Errorf("Lỗi khi tạo presigned URL cho image %s: %v", i.ImageURL, err)
 			continue // Bỏ qua ảnh này nếu có lỗi
 		}
 
@@ -73,7 +73,7 @@ func (l *GetFeaturedProductsLogic) convertGaleries(images []model.ProductImage) 
 		}, s3.WithPresignExpires(expirationDuration))
 
 		if err != nil {
-			logx.Errorf("Lỗi khi tạo presigned URL cho video %s: %v", i.VideoURL, err)
+			l.Logger.Errorf("Lỗi khi tạo presigned URL cho video %s: %v", i.VideoURL, err)
 			continue // Bỏ qua video này nếu có lỗi
 		}
 
@@ -130,6 +130,12 @@ func (l *GetFeaturedProductsLogic) convertOptions(options []model.Option) []*dro
 
 func (l *GetFeaturedProductsLogic) convertVariants(variants []model.Variant) []*dropshipbe.Variant {
 	var variantItems []*dropshipbe.Variant
+
+	expirationDuration := time.Duration(l.svcCtx.Config.R2.LinkExpiration) * time.Minute
+	contextWithTimeout, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+
+	defer cancel()
+
 	for _, v := range variants {
 		var variantOptionValueItems []*dropshipbe.VariantOption
 		for _, ov := range v.OptionValues {
@@ -140,10 +146,21 @@ func (l *GetFeaturedProductsLogic) convertVariants(variants []model.Variant) []*
 				OptionValue:   ov.Value,
 			})
 		}
+
+		presignedImage, err := l.svcCtx.PresignClient.PresignGetObject(contextWithTimeout, &s3.GetObjectInput{
+			Bucket: aws.String(l.svcCtx.Config.R2.BucketName),
+			Key:    aws.String(v.ImageURL),
+		}, s3.WithPresignExpires(expirationDuration))
+
+		if err != nil {
+			l.Logger.Errorf("Lỗi khi tạo presigned URL cho image variant %s: %v", v.ImageURL, err)
+			continue // Bỏ qua video này nếu có lỗi
+		}
 		variantItems = append(variantItems, &dropshipbe.Variant{
 			Id:             v.ID,
 			Sku:            v.Sku,
 			ProductId:      v.ProductID,
+			ImageUrl:       presignedImage.URL,
 			Price:          float32(v.Price),
 			Barcode:        v.Barcode,
 			CompareAtPrice: float32(v.CompareAtPrice),
@@ -161,7 +178,7 @@ func (l *GetFeaturedProductsLogic) convertTags(jsonData datatypes.JSON) []string
 	var tags []string
 	err := json.Unmarshal(jsonData, &tags)
 	if err != nil {
-		logx.Errorf("Lỗi khi chuyển đổi tags: %v", err)
+		l.Logger.Errorf("Lỗi khi chuyển đổi tags: %v", err)
 		return []string{}
 	}
 	return tags
@@ -171,7 +188,7 @@ func (l *GetFeaturedProductsLogic) GetFeaturedProducts(in *dropshipbe.DefaultReq
 	// todo: add your logic here and delete this line
 	products, err := l.svcCtx.EcommerceRepo.GetFeaturedProducts(l.ctx, in)
 	if err != nil {
-		logx.Errorf("Lỗi khi lấy sản phẩm: %v", err)
+		l.Logger.Errorf("Lỗi khi lấy sản phẩm: %v", err)
 		return nil, err
 	}
 
