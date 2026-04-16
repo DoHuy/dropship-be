@@ -112,3 +112,10 @@ func ProductVariantStock(variantID string) string {
 func CreateOrderNumber() string {
 	return fmt.Sprintf("ORD-%d", time.Now().Unix())
 }
+
+func FrequentlyBoughtListKey(productId uint64, countryCode string) string {
+	if countryCode == "" {
+		return fmt.Sprintf("%sfrequentlyBought:list:relatedId:%d:all", PrefixProduct, productId)
+	}
+	return fmt.Sprintf("%sfrequentlyBought:list:relatedId:%d:country:%s", PrefixProduct, productId, countryCode)
+}

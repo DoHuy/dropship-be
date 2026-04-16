@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"dropshipbe/mq/internal/config"
 	"dropshipbe/mq/internal/consumer"
@@ -19,6 +22,11 @@ var configFile = flag.String("f", "etc/mq.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	// 1. Tạo Context lắng nghe tín hiệu tắt từ Hệ điều hành (Graceful Shutdown)
+	// Context này sẽ bị cancel khi nhận được tín hiệu SIGINT (Ctrl+C) hoặc SIGTERM.
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer cancel() // Đảm bảo giải phóng tài nguyên khi hàm main kết thúc
 
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("❌ Hãy đảm bảo toàn bộ các biến môi trường trong .env được export: %v", err)
@@ -46,7 +54,7 @@ func main() {
 
 	logx.Info("✅ Hệ thống Log đã sẵn sàng")
 
-	notificationLogic := consumer.NewNotificationConsumer(c)
+	notificationLogic := consumer.NewNotificationConsumer(ctx, c)
 	notificationQueue := kq.MustNewQueue(c.NotificationConsumer, notificationLogic)
 	sg.Add(notificationQueue)
 

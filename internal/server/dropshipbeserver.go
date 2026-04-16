@@ -65,6 +65,11 @@ func (s *DropshipbeServer) CreateProduct(ctx context.Context, in *dropshipbe.Cre
 	return l.CreateProduct(in)
 }
 
+func (s *DropshipbeServer) GetFrequentlyBoughtProducts(ctx context.Context, in *dropshipbe.GetFrequentlyBoughtProductsRequest) (*dropshipbe.ProductListResponse, error) {
+	l := logic.NewGetFrequentlyBoughtProductsLogic(ctx, s.svcCtx)
+	return l.GetFrequentlyBoughtProducts(in)
+}
+
 // --- Shop Search ---
 func (s *DropshipbeServer) GetShop(ctx context.Context, in *dropshipbe.ShopSearchParams) (*dropshipbe.ProductListResponse, error) {
 	l := logic.NewGetShopLogic(ctx, s.svcCtx)

@@ -446,6 +446,11 @@ message GetInventoryResponse {
   repeated VariantInventory variant_stocks = 3; // Chi tiết tồn kho theo từng biến thể
 }
 
+message GetFrequentlyBoughtProductsRequest {
+  uint64 product_id = 1 [(validate.rules).uint64.gt = 0]; // ID của sản phẩm chính
+  string country_code = 2; // Mã quốc gia để filter (nếu cần)
+}
+
 
 // ==========================================
 // DỊCH VỤ (SERVICE) THUẦN TÚY
@@ -463,7 +468,7 @@ service Dropshipbe {
   rpc GetFeaturedProducts (DefaultRequest) returns (ProductListResponse);
   rpc GetNewProducts (DefaultRequest) returns (ProductListResponse);
   rpc CreateProduct (CreateProductRequest) returns (Product);
-
+  rpc GetFrequentlyBoughtProducts (GetFrequentlyBoughtProductsRequest) returns (ProductListResponse);
   // --- Shop Search ---
   rpc GetShop (ShopSearchParams) returns (ProductListResponse);
 

@@ -40,6 +40,7 @@ func main() {
 		&model.ProductPriceTier{},
 		&model.Slider{},
 		&model.OrderItem{},
+		&model.FrequentlyBought{},
 	)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to load gorm schema: %v\n", err)

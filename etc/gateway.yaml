@@ -79,4 +79,6 @@ Upstreams:
       - Method: get
         Path: /api/v1/products/:product_id/inventory
         RpcPath: dropshipbe.Dropshipbe/GetInventory                
-                           
+      - Method: get
+        Path: /api/v1/products/:product_id/frequently-bought
+        RpcPath: dropshipbe.Dropshipbe/GetFrequentlyBoughtProducts                           

@@ -14,65 +14,66 @@ import (
 )
 
 type (
-	Banner                       = dropshipbe.Banner
-	BannerListResponse           = dropshipbe.BannerListResponse
-	Blog                         = dropshipbe.Blog
-	BlogCategory                 = dropshipbe.BlogCategory
-	BlogDetailResponse           = dropshipbe.BlogDetailResponse
-	BlogListResponse             = dropshipbe.BlogListResponse
-	CaptureOrderRequest          = dropshipbe.CaptureOrderRequest
-	CaptureOrderResponse         = dropshipbe.CaptureOrderResponse
-	CartItem                     = dropshipbe.CartItem
-	Category                     = dropshipbe.Category
-	CategoryListResponse         = dropshipbe.CategoryListResponse
-	CreateNewBlogRequest         = dropshipbe.CreateNewBlogRequest
-	CreateOptionRequest          = dropshipbe.CreateOptionRequest
-	CreateOptionValueRequest     = dropshipbe.CreateOptionValueRequest
-	CreateOrderRequest           = dropshipbe.CreateOrderRequest
-	CreateOrderResponse          = dropshipbe.CreateOrderResponse
-	CreateProductFaqRequest      = dropshipbe.CreateProductFaqRequest
-	CreateProductRequest         = dropshipbe.CreateProductRequest
-	CreateProductReviewRequest   = dropshipbe.CreateProductReviewRequest
-	DefaultRequest               = dropshipbe.DefaultRequest
-	DeleteFileRequest            = dropshipbe.DeleteFileRequest
-	DeleteFileResponse           = dropshipbe.DeleteFileResponse
-	Faq                          = dropshipbe.Faq
-	FaqListResponse              = dropshipbe.FaqListResponse
-	FileData                     = dropshipbe.FileData
-	Gallery                      = dropshipbe.Gallery
-	GalleryListResponse          = dropshipbe.GalleryListResponse
-	GetBlogBySlugRequest         = dropshipbe.GetBlogBySlugRequest
-	GetInventoryRequest          = dropshipbe.GetInventoryRequest
-	GetInventoryResponse         = dropshipbe.GetInventoryResponse
-	GetProductBySlugRequest      = dropshipbe.GetProductBySlugRequest
-	GetProductFaqsRequest        = dropshipbe.GetProductFaqsRequest
-	GetProductReviewsRequest     = dropshipbe.GetProductReviewsRequest
-	GetProductsByCategoryRequest = dropshipbe.GetProductsByCategoryRequest
-	GetRelatedProductsRequest    = dropshipbe.GetRelatedProductsRequest
-	GetSocialProductVideoRequest = dropshipbe.GetSocialProductVideoRequest
-	LoginRequest                 = dropshipbe.LoginRequest
-	LoginResponse                = dropshipbe.LoginResponse
-	Option                       = dropshipbe.Option
-	OptionValue                  = dropshipbe.OptionValue
-	PayPalWebhookRequest         = dropshipbe.PayPalWebhookRequest
-	PayPalWebhookResource        = dropshipbe.PayPalWebhookResource
-	PriceTier                    = dropshipbe.PriceTier
-	Product                      = dropshipbe.Product
-	ProductListResponse          = dropshipbe.ProductListResponse
-	Request                      = dropshipbe.Request
-	Response                     = dropshipbe.Response
-	ReviewItem                   = dropshipbe.ReviewItem
-	ReviewSummary                = dropshipbe.ReviewSummary
-	ShopSearchParams             = dropshipbe.ShopSearchParams
-	Slider                       = dropshipbe.Slider
-	SliderListResponse           = dropshipbe.SliderListResponse
-	UploadFileRequest            = dropshipbe.UploadFileRequest
-	UploadFileResponse           = dropshipbe.UploadFileResponse
-	UploadedFileInfo             = dropshipbe.UploadedFileInfo
-	Variant                      = dropshipbe.Variant
-	VariantInventory             = dropshipbe.VariantInventory
-	VariantOption                = dropshipbe.VariantOption
-	WebhookResponse              = dropshipbe.WebhookResponse
+	Banner                             = dropshipbe.Banner
+	BannerListResponse                 = dropshipbe.BannerListResponse
+	Blog                               = dropshipbe.Blog
+	BlogCategory                       = dropshipbe.BlogCategory
+	BlogDetailResponse                 = dropshipbe.BlogDetailResponse
+	BlogListResponse                   = dropshipbe.BlogListResponse
+	CaptureOrderRequest                = dropshipbe.CaptureOrderRequest
+	CaptureOrderResponse               = dropshipbe.CaptureOrderResponse
+	CartItem                           = dropshipbe.CartItem
+	Category                           = dropshipbe.Category
+	CategoryListResponse               = dropshipbe.CategoryListResponse
+	CreateNewBlogRequest               = dropshipbe.CreateNewBlogRequest
+	CreateOptionRequest                = dropshipbe.CreateOptionRequest
+	CreateOptionValueRequest           = dropshipbe.CreateOptionValueRequest
+	CreateOrderRequest                 = dropshipbe.CreateOrderRequest
+	CreateOrderResponse                = dropshipbe.CreateOrderResponse
+	CreateProductFaqRequest            = dropshipbe.CreateProductFaqRequest
+	CreateProductRequest               = dropshipbe.CreateProductRequest
+	CreateProductReviewRequest         = dropshipbe.CreateProductReviewRequest
+	DefaultRequest                     = dropshipbe.DefaultRequest
+	DeleteFileRequest                  = dropshipbe.DeleteFileRequest
+	DeleteFileResponse                 = dropshipbe.DeleteFileResponse
+	Faq                                = dropshipbe.Faq
+	FaqListResponse                    = dropshipbe.FaqListResponse
+	FileData                           = dropshipbe.FileData
+	Gallery                            = dropshipbe.Gallery
+	GalleryListResponse                = dropshipbe.GalleryListResponse
+	GetBlogBySlugRequest               = dropshipbe.GetBlogBySlugRequest
+	GetFrequentlyBoughtProductsRequest = dropshipbe.GetFrequentlyBoughtProductsRequest
+	GetInventoryRequest                = dropshipbe.GetInventoryRequest
+	GetInventoryResponse               = dropshipbe.GetInventoryResponse
+	GetProductBySlugRequest            = dropshipbe.GetProductBySlugRequest
+	GetProductFaqsRequest              = dropshipbe.GetProductFaqsRequest
+	GetProductReviewsRequest           = dropshipbe.GetProductReviewsRequest
+	GetProductsByCategoryRequest       = dropshipbe.GetProductsByCategoryRequest
+	GetRelatedProductsRequest          = dropshipbe.GetRelatedProductsRequest
+	GetSocialProductVideoRequest       = dropshipbe.GetSocialProductVideoRequest
+	LoginRequest                       = dropshipbe.LoginRequest
+	LoginResponse                      = dropshipbe.LoginResponse
+	Option                             = dropshipbe.Option
+	OptionValue                        = dropshipbe.OptionValue
+	PayPalWebhookRequest               = dropshipbe.PayPalWebhookRequest
+	PayPalWebhookResource              = dropshipbe.PayPalWebhookResource
+	PriceTier                          = dropshipbe.PriceTier
+	Product                            = dropshipbe.Product
+	ProductListResponse                = dropshipbe.ProductListResponse
+	Request                            = dropshipbe.Request
+	Response                           = dropshipbe.Response
+	ReviewItem                         = dropshipbe.ReviewItem
+	ReviewSummary                      = dropshipbe.ReviewSummary
+	ShopSearchParams                   = dropshipbe.ShopSearchParams
+	Slider                             = dropshipbe.Slider
+	SliderListResponse                 = dropshipbe.SliderListResponse
+	UploadFileRequest                  = dropshipbe.UploadFileRequest
+	UploadFileResponse                 = dropshipbe.UploadFileResponse
+	UploadedFileInfo                   = dropshipbe.UploadedFileInfo
+	Variant                            = dropshipbe.Variant
+	VariantInventory                   = dropshipbe.VariantInventory
+	VariantOption                      = dropshipbe.VariantOption
+	WebhookResponse                    = dropshipbe.WebhookResponse
 
 	Dropshipbe interface {
 		// --- Inventory ---
@@ -85,6 +86,7 @@ type (
 		GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error)
+		GetFrequentlyBoughtProducts(ctx context.Context, in *GetFrequentlyBoughtProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		// --- Shop Search ---
 		GetShop(ctx context.Context, in *ShopSearchParams, opts ...grpc.CallOption) (*ProductListResponse, error)
 		// --- Media/Galleries ---
@@ -174,6 +176,11 @@ func (m *defaultDropshipbe) GetNewProducts(ctx context.Context, in *DefaultReque
 func (m *defaultDropshipbe) CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error) {
 	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
 	return client.CreateProduct(ctx, in, opts...)
+}
+
+func (m *defaultDropshipbe) GetFrequentlyBoughtProducts(ctx context.Context, in *GetFrequentlyBoughtProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.GetFrequentlyBoughtProducts(ctx, in, opts...)
 }
 
 // --- Shop Search ---

@@ -100,12 +100,37 @@ type Product struct {
 	// Images gộp chung cả Gallery, DescriptionImages và SocialVideos (phân loại bằng Type)
 	Images []ProductImage `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"images,omitempty"`
 
-	Country    *Country           `gorm:"foreignKey:CountryCode;references:Code" json:"country,omitempty"`
-	Options    []Option           `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"options,omitempty"`
-	Variants   []Variant          `gorm:"foreignKey:ProductID" json:"variants,omitempty"`
-	PriceTiers []ProductPriceTier `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"price_tiers,omitempty"`
-	Reviews    []ProductReview    `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"reviews,omitempty"`
-	FAQs       []ProductFAQ       `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"faqs,omitempty"` // [NEW]
+	Country          *Country           `gorm:"foreignKey:CountryCode;references:Code" json:"country,omitempty"`
+	Options          []Option           `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"options,omitempty"`
+	Variants         []Variant          `gorm:"foreignKey:ProductID" json:"variants,omitempty"`
+	PriceTiers       []ProductPriceTier `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"price_tiers,omitempty"`
+	Reviews          []ProductReview    `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"reviews,omitempty"`
+	FAQs             []ProductFAQ       `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"faqs,omitempty"` // [NEW]
+	FrequentlyBought []FrequentlyBought `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE" json:"frequently_bought,omitempty"`
+}
+
+// FrequentlyBought reflects table "frequently_boughts"
+// Bảng này lưu trữ các sản phẩm thường được mua kèm với một sản phẩm chính
+type FrequentlyBought struct {
+	ID uint64 `gorm:"primaryKey;autoIncrement" json:"id"`
+
+	// ID của sản phẩm chính (Sản phẩm đang xem ở trang chi tiết)
+	ProductID uint64 `gorm:"not null;uniqueIndex:idx_product_bought_with,priority:1" json:"product_id"`
+
+	// ID của sản phẩm được gợi ý mua kèm
+	BoughtWithProductID uint64 `gorm:"not null;uniqueIndex:idx_product_bought_with,priority:2" json:"bought_with_product_id"`
+
+	// --- Cấu hình hiển thị ---
+	SortOrder int   `gorm:"default:0" json:"sort_order"`   // Vị trí sắp xếp khi hiển thị
+	IsActive  *bool `gorm:"default:true" json:"is_active"` // Cho phép ẩn/hiện gợi ý này
+
+	CreatedAt *time.Time `gorm:"autoCreateTime;type:timestamptz" json:"created_at"`
+	UpdatedAt *time.Time `gorm:"autoUpdateTime;type:timestamptz" json:"updated_at"`
+
+	// --- Relationships ---
+	// Liên kết ngược lại với bảng Product để ORM có thể Preload dữ liệu
+	Product           *Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`
+	BoughtWithProduct *Product `gorm:"foreignKey:BoughtWithProductID" json:"bought_with_product,omitempty"`
 }
 
 // ProductFAQ reflects table "product_faqs" (NEW TABLE)

@@ -19,38 +19,39 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Dropshipbe_GetInventory_FullMethodName           = "/dropshipbe.Dropshipbe/GetInventory"
-	Dropshipbe_GetProducts_FullMethodName            = "/dropshipbe.Dropshipbe/GetProducts"
-	Dropshipbe_GetProductBySlug_FullMethodName       = "/dropshipbe.Dropshipbe/GetProductBySlug"
-	Dropshipbe_GetProductsByCategory_FullMethodName  = "/dropshipbe.Dropshipbe/GetProductsByCategory"
-	Dropshipbe_GetRelatedProducts_FullMethodName     = "/dropshipbe.Dropshipbe/GetRelatedProducts"
-	Dropshipbe_GetFeaturedProducts_FullMethodName    = "/dropshipbe.Dropshipbe/GetFeaturedProducts"
-	Dropshipbe_GetNewProducts_FullMethodName         = "/dropshipbe.Dropshipbe/GetNewProducts"
-	Dropshipbe_CreateProduct_FullMethodName          = "/dropshipbe.Dropshipbe/CreateProduct"
-	Dropshipbe_GetShop_FullMethodName                = "/dropshipbe.Dropshipbe/GetShop"
-	Dropshipbe_GetSocialProductVideos_FullMethodName = "/dropshipbe.Dropshipbe/GetSocialProductVideos"
-	Dropshipbe_GetProductFaqs_FullMethodName         = "/dropshipbe.Dropshipbe/GetProductFaqs"
-	Dropshipbe_CreateProductFaq_FullMethodName       = "/dropshipbe.Dropshipbe/CreateProductFaq"
-	Dropshipbe_GetProductReviews_FullMethodName      = "/dropshipbe.Dropshipbe/GetProductReviews"
-	Dropshipbe_CreateProductReview_FullMethodName    = "/dropshipbe.Dropshipbe/CreateProductReview"
-	Dropshipbe_GetSliderItems_FullMethodName         = "/dropshipbe.Dropshipbe/GetSliderItems"
-	Dropshipbe_GetCategoryItems_FullMethodName       = "/dropshipbe.Dropshipbe/GetCategoryItems"
-	Dropshipbe_GetBannerItems_FullMethodName         = "/dropshipbe.Dropshipbe/GetBannerItems"
-	Dropshipbe_GetVideoBanner_FullMethodName         = "/dropshipbe.Dropshipbe/GetVideoBanner"
-	Dropshipbe_GetBlogItems_FullMethodName           = "/dropshipbe.Dropshipbe/GetBlogItems"
-	Dropshipbe_GetBlogBySlug_FullMethodName          = "/dropshipbe.Dropshipbe/GetBlogBySlug"
-	Dropshipbe_CreateNewBlog_FullMethodName          = "/dropshipbe.Dropshipbe/CreateNewBlog"
-	Dropshipbe_CreateOption_FullMethodName           = "/dropshipbe.Dropshipbe/CreateOption"
-	Dropshipbe_CreateOptionValue_FullMethodName      = "/dropshipbe.Dropshipbe/CreateOptionValue"
-	Dropshipbe_Login_FullMethodName                  = "/dropshipbe.Dropshipbe/Login"
-	Dropshipbe_UploadFile_FullMethodName             = "/dropshipbe.Dropshipbe/UploadFile"
-	Dropshipbe_DeleteFile_FullMethodName             = "/dropshipbe.Dropshipbe/DeleteFile"
-	Dropshipbe_CreateOrder_FullMethodName            = "/dropshipbe.Dropshipbe/CreateOrder"
-	Dropshipbe_CaptureOrder_FullMethodName           = "/dropshipbe.Dropshipbe/CaptureOrder"
-	Dropshipbe_HookPaymentSuccess_FullMethodName     = "/dropshipbe.Dropshipbe/HookPaymentSuccess"
-	Dropshipbe_HookPaymentRefund_FullMethodName      = "/dropshipbe.Dropshipbe/HookPaymentRefund"
-	Dropshipbe_HookPaymentFailed_FullMethodName      = "/dropshipbe.Dropshipbe/HookPaymentFailed"
-	Dropshipbe_Ping_FullMethodName                   = "/dropshipbe.Dropshipbe/Ping"
+	Dropshipbe_GetInventory_FullMethodName                = "/dropshipbe.Dropshipbe/GetInventory"
+	Dropshipbe_GetProducts_FullMethodName                 = "/dropshipbe.Dropshipbe/GetProducts"
+	Dropshipbe_GetProductBySlug_FullMethodName            = "/dropshipbe.Dropshipbe/GetProductBySlug"
+	Dropshipbe_GetProductsByCategory_FullMethodName       = "/dropshipbe.Dropshipbe/GetProductsByCategory"
+	Dropshipbe_GetRelatedProducts_FullMethodName          = "/dropshipbe.Dropshipbe/GetRelatedProducts"
+	Dropshipbe_GetFeaturedProducts_FullMethodName         = "/dropshipbe.Dropshipbe/GetFeaturedProducts"
+	Dropshipbe_GetNewProducts_FullMethodName              = "/dropshipbe.Dropshipbe/GetNewProducts"
+	Dropshipbe_CreateProduct_FullMethodName               = "/dropshipbe.Dropshipbe/CreateProduct"
+	Dropshipbe_GetFrequentlyBoughtProducts_FullMethodName = "/dropshipbe.Dropshipbe/GetFrequentlyBoughtProducts"
+	Dropshipbe_GetShop_FullMethodName                     = "/dropshipbe.Dropshipbe/GetShop"
+	Dropshipbe_GetSocialProductVideos_FullMethodName      = "/dropshipbe.Dropshipbe/GetSocialProductVideos"
+	Dropshipbe_GetProductFaqs_FullMethodName              = "/dropshipbe.Dropshipbe/GetProductFaqs"
+	Dropshipbe_CreateProductFaq_FullMethodName            = "/dropshipbe.Dropshipbe/CreateProductFaq"
+	Dropshipbe_GetProductReviews_FullMethodName           = "/dropshipbe.Dropshipbe/GetProductReviews"
+	Dropshipbe_CreateProductReview_FullMethodName         = "/dropshipbe.Dropshipbe/CreateProductReview"
+	Dropshipbe_GetSliderItems_FullMethodName              = "/dropshipbe.Dropshipbe/GetSliderItems"
+	Dropshipbe_GetCategoryItems_FullMethodName            = "/dropshipbe.Dropshipbe/GetCategoryItems"
+	Dropshipbe_GetBannerItems_FullMethodName              = "/dropshipbe.Dropshipbe/GetBannerItems"
+	Dropshipbe_GetVideoBanner_FullMethodName              = "/dropshipbe.Dropshipbe/GetVideoBanner"
+	Dropshipbe_GetBlogItems_FullMethodName                = "/dropshipbe.Dropshipbe/GetBlogItems"
+	Dropshipbe_GetBlogBySlug_FullMethodName               = "/dropshipbe.Dropshipbe/GetBlogBySlug"
+	Dropshipbe_CreateNewBlog_FullMethodName               = "/dropshipbe.Dropshipbe/CreateNewBlog"
+	Dropshipbe_CreateOption_FullMethodName                = "/dropshipbe.Dropshipbe/CreateOption"
+	Dropshipbe_CreateOptionValue_FullMethodName           = "/dropshipbe.Dropshipbe/CreateOptionValue"
+	Dropshipbe_Login_FullMethodName                       = "/dropshipbe.Dropshipbe/Login"
+	Dropshipbe_UploadFile_FullMethodName                  = "/dropshipbe.Dropshipbe/UploadFile"
+	Dropshipbe_DeleteFile_FullMethodName                  = "/dropshipbe.Dropshipbe/DeleteFile"
+	Dropshipbe_CreateOrder_FullMethodName                 = "/dropshipbe.Dropshipbe/CreateOrder"
+	Dropshipbe_CaptureOrder_FullMethodName                = "/dropshipbe.Dropshipbe/CaptureOrder"
+	Dropshipbe_HookPaymentSuccess_FullMethodName          = "/dropshipbe.Dropshipbe/HookPaymentSuccess"
+	Dropshipbe_HookPaymentRefund_FullMethodName           = "/dropshipbe.Dropshipbe/HookPaymentRefund"
+	Dropshipbe_HookPaymentFailed_FullMethodName           = "/dropshipbe.Dropshipbe/HookPaymentFailed"
+	Dropshipbe_Ping_FullMethodName                        = "/dropshipbe.Dropshipbe/Ping"
 )
 
 // DropshipbeClient is the client API for Dropshipbe service.
@@ -67,6 +68,7 @@ type DropshipbeClient interface {
 	GetFeaturedProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	GetNewProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error)
+	GetFrequentlyBoughtProducts(ctx context.Context, in *GetFrequentlyBoughtProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	// --- Shop Search ---
 	GetShop(ctx context.Context, in *ShopSearchParams, opts ...grpc.CallOption) (*ProductListResponse, error)
 	// --- Media/Galleries ---
@@ -187,6 +189,16 @@ func (c *dropshipbeClient) CreateProduct(ctx context.Context, in *CreateProductR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Product)
 	err := c.cc.Invoke(ctx, Dropshipbe_CreateProduct_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dropshipbeClient) GetFrequentlyBoughtProducts(ctx context.Context, in *GetFrequentlyBoughtProductsRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProductListResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_GetFrequentlyBoughtProducts_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -447,6 +459,7 @@ type DropshipbeServer interface {
 	GetFeaturedProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
 	GetNewProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
 	CreateProduct(context.Context, *CreateProductRequest) (*Product, error)
+	GetFrequentlyBoughtProducts(context.Context, *GetFrequentlyBoughtProductsRequest) (*ProductListResponse, error)
 	// --- Shop Search ---
 	GetShop(context.Context, *ShopSearchParams) (*ProductListResponse, error)
 	// --- Media/Galleries ---
@@ -516,6 +529,9 @@ func (UnimplementedDropshipbeServer) GetNewProducts(context.Context, *DefaultReq
 }
 func (UnimplementedDropshipbeServer) CreateProduct(context.Context, *CreateProductRequest) (*Product, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateProduct not implemented")
+}
+func (UnimplementedDropshipbeServer) GetFrequentlyBoughtProducts(context.Context, *GetFrequentlyBoughtProductsRequest) (*ProductListResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetFrequentlyBoughtProducts not implemented")
 }
 func (UnimplementedDropshipbeServer) GetShop(context.Context, *ShopSearchParams) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetShop not implemented")
@@ -750,6 +766,24 @@ func _Dropshipbe_CreateProduct_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DropshipbeServer).CreateProduct(ctx, req.(*CreateProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dropshipbe_GetFrequentlyBoughtProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFrequentlyBoughtProductsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).GetFrequentlyBoughtProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_GetFrequentlyBoughtProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).GetFrequentlyBoughtProducts(ctx, req.(*GetFrequentlyBoughtProductsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1224,6 +1258,10 @@ var Dropshipbe_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProduct",
 			Handler:    _Dropshipbe_CreateProduct_Handler,
+		},
+		{
+			MethodName: "GetFrequentlyBoughtProducts",
+			Handler:    _Dropshipbe_GetFrequentlyBoughtProducts_Handler,
 		},
 		{
 			MethodName: "GetShop",

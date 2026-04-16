@@ -30,11 +30,41 @@ type EcommerceRepository interface {
 	GetSocialProductVideos(ctx context.Context, request *dropshipbe.GetSocialProductVideoRequest) ([]model.ProductImage, error)
 	GetVideoBanner(ctx context.Context, request *dropshipbe.DefaultRequest) (*model.Banner, error)
 	CreateProductReview(ctx context.Context, request *dropshipbe.CreateProductReviewRequest) (*model.ProductReview, error)
+	GetFrequentlyBoughtProducts(ctx context.Context, request *dropshipbe.GetFrequentlyBoughtProductsRequest) ([]model.FrequentlyBought, error)
 }
 
 type defaultEcommerceRepository struct {
 	db    *gorm.DB
 	cache cache.Cache // Nhận bộ nhớ đệm đã được tuỳ biến TTL từ bên ngoài
+}
+
+// GetFrequentlyBoughtProducts implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetFrequentlyBoughtProducts(ctx context.Context, request *dropshipbe.GetFrequentlyBoughtProductsRequest) ([]model.FrequentlyBought, error) {
+	var items []model.FrequentlyBought
+
+	// Tạo cache key (bạn cần định nghĩa FrequentlyBoughtListKey trong package constant)
+	cacheKey := constant.FrequentlyBoughtListKey(request.ProductId, request.CountryCode)
+
+	err := d.cache.TakeCtx(ctx, &items, cacheKey, func(v any) error {
+		query := d.db.Model(&model.FrequentlyBought{}).
+			Where("product_id = ? AND is_active = ?", request.ProductId, true).
+			Order("sort_order ASC").
+			Preload("BoughtWithProduct").
+			Preload("BoughtWithProduct.Country").
+			Preload("BoughtWithProduct.Categories").
+			Preload("BoughtWithProduct.Images").
+			Preload("BoughtWithProduct.PriceTiers").
+			Preload("BoughtWithProduct.Options.OptionValues").
+			Preload("BoughtWithProduct.Variants.OptionValues")
+
+		return query.Find(v).Error
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return items, nil
 }
 
 // GetProductByID implements [EcommerceRepository].

@@ -3988,6 +3988,58 @@ func (x *GetInventoryResponse) GetVariantStocks() []*VariantInventory {
 	return nil
 }
 
+type GetFrequentlyBoughtProductsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     uint64                 `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`      // ID của sản phẩm chính
+	CountryCode   string                 `protobuf:"bytes,2,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"` // Mã quốc gia để filter (nếu cần)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFrequentlyBoughtProductsRequest) Reset() {
+	*x = GetFrequentlyBoughtProductsRequest{}
+	mi := &file_dropshipbe_proto_msgTypes[59]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFrequentlyBoughtProductsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFrequentlyBoughtProductsRequest) ProtoMessage() {}
+
+func (x *GetFrequentlyBoughtProductsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[59]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFrequentlyBoughtProductsRequest.ProtoReflect.Descriptor instead.
+func (*GetFrequentlyBoughtProductsRequest) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{59}
+}
+
+func (x *GetFrequentlyBoughtProductsRequest) GetProductId() uint64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *GetFrequentlyBoughtProductsRequest) GetCountryCode() string {
+	if x != nil {
+		return x.CountryCode
+	}
+	return ""
+}
+
 var File_dropshipbe_proto protoreflect.FileDescriptor
 
 const file_dropshipbe_proto_rawDesc = "" +
@@ -4343,7 +4395,11 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"product_id\x18\x01 \x01(\x04R\tproductId\x12\x1f\n" +
 	"\vtotal_stock\x18\x02 \x01(\x05R\n" +
 	"totalStock\x12C\n" +
-	"\x0evariant_stocks\x18\x03 \x03(\v2\x1c.dropshipbe.VariantInventoryR\rvariantStocks2\xf4\x13\n" +
+	"\x0evariant_stocks\x18\x03 \x03(\v2\x1c.dropshipbe.VariantInventoryR\rvariantStocks\"o\n" +
+	"\"GetFrequentlyBoughtProductsRequest\x12&\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\tproductId\x12!\n" +
+	"\fcountry_code\x18\x02 \x01(\tR\vcountryCode2\xe4\x14\n" +
 	"\n" +
 	"Dropshipbe\x12Q\n" +
 	"\fGetInventory\x12\x1f.dropshipbe.GetInventoryRequest\x1a .dropshipbe.GetInventoryResponse\x12J\n" +
@@ -4353,7 +4409,8 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\x12GetRelatedProducts\x12%.dropshipbe.GetRelatedProductsRequest\x1a\x1f.dropshipbe.ProductListResponse\x12R\n" +
 	"\x13GetFeaturedProducts\x12\x1a.dropshipbe.DefaultRequest\x1a\x1f.dropshipbe.ProductListResponse\x12M\n" +
 	"\x0eGetNewProducts\x12\x1a.dropshipbe.DefaultRequest\x1a\x1f.dropshipbe.ProductListResponse\x12F\n" +
-	"\rCreateProduct\x12 .dropshipbe.CreateProductRequest\x1a\x13.dropshipbe.Product\x12H\n" +
+	"\rCreateProduct\x12 .dropshipbe.CreateProductRequest\x1a\x13.dropshipbe.Product\x12n\n" +
+	"\x1bGetFrequentlyBoughtProducts\x12..dropshipbe.GetFrequentlyBoughtProductsRequest\x1a\x1f.dropshipbe.ProductListResponse\x12H\n" +
 	"\aGetShop\x12\x1c.dropshipbe.ShopSearchParams\x1a\x1f.dropshipbe.ProductListResponse\x12c\n" +
 	"\x16GetSocialProductVideos\x12(.dropshipbe.GetSocialProductVideoRequest\x1a\x1f.dropshipbe.GalleryListResponse\x12P\n" +
 	"\x0eGetProductFaqs\x12!.dropshipbe.GetProductFaqsRequest\x1a\x1b.dropshipbe.FaqListResponse\x12H\n" +
@@ -4393,74 +4450,75 @@ func file_dropshipbe_proto_rawDescGZIP() []byte {
 	return file_dropshipbe_proto_rawDescData
 }
 
-var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 61)
+var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 62)
 var file_dropshipbe_proto_goTypes = []any{
-	(*Request)(nil),                      // 0: dropshipbe.Request
-	(*Response)(nil),                     // 1: dropshipbe.Response
-	(*DefaultRequest)(nil),               // 2: dropshipbe.DefaultRequest
-	(*Category)(nil),                     // 3: dropshipbe.Category
-	(*Gallery)(nil),                      // 4: dropshipbe.Gallery
-	(*OptionValue)(nil),                  // 5: dropshipbe.OptionValue
-	(*Option)(nil),                       // 6: dropshipbe.Option
-	(*VariantOption)(nil),                // 7: dropshipbe.VariantOption
-	(*Variant)(nil),                      // 8: dropshipbe.Variant
-	(*PriceTier)(nil),                    // 9: dropshipbe.PriceTier
-	(*Product)(nil),                      // 10: dropshipbe.Product
-	(*ReviewItem)(nil),                   // 11: dropshipbe.ReviewItem
-	(*ReviewSummary)(nil),                // 12: dropshipbe.ReviewSummary
-	(*Faq)(nil),                          // 13: dropshipbe.Faq
-	(*Slider)(nil),                       // 14: dropshipbe.Slider
-	(*Banner)(nil),                       // 15: dropshipbe.Banner
-	(*BlogCategory)(nil),                 // 16: dropshipbe.BlogCategory
-	(*Blog)(nil),                         // 17: dropshipbe.Blog
-	(*ProductListResponse)(nil),          // 18: dropshipbe.ProductListResponse
-	(*GetProductBySlugRequest)(nil),      // 19: dropshipbe.GetProductBySlugRequest
-	(*GetProductsByCategoryRequest)(nil), // 20: dropshipbe.GetProductsByCategoryRequest
-	(*ShopSearchParams)(nil),             // 21: dropshipbe.ShopSearchParams
-	(*GalleryListResponse)(nil),          // 22: dropshipbe.GalleryListResponse
-	(*FaqListResponse)(nil),              // 23: dropshipbe.FaqListResponse
-	(*SliderListResponse)(nil),           // 24: dropshipbe.SliderListResponse
-	(*CategoryListResponse)(nil),         // 25: dropshipbe.CategoryListResponse
-	(*BannerListResponse)(nil),           // 26: dropshipbe.BannerListResponse
-	(*BlogListResponse)(nil),             // 27: dropshipbe.BlogListResponse
-	(*GetBlogBySlugRequest)(nil),         // 28: dropshipbe.GetBlogBySlugRequest
-	(*BlogDetailResponse)(nil),           // 29: dropshipbe.BlogDetailResponse
-	(*GetRelatedProductsRequest)(nil),    // 30: dropshipbe.GetRelatedProductsRequest
-	(*GetProductReviewsRequest)(nil),     // 31: dropshipbe.GetProductReviewsRequest
-	(*GetSocialProductVideoRequest)(nil), // 32: dropshipbe.GetSocialProductVideoRequest
-	(*GetProductFaqsRequest)(nil),        // 33: dropshipbe.GetProductFaqsRequest
-	(*CreateProductRequest)(nil),         // 34: dropshipbe.CreateProductRequest
-	(*FileData)(nil),                     // 35: dropshipbe.FileData
-	(*UploadFileRequest)(nil),            // 36: dropshipbe.UploadFileRequest
-	(*UploadedFileInfo)(nil),             // 37: dropshipbe.UploadedFileInfo
-	(*UploadFileResponse)(nil),           // 38: dropshipbe.UploadFileResponse
-	(*DeleteFileRequest)(nil),            // 39: dropshipbe.DeleteFileRequest
-	(*DeleteFileResponse)(nil),           // 40: dropshipbe.DeleteFileResponse
-	(*CreateProductFaqRequest)(nil),      // 41: dropshipbe.CreateProductFaqRequest
-	(*CreateProductReviewRequest)(nil),   // 42: dropshipbe.CreateProductReviewRequest
-	(*CreateNewBlogRequest)(nil),         // 43: dropshipbe.CreateNewBlogRequest
-	(*CreateOptionRequest)(nil),          // 44: dropshipbe.CreateOptionRequest
-	(*CreateOptionValueRequest)(nil),     // 45: dropshipbe.CreateOptionValueRequest
-	(*LoginRequest)(nil),                 // 46: dropshipbe.LoginRequest
-	(*LoginResponse)(nil),                // 47: dropshipbe.LoginResponse
-	(*CartItem)(nil),                     // 48: dropshipbe.CartItem
-	(*CreateOrderRequest)(nil),           // 49: dropshipbe.CreateOrderRequest
-	(*CreateOrderResponse)(nil),          // 50: dropshipbe.CreateOrderResponse
-	(*CaptureOrderRequest)(nil),          // 51: dropshipbe.CaptureOrderRequest
-	(*CaptureOrderResponse)(nil),         // 52: dropshipbe.CaptureOrderResponse
-	(*PayPalWebhookResource)(nil),        // 53: dropshipbe.PayPalWebhookResource
-	(*PayPalWebhookRequest)(nil),         // 54: dropshipbe.PayPalWebhookRequest
-	(*WebhookResponse)(nil),              // 55: dropshipbe.WebhookResponse
-	(*VariantInventory)(nil),             // 56: dropshipbe.VariantInventory
-	(*GetInventoryRequest)(nil),          // 57: dropshipbe.GetInventoryRequest
-	(*GetInventoryResponse)(nil),         // 58: dropshipbe.GetInventoryResponse
-	nil,                                  // 59: dropshipbe.Product.MetadataEntry
-	nil,                                  // 60: dropshipbe.ReviewSummary.RatingEntry
+	(*Request)(nil),                            // 0: dropshipbe.Request
+	(*Response)(nil),                           // 1: dropshipbe.Response
+	(*DefaultRequest)(nil),                     // 2: dropshipbe.DefaultRequest
+	(*Category)(nil),                           // 3: dropshipbe.Category
+	(*Gallery)(nil),                            // 4: dropshipbe.Gallery
+	(*OptionValue)(nil),                        // 5: dropshipbe.OptionValue
+	(*Option)(nil),                             // 6: dropshipbe.Option
+	(*VariantOption)(nil),                      // 7: dropshipbe.VariantOption
+	(*Variant)(nil),                            // 8: dropshipbe.Variant
+	(*PriceTier)(nil),                          // 9: dropshipbe.PriceTier
+	(*Product)(nil),                            // 10: dropshipbe.Product
+	(*ReviewItem)(nil),                         // 11: dropshipbe.ReviewItem
+	(*ReviewSummary)(nil),                      // 12: dropshipbe.ReviewSummary
+	(*Faq)(nil),                                // 13: dropshipbe.Faq
+	(*Slider)(nil),                             // 14: dropshipbe.Slider
+	(*Banner)(nil),                             // 15: dropshipbe.Banner
+	(*BlogCategory)(nil),                       // 16: dropshipbe.BlogCategory
+	(*Blog)(nil),                               // 17: dropshipbe.Blog
+	(*ProductListResponse)(nil),                // 18: dropshipbe.ProductListResponse
+	(*GetProductBySlugRequest)(nil),            // 19: dropshipbe.GetProductBySlugRequest
+	(*GetProductsByCategoryRequest)(nil),       // 20: dropshipbe.GetProductsByCategoryRequest
+	(*ShopSearchParams)(nil),                   // 21: dropshipbe.ShopSearchParams
+	(*GalleryListResponse)(nil),                // 22: dropshipbe.GalleryListResponse
+	(*FaqListResponse)(nil),                    // 23: dropshipbe.FaqListResponse
+	(*SliderListResponse)(nil),                 // 24: dropshipbe.SliderListResponse
+	(*CategoryListResponse)(nil),               // 25: dropshipbe.CategoryListResponse
+	(*BannerListResponse)(nil),                 // 26: dropshipbe.BannerListResponse
+	(*BlogListResponse)(nil),                   // 27: dropshipbe.BlogListResponse
+	(*GetBlogBySlugRequest)(nil),               // 28: dropshipbe.GetBlogBySlugRequest
+	(*BlogDetailResponse)(nil),                 // 29: dropshipbe.BlogDetailResponse
+	(*GetRelatedProductsRequest)(nil),          // 30: dropshipbe.GetRelatedProductsRequest
+	(*GetProductReviewsRequest)(nil),           // 31: dropshipbe.GetProductReviewsRequest
+	(*GetSocialProductVideoRequest)(nil),       // 32: dropshipbe.GetSocialProductVideoRequest
+	(*GetProductFaqsRequest)(nil),              // 33: dropshipbe.GetProductFaqsRequest
+	(*CreateProductRequest)(nil),               // 34: dropshipbe.CreateProductRequest
+	(*FileData)(nil),                           // 35: dropshipbe.FileData
+	(*UploadFileRequest)(nil),                  // 36: dropshipbe.UploadFileRequest
+	(*UploadedFileInfo)(nil),                   // 37: dropshipbe.UploadedFileInfo
+	(*UploadFileResponse)(nil),                 // 38: dropshipbe.UploadFileResponse
+	(*DeleteFileRequest)(nil),                  // 39: dropshipbe.DeleteFileRequest
+	(*DeleteFileResponse)(nil),                 // 40: dropshipbe.DeleteFileResponse
+	(*CreateProductFaqRequest)(nil),            // 41: dropshipbe.CreateProductFaqRequest
+	(*CreateProductReviewRequest)(nil),         // 42: dropshipbe.CreateProductReviewRequest
+	(*CreateNewBlogRequest)(nil),               // 43: dropshipbe.CreateNewBlogRequest
+	(*CreateOptionRequest)(nil),                // 44: dropshipbe.CreateOptionRequest
+	(*CreateOptionValueRequest)(nil),           // 45: dropshipbe.CreateOptionValueRequest
+	(*LoginRequest)(nil),                       // 46: dropshipbe.LoginRequest
+	(*LoginResponse)(nil),                      // 47: dropshipbe.LoginResponse
+	(*CartItem)(nil),                           // 48: dropshipbe.CartItem
+	(*CreateOrderRequest)(nil),                 // 49: dropshipbe.CreateOrderRequest
+	(*CreateOrderResponse)(nil),                // 50: dropshipbe.CreateOrderResponse
+	(*CaptureOrderRequest)(nil),                // 51: dropshipbe.CaptureOrderRequest
+	(*CaptureOrderResponse)(nil),               // 52: dropshipbe.CaptureOrderResponse
+	(*PayPalWebhookResource)(nil),              // 53: dropshipbe.PayPalWebhookResource
+	(*PayPalWebhookRequest)(nil),               // 54: dropshipbe.PayPalWebhookRequest
+	(*WebhookResponse)(nil),                    // 55: dropshipbe.WebhookResponse
+	(*VariantInventory)(nil),                   // 56: dropshipbe.VariantInventory
+	(*GetInventoryRequest)(nil),                // 57: dropshipbe.GetInventoryRequest
+	(*GetInventoryResponse)(nil),               // 58: dropshipbe.GetInventoryResponse
+	(*GetFrequentlyBoughtProductsRequest)(nil), // 59: dropshipbe.GetFrequentlyBoughtProductsRequest
+	nil, // 60: dropshipbe.Product.MetadataEntry
+	nil, // 61: dropshipbe.ReviewSummary.RatingEntry
 }
 var file_dropshipbe_proto_depIdxs = []int32{
 	5,  // 0: dropshipbe.Option.option_values:type_name -> dropshipbe.OptionValue
 	7,  // 1: dropshipbe.Variant.options:type_name -> dropshipbe.VariantOption
-	59, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
+	60, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
 	3,  // 3: dropshipbe.Product.categories:type_name -> dropshipbe.Category
 	4,  // 4: dropshipbe.Product.galleries:type_name -> dropshipbe.Gallery
 	4,  // 5: dropshipbe.Product.description_images:type_name -> dropshipbe.Gallery
@@ -4468,7 +4526,7 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	8,  // 7: dropshipbe.Product.variants:type_name -> dropshipbe.Variant
 	9,  // 8: dropshipbe.Product.product_price_tiers:type_name -> dropshipbe.PriceTier
 	11, // 9: dropshipbe.ReviewSummary.reviews:type_name -> dropshipbe.ReviewItem
-	60, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
+	61, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
 	16, // 11: dropshipbe.Blog.category:type_name -> dropshipbe.BlogCategory
 	10, // 12: dropshipbe.ProductListResponse.products:type_name -> dropshipbe.Product
 	4,  // 13: dropshipbe.GalleryListResponse.galleries:type_name -> dropshipbe.Gallery
@@ -4492,64 +4550,66 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	2,  // 31: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
 	2,  // 32: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
 	34, // 33: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
-	21, // 34: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
-	32, // 35: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
-	33, // 36: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
-	41, // 37: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
-	31, // 38: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
-	42, // 39: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
-	2,  // 40: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 41: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 42: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 43: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
-	2,  // 44: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
-	28, // 45: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
-	43, // 46: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
-	44, // 47: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
-	45, // 48: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
-	46, // 49: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
-	36, // 50: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
-	39, // 51: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
-	49, // 52: dropshipbe.Dropshipbe.CreateOrder:input_type -> dropshipbe.CreateOrderRequest
-	51, // 53: dropshipbe.Dropshipbe.CaptureOrder:input_type -> dropshipbe.CaptureOrderRequest
-	54, // 54: dropshipbe.Dropshipbe.HookPaymentSuccess:input_type -> dropshipbe.PayPalWebhookRequest
-	54, // 55: dropshipbe.Dropshipbe.HookPaymentRefund:input_type -> dropshipbe.PayPalWebhookRequest
-	54, // 56: dropshipbe.Dropshipbe.HookPaymentFailed:input_type -> dropshipbe.PayPalWebhookRequest
-	0,  // 57: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
-	58, // 58: dropshipbe.Dropshipbe.GetInventory:output_type -> dropshipbe.GetInventoryResponse
-	18, // 59: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 60: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
-	18, // 61: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
-	18, // 62: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 63: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 64: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 65: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
-	18, // 66: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
-	22, // 67: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
-	23, // 68: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
-	13, // 69: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
-	12, // 70: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
-	11, // 71: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
-	24, // 72: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
-	25, // 73: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
-	26, // 74: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
-	15, // 75: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
-	27, // 76: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
-	29, // 77: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
-	17, // 78: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
-	6,  // 79: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
-	5,  // 80: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
-	47, // 81: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
-	38, // 82: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
-	40, // 83: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
-	50, // 84: dropshipbe.Dropshipbe.CreateOrder:output_type -> dropshipbe.CreateOrderResponse
-	52, // 85: dropshipbe.Dropshipbe.CaptureOrder:output_type -> dropshipbe.CaptureOrderResponse
-	55, // 86: dropshipbe.Dropshipbe.HookPaymentSuccess:output_type -> dropshipbe.WebhookResponse
-	55, // 87: dropshipbe.Dropshipbe.HookPaymentRefund:output_type -> dropshipbe.WebhookResponse
-	55, // 88: dropshipbe.Dropshipbe.HookPaymentFailed:output_type -> dropshipbe.WebhookResponse
-	1,  // 89: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
-	58, // [58:90] is the sub-list for method output_type
-	26, // [26:58] is the sub-list for method input_type
+	59, // 34: dropshipbe.Dropshipbe.GetFrequentlyBoughtProducts:input_type -> dropshipbe.GetFrequentlyBoughtProductsRequest
+	21, // 35: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
+	32, // 36: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
+	33, // 37: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
+	41, // 38: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
+	31, // 39: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
+	42, // 40: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
+	2,  // 41: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 42: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 43: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 44: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
+	2,  // 45: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
+	28, // 46: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
+	43, // 47: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
+	44, // 48: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
+	45, // 49: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
+	46, // 50: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
+	36, // 51: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
+	39, // 52: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
+	49, // 53: dropshipbe.Dropshipbe.CreateOrder:input_type -> dropshipbe.CreateOrderRequest
+	51, // 54: dropshipbe.Dropshipbe.CaptureOrder:input_type -> dropshipbe.CaptureOrderRequest
+	54, // 55: dropshipbe.Dropshipbe.HookPaymentSuccess:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 56: dropshipbe.Dropshipbe.HookPaymentRefund:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 57: dropshipbe.Dropshipbe.HookPaymentFailed:input_type -> dropshipbe.PayPalWebhookRequest
+	0,  // 58: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
+	58, // 59: dropshipbe.Dropshipbe.GetInventory:output_type -> dropshipbe.GetInventoryResponse
+	18, // 60: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 61: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
+	18, // 62: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
+	18, // 63: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 64: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 65: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 66: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
+	18, // 67: dropshipbe.Dropshipbe.GetFrequentlyBoughtProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 68: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
+	22, // 69: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
+	23, // 70: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
+	13, // 71: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
+	12, // 72: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
+	11, // 73: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
+	24, // 74: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
+	25, // 75: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
+	26, // 76: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
+	15, // 77: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
+	27, // 78: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
+	29, // 79: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
+	17, // 80: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
+	6,  // 81: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
+	5,  // 82: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
+	47, // 83: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
+	38, // 84: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
+	40, // 85: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
+	50, // 86: dropshipbe.Dropshipbe.CreateOrder:output_type -> dropshipbe.CreateOrderResponse
+	52, // 87: dropshipbe.Dropshipbe.CaptureOrder:output_type -> dropshipbe.CaptureOrderResponse
+	55, // 88: dropshipbe.Dropshipbe.HookPaymentSuccess:output_type -> dropshipbe.WebhookResponse
+	55, // 89: dropshipbe.Dropshipbe.HookPaymentRefund:output_type -> dropshipbe.WebhookResponse
+	55, // 90: dropshipbe.Dropshipbe.HookPaymentFailed:output_type -> dropshipbe.WebhookResponse
+	1,  // 91: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
+	59, // [59:92] is the sub-list for method output_type
+	26, // [26:59] is the sub-list for method input_type
 	26, // [26:26] is the sub-list for extension type_name
 	26, // [26:26] is the sub-list for extension extendee
 	0,  // [0:26] is the sub-list for field type_name
@@ -4570,7 +4630,7 @@ func file_dropshipbe_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dropshipbe_proto_rawDesc), len(file_dropshipbe_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   61,
+			NumMessages:   62,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
