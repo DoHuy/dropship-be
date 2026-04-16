@@ -22,6 +22,7 @@ type EcommerceRepository interface {
 	GetBlogItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.BlogPost, error)
 	GetCategoryItems(ctx context.Context, request *dropshipbe.DefaultRequest) ([]model.Category, error)
 	GetProductBySlug(ctx context.Context, request *dropshipbe.GetProductBySlugRequest) (*model.Product, error)
+	GetProductByID(ctx context.Context, Id uint64) (*model.Product, error)
 	GetProductFaqs(ctx context.Context, request *dropshipbe.GetProductFaqsRequest) ([]model.ProductFAQ, error)
 	GetProductReviews(ctx context.Context, request *dropshipbe.GetProductReviewsRequest) ([]model.ProductReview, error)
 	GetProductsByCategory(ctx context.Context, request *dropshipbe.GetProductsByCategoryRequest) ([]model.Product, error)
@@ -34,6 +35,25 @@ type EcommerceRepository interface {
 type defaultEcommerceRepository struct {
 	db    *gorm.DB
 	cache cache.Cache // Nhận bộ nhớ đệm đã được tuỳ biến TTL từ bên ngoài
+}
+
+// GetProductByID implements [EcommerceRepository].
+func (d *defaultEcommerceRepository) GetProductByID(ctx context.Context, Id uint64) (*model.Product, error) {
+	var product model.Product
+
+	query := d.db.Model(&model.Product{}).
+		Preload("Country").
+		Preload("Categories").
+		Preload("Images").
+		Preload("PriceTiers").
+		Preload("Options.OptionValues").
+		Preload("Variants.OptionValues")
+
+	if err := query.Where("id = ?", Id).First(&product).Error; err != nil {
+		return nil, err
+	}
+
+	return &product, nil
 }
 
 // CreateProductReview implements [EcommerceRepository].

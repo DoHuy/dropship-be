@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"dropshipbe/dropshipbe"
@@ -41,6 +42,12 @@ func (l *CreateProductReviewLogic) CreateProductReview(in *dropshipbe.CreateProd
 	}
 
 	// todo: add your logic here and delete this line
+	//check product exist
+	prod, err := l.svcCtx.EcommerceRepo.GetProductByID(l.ctx, in.ProductId)
+
+	if prod == nil {
+		return nil, fmt.Errorf("product not found")
+	}
 	review, err := l.svcCtx.EcommerceRepo.CreateProductReview(l.ctx, in)
 	if err != nil {
 		logx.Errorf("Lỗi khi tạo review sản phẩm: %v", err)
