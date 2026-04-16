@@ -23,6 +23,12 @@ func NewDropshipbeServer(svcCtx *svc.ServiceContext) *DropshipbeServer {
 	}
 }
 
+// --- Inventory ---
+func (s *DropshipbeServer) GetInventory(ctx context.Context, in *dropshipbe.GetInventoryRequest) (*dropshipbe.GetInventoryResponse, error) {
+	l := logic.NewGetInventoryLogic(ctx, s.svcCtx)
+	return l.GetInventory(in)
+}
+
 // --- Products ---
 func (s *DropshipbeServer) GetProducts(ctx context.Context, in *dropshipbe.DefaultRequest) (*dropshipbe.ProductListResponse, error) {
 	l := logic.NewGetProductsLogic(ctx, s.svcCtx)

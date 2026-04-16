@@ -42,6 +42,8 @@ type (
 	Gallery                      = dropshipbe.Gallery
 	GalleryListResponse          = dropshipbe.GalleryListResponse
 	GetBlogBySlugRequest         = dropshipbe.GetBlogBySlugRequest
+	GetInventoryRequest          = dropshipbe.GetInventoryRequest
+	GetInventoryResponse         = dropshipbe.GetInventoryResponse
 	GetProductBySlugRequest      = dropshipbe.GetProductBySlugRequest
 	GetProductFaqsRequest        = dropshipbe.GetProductFaqsRequest
 	GetProductReviewsRequest     = dropshipbe.GetProductReviewsRequest
@@ -68,10 +70,13 @@ type (
 	UploadFileResponse           = dropshipbe.UploadFileResponse
 	UploadedFileInfo             = dropshipbe.UploadedFileInfo
 	Variant                      = dropshipbe.Variant
+	VariantInventory             = dropshipbe.VariantInventory
 	VariantOption                = dropshipbe.VariantOption
 	WebhookResponse              = dropshipbe.WebhookResponse
 
 	Dropshipbe interface {
+		// --- Inventory ---
+		GetInventory(ctx context.Context, in *GetInventoryRequest, opts ...grpc.CallOption) (*GetInventoryResponse, error)
 		// --- Products ---
 		GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 		GetProductBySlug(ctx context.Context, in *GetProductBySlugRequest, opts ...grpc.CallOption) (*Product, error)
@@ -127,6 +132,12 @@ func NewDropshipbe(cli zrpc.Client) Dropshipbe {
 	return &defaultDropshipbe{
 		cli: cli,
 	}
+}
+
+// --- Inventory ---
+func (m *defaultDropshipbe) GetInventory(ctx context.Context, in *GetInventoryRequest, opts ...grpc.CallOption) (*GetInventoryResponse, error) {
+	client := dropshipbe.NewDropshipbeClient(m.cli.Conn())
+	return client.GetInventory(ctx, in, opts...)
 }
 
 // --- Products ---

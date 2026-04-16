@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
-	"gorm.io/gorm" // Đảm bảo bạn import đúng thư viện ORM đang dùng (gorm, sqlx, hoặc ent)
+	"gorm.io/gorm"
 )
 
 // ==========================================

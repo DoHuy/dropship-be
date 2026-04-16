@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
@@ -26,7 +25,7 @@ func main() {
 	}
 
 	logMode := os.Getenv("LOG_MODE")
-	fmt.Printf("🔍 DEBUG: Chương trình đọc được biến LOG_MODE = '%s'\n", logMode)
+	logx.Infof("🔍 DEBUG: Chương trình đọc được biến LOG_MODE = '%s'\n", logMode)
 
 	if logMode == "" {
 		log.Fatalf("❌ Hãy đảm bảo toàn bộ các biến môi trường trong .env được export")
@@ -54,6 +53,6 @@ func main() {
 	// ==========================================
 	// 4. KHỞI CHẠY SERVICE
 	// ==========================================
-	log.Printf("🚀 Khởi động MQ Service thành công! Đang rình nghe các event từ Kafka...")
+	logx.Info("🚀 Khởi động MQ Service thành công! Đang rình nghe các event từ Kafka...")
 	sg.Start()
 }

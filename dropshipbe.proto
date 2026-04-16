@@ -428,12 +428,33 @@ message WebhookResponse {
   string action_taken = 5;     
 }
 
+// Thông tin tồn kho của từng biến thể (Variant)
+message VariantInventory {
+  uint64 variant_id = 1;
+  int32 stock_quantity = 2;
+}
+
+// Request gửi lên để lấy tồn kho
+message GetInventoryRequest {
+  uint64 product_id = 1 [(validate.rules).uint64.gt = 0]; // product_id phải lớn hơn 0
+}
+
+// Response trả về chứa dữ liệu tồn kho
+message GetInventoryResponse {
+  uint64 product_id = 1;
+  int32 total_stock = 2; // Tổng tồn kho của tất cả biến thể cộng lại
+  repeated VariantInventory variant_stocks = 3; // Chi tiết tồn kho theo từng biến thể
+}
+
+
 // ==========================================
 // DỊCH VỤ (SERVICE) THUẦN TÚY
 // ==========================================
 
 service Dropshipbe {
-  
+
+  // --- Inventory ---
+  rpc GetInventory (GetInventoryRequest) returns (GetInventoryResponse);
   // --- Products ---
   rpc GetProducts (DefaultRequest) returns (ProductListResponse);
   rpc GetProductBySlug (GetProductBySlugRequest) returns (Product);

@@ -2,8 +2,11 @@ Name: MQ
 
 Log:
   ServiceName: MQ
-  Mode: ${LOG_MODE}
-  Level: ${LOG_LEVEL}
+  Mode: ${LOG_MODE}      
+  Level: ${LOG_LEVEL}       
+  Path: ${LOG_PATH}         
+  KeepDays: ${LOG_KEEP_DAYS}   
+  Encoding: ${LOG_ENCODING}
 
 # ==========================================
 # CẤU HÌNH KAFKA CONSUMER (go-queue kq)

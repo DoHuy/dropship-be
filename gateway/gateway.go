@@ -11,6 +11,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/gateway"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -30,6 +31,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("❌ LỖI: Load file YAML Gateway thất bại: %v", err)
 	}
+
+	// Thiết lập cấu hình log
+	logx.MustSetup(c.Log)
 
 	gw := gateway.MustNewServer(c)
 	defer gw.Stop()
@@ -69,7 +73,7 @@ func main() {
 	// Đăng ký Middleware ở đây:
 	gw.Use(middleware.BuildCommonResponse)
 
-	log.Printf("Bắt đầu Gateway Server (REST API) tại %s:%d...\n", c.Host, c.Port)
+	logx.Infof("Bắt đầu Gateway Server (REST API) tại %s:%d...\n", c.Host, c.Port)
 	gw.Start()
 }
 

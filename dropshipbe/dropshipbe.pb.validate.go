@@ -7169,3 +7169,360 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = WebhookResponseValidationError{}
+
+// Validate checks the field values on VariantInventory with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *VariantInventory) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VariantInventory with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VariantInventoryMultiError, or nil if none found.
+func (m *VariantInventory) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VariantInventory) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for VariantId
+
+	// no validation rules for StockQuantity
+
+	if len(errors) > 0 {
+		return VariantInventoryMultiError(errors)
+	}
+
+	return nil
+}
+
+// VariantInventoryMultiError is an error wrapping multiple validation errors
+// returned by VariantInventory.ValidateAll() if the designated constraints
+// aren't met.
+type VariantInventoryMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VariantInventoryMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VariantInventoryMultiError) AllErrors() []error { return m }
+
+// VariantInventoryValidationError is the validation error returned by
+// VariantInventory.Validate if the designated constraints aren't met.
+type VariantInventoryValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VariantInventoryValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VariantInventoryValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VariantInventoryValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VariantInventoryValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VariantInventoryValidationError) ErrorName() string { return "VariantInventoryValidationError" }
+
+// Error satisfies the builtin error interface
+func (e VariantInventoryValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVariantInventory.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VariantInventoryValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VariantInventoryValidationError{}
+
+// Validate checks the field values on GetInventoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetInventoryRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetInventoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetInventoryRequestMultiError, or nil if none found.
+func (m *GetInventoryRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetInventoryRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetProductId() <= 0 {
+		err := GetInventoryRequestValidationError{
+			field:  "ProductId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetInventoryRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetInventoryRequestMultiError is an error wrapping multiple validation
+// errors returned by GetInventoryRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetInventoryRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetInventoryRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetInventoryRequestMultiError) AllErrors() []error { return m }
+
+// GetInventoryRequestValidationError is the validation error returned by
+// GetInventoryRequest.Validate if the designated constraints aren't met.
+type GetInventoryRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetInventoryRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetInventoryRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetInventoryRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetInventoryRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetInventoryRequestValidationError) ErrorName() string {
+	return "GetInventoryRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetInventoryRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetInventoryRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetInventoryRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetInventoryRequestValidationError{}
+
+// Validate checks the field values on GetInventoryResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetInventoryResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetInventoryResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetInventoryResponseMultiError, or nil if none found.
+func (m *GetInventoryResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetInventoryResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ProductId
+
+	// no validation rules for TotalStock
+
+	for idx, item := range m.GetVariantStocks() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetInventoryResponseValidationError{
+						field:  fmt.Sprintf("VariantStocks[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetInventoryResponseValidationError{
+						field:  fmt.Sprintf("VariantStocks[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetInventoryResponseValidationError{
+					field:  fmt.Sprintf("VariantStocks[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetInventoryResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetInventoryResponseMultiError is an error wrapping multiple validation
+// errors returned by GetInventoryResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetInventoryResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetInventoryResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetInventoryResponseMultiError) AllErrors() []error { return m }
+
+// GetInventoryResponseValidationError is the validation error returned by
+// GetInventoryResponse.Validate if the designated constraints aren't met.
+type GetInventoryResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetInventoryResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetInventoryResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetInventoryResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetInventoryResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetInventoryResponseValidationError) ErrorName() string {
+	return "GetInventoryResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetInventoryResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetInventoryResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetInventoryResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetInventoryResponseValidationError{}

@@ -3829,6 +3829,165 @@ func (x *WebhookResponse) GetActionTaken() string {
 	return ""
 }
 
+// Thông tin tồn kho của từng biến thể (Variant)
+type VariantInventory struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	VariantId     uint64                 `protobuf:"varint,1,opt,name=variant_id,json=variantId,proto3" json:"variant_id,omitempty"`
+	StockQuantity int32                  `protobuf:"varint,2,opt,name=stock_quantity,json=stockQuantity,proto3" json:"stock_quantity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VariantInventory) Reset() {
+	*x = VariantInventory{}
+	mi := &file_dropshipbe_proto_msgTypes[56]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VariantInventory) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VariantInventory) ProtoMessage() {}
+
+func (x *VariantInventory) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[56]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VariantInventory.ProtoReflect.Descriptor instead.
+func (*VariantInventory) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{56}
+}
+
+func (x *VariantInventory) GetVariantId() uint64 {
+	if x != nil {
+		return x.VariantId
+	}
+	return 0
+}
+
+func (x *VariantInventory) GetStockQuantity() int32 {
+	if x != nil {
+		return x.StockQuantity
+	}
+	return 0
+}
+
+// Request gửi lên để lấy tồn kho
+type GetInventoryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     uint64                 `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"` // product_id phải lớn hơn 0
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInventoryRequest) Reset() {
+	*x = GetInventoryRequest{}
+	mi := &file_dropshipbe_proto_msgTypes[57]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInventoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInventoryRequest) ProtoMessage() {}
+
+func (x *GetInventoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[57]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInventoryRequest.ProtoReflect.Descriptor instead.
+func (*GetInventoryRequest) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{57}
+}
+
+func (x *GetInventoryRequest) GetProductId() uint64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+// Response trả về chứa dữ liệu tồn kho
+type GetInventoryResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     uint64                 `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	TotalStock    int32                  `protobuf:"varint,2,opt,name=total_stock,json=totalStock,proto3" json:"total_stock,omitempty"`         // Tổng tồn kho của tất cả biến thể cộng lại
+	VariantStocks []*VariantInventory    `protobuf:"bytes,3,rep,name=variant_stocks,json=variantStocks,proto3" json:"variant_stocks,omitempty"` // Chi tiết tồn kho theo từng biến thể
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetInventoryResponse) Reset() {
+	*x = GetInventoryResponse{}
+	mi := &file_dropshipbe_proto_msgTypes[58]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetInventoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInventoryResponse) ProtoMessage() {}
+
+func (x *GetInventoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_dropshipbe_proto_msgTypes[58]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInventoryResponse.ProtoReflect.Descriptor instead.
+func (*GetInventoryResponse) Descriptor() ([]byte, []int) {
+	return file_dropshipbe_proto_rawDescGZIP(), []int{58}
+}
+
+func (x *GetInventoryResponse) GetProductId() uint64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *GetInventoryResponse) GetTotalStock() int32 {
+	if x != nil {
+		return x.TotalStock
+	}
+	return 0
+}
+
+func (x *GetInventoryResponse) GetVariantStocks() []*VariantInventory {
+	if x != nil {
+		return x.VariantStocks
+	}
+	return nil
+}
+
 var File_dropshipbe_proto protoreflect.FileDescriptor
 
 const file_dropshipbe_proto_rawDesc = "" +
@@ -4171,9 +4330,23 @@ const file_dropshipbe_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12%\n" +
 	"\x0etransaction_id\x18\x03 \x01(\tR\rtransactionId\x12!\n" +
 	"\fprocessed_at\x18\x04 \x01(\tR\vprocessedAt\x12!\n" +
-	"\faction_taken\x18\x05 \x01(\tR\vactionTaken2\xa1\x13\n" +
+	"\faction_taken\x18\x05 \x01(\tR\vactionTaken\"X\n" +
+	"\x10VariantInventory\x12\x1d\n" +
 	"\n" +
-	"Dropshipbe\x12J\n" +
+	"variant_id\x18\x01 \x01(\x04R\tvariantId\x12%\n" +
+	"\x0estock_quantity\x18\x02 \x01(\x05R\rstockQuantity\"=\n" +
+	"\x13GetInventoryRequest\x12&\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x04B\a\xfaB\x042\x02 \x00R\tproductId\"\x9b\x01\n" +
+	"\x14GetInventoryResponse\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x04R\tproductId\x12\x1f\n" +
+	"\vtotal_stock\x18\x02 \x01(\x05R\n" +
+	"totalStock\x12C\n" +
+	"\x0evariant_stocks\x18\x03 \x03(\v2\x1c.dropshipbe.VariantInventoryR\rvariantStocks2\xf4\x13\n" +
+	"\n" +
+	"Dropshipbe\x12Q\n" +
+	"\fGetInventory\x12\x1f.dropshipbe.GetInventoryRequest\x1a .dropshipbe.GetInventoryResponse\x12J\n" +
 	"\vGetProducts\x12\x1a.dropshipbe.DefaultRequest\x1a\x1f.dropshipbe.ProductListResponse\x12L\n" +
 	"\x10GetProductBySlug\x12#.dropshipbe.GetProductBySlugRequest\x1a\x13.dropshipbe.Product\x12b\n" +
 	"\x15GetProductsByCategory\x12(.dropshipbe.GetProductsByCategoryRequest\x1a\x1f.dropshipbe.ProductListResponse\x12\\\n" +
@@ -4220,7 +4393,7 @@ func file_dropshipbe_proto_rawDescGZIP() []byte {
 	return file_dropshipbe_proto_rawDescData
 }
 
-var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 58)
+var file_dropshipbe_proto_msgTypes = make([]protoimpl.MessageInfo, 61)
 var file_dropshipbe_proto_goTypes = []any{
 	(*Request)(nil),                      // 0: dropshipbe.Request
 	(*Response)(nil),                     // 1: dropshipbe.Response
@@ -4278,13 +4451,16 @@ var file_dropshipbe_proto_goTypes = []any{
 	(*PayPalWebhookResource)(nil),        // 53: dropshipbe.PayPalWebhookResource
 	(*PayPalWebhookRequest)(nil),         // 54: dropshipbe.PayPalWebhookRequest
 	(*WebhookResponse)(nil),              // 55: dropshipbe.WebhookResponse
-	nil,                                  // 56: dropshipbe.Product.MetadataEntry
-	nil,                                  // 57: dropshipbe.ReviewSummary.RatingEntry
+	(*VariantInventory)(nil),             // 56: dropshipbe.VariantInventory
+	(*GetInventoryRequest)(nil),          // 57: dropshipbe.GetInventoryRequest
+	(*GetInventoryResponse)(nil),         // 58: dropshipbe.GetInventoryResponse
+	nil,                                  // 59: dropshipbe.Product.MetadataEntry
+	nil,                                  // 60: dropshipbe.ReviewSummary.RatingEntry
 }
 var file_dropshipbe_proto_depIdxs = []int32{
 	5,  // 0: dropshipbe.Option.option_values:type_name -> dropshipbe.OptionValue
 	7,  // 1: dropshipbe.Variant.options:type_name -> dropshipbe.VariantOption
-	56, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
+	59, // 2: dropshipbe.Product.metadata:type_name -> dropshipbe.Product.MetadataEntry
 	3,  // 3: dropshipbe.Product.categories:type_name -> dropshipbe.Category
 	4,  // 4: dropshipbe.Product.galleries:type_name -> dropshipbe.Gallery
 	4,  // 5: dropshipbe.Product.description_images:type_name -> dropshipbe.Gallery
@@ -4292,7 +4468,7 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	8,  // 7: dropshipbe.Product.variants:type_name -> dropshipbe.Variant
 	9,  // 8: dropshipbe.Product.product_price_tiers:type_name -> dropshipbe.PriceTier
 	11, // 9: dropshipbe.ReviewSummary.reviews:type_name -> dropshipbe.ReviewItem
-	57, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
+	60, // 10: dropshipbe.ReviewSummary.rating:type_name -> dropshipbe.ReviewSummary.RatingEntry
 	16, // 11: dropshipbe.Blog.category:type_name -> dropshipbe.BlogCategory
 	10, // 12: dropshipbe.ProductListResponse.products:type_name -> dropshipbe.Product
 	4,  // 13: dropshipbe.GalleryListResponse.galleries:type_name -> dropshipbe.Gallery
@@ -4307,73 +4483,76 @@ var file_dropshipbe_proto_depIdxs = []int32{
 	37, // 22: dropshipbe.UploadFileResponse.files:type_name -> dropshipbe.UploadedFileInfo
 	48, // 23: dropshipbe.CreateOrderRequest.items:type_name -> dropshipbe.CartItem
 	53, // 24: dropshipbe.PayPalWebhookRequest.resource:type_name -> dropshipbe.PayPalWebhookResource
-	2,  // 25: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
-	19, // 26: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
-	20, // 27: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
-	30, // 28: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
-	2,  // 29: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
-	2,  // 30: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
-	34, // 31: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
-	21, // 32: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
-	32, // 33: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
-	33, // 34: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
-	41, // 35: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
-	31, // 36: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
-	42, // 37: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
-	2,  // 38: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 39: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 40: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
-	2,  // 41: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
-	2,  // 42: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
-	28, // 43: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
-	43, // 44: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
-	44, // 45: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
-	45, // 46: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
-	46, // 47: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
-	36, // 48: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
-	39, // 49: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
-	49, // 50: dropshipbe.Dropshipbe.CreateOrder:input_type -> dropshipbe.CreateOrderRequest
-	51, // 51: dropshipbe.Dropshipbe.CaptureOrder:input_type -> dropshipbe.CaptureOrderRequest
-	54, // 52: dropshipbe.Dropshipbe.HookPaymentSuccess:input_type -> dropshipbe.PayPalWebhookRequest
-	54, // 53: dropshipbe.Dropshipbe.HookPaymentRefund:input_type -> dropshipbe.PayPalWebhookRequest
-	54, // 54: dropshipbe.Dropshipbe.HookPaymentFailed:input_type -> dropshipbe.PayPalWebhookRequest
-	0,  // 55: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
-	18, // 56: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 57: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
-	18, // 58: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
-	18, // 59: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 60: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
-	18, // 61: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
-	10, // 62: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
-	18, // 63: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
-	22, // 64: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
-	23, // 65: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
-	13, // 66: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
-	12, // 67: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
-	11, // 68: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
-	24, // 69: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
-	25, // 70: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
-	26, // 71: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
-	15, // 72: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
-	27, // 73: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
-	29, // 74: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
-	17, // 75: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
-	6,  // 76: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
-	5,  // 77: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
-	47, // 78: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
-	38, // 79: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
-	40, // 80: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
-	50, // 81: dropshipbe.Dropshipbe.CreateOrder:output_type -> dropshipbe.CreateOrderResponse
-	52, // 82: dropshipbe.Dropshipbe.CaptureOrder:output_type -> dropshipbe.CaptureOrderResponse
-	55, // 83: dropshipbe.Dropshipbe.HookPaymentSuccess:output_type -> dropshipbe.WebhookResponse
-	55, // 84: dropshipbe.Dropshipbe.HookPaymentRefund:output_type -> dropshipbe.WebhookResponse
-	55, // 85: dropshipbe.Dropshipbe.HookPaymentFailed:output_type -> dropshipbe.WebhookResponse
-	1,  // 86: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
-	56, // [56:87] is the sub-list for method output_type
-	25, // [25:56] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	56, // 25: dropshipbe.GetInventoryResponse.variant_stocks:type_name -> dropshipbe.VariantInventory
+	57, // 26: dropshipbe.Dropshipbe.GetInventory:input_type -> dropshipbe.GetInventoryRequest
+	2,  // 27: dropshipbe.Dropshipbe.GetProducts:input_type -> dropshipbe.DefaultRequest
+	19, // 28: dropshipbe.Dropshipbe.GetProductBySlug:input_type -> dropshipbe.GetProductBySlugRequest
+	20, // 29: dropshipbe.Dropshipbe.GetProductsByCategory:input_type -> dropshipbe.GetProductsByCategoryRequest
+	30, // 30: dropshipbe.Dropshipbe.GetRelatedProducts:input_type -> dropshipbe.GetRelatedProductsRequest
+	2,  // 31: dropshipbe.Dropshipbe.GetFeaturedProducts:input_type -> dropshipbe.DefaultRequest
+	2,  // 32: dropshipbe.Dropshipbe.GetNewProducts:input_type -> dropshipbe.DefaultRequest
+	34, // 33: dropshipbe.Dropshipbe.CreateProduct:input_type -> dropshipbe.CreateProductRequest
+	21, // 34: dropshipbe.Dropshipbe.GetShop:input_type -> dropshipbe.ShopSearchParams
+	32, // 35: dropshipbe.Dropshipbe.GetSocialProductVideos:input_type -> dropshipbe.GetSocialProductVideoRequest
+	33, // 36: dropshipbe.Dropshipbe.GetProductFaqs:input_type -> dropshipbe.GetProductFaqsRequest
+	41, // 37: dropshipbe.Dropshipbe.CreateProductFaq:input_type -> dropshipbe.CreateProductFaqRequest
+	31, // 38: dropshipbe.Dropshipbe.GetProductReviews:input_type -> dropshipbe.GetProductReviewsRequest
+	42, // 39: dropshipbe.Dropshipbe.CreateProductReview:input_type -> dropshipbe.CreateProductReviewRequest
+	2,  // 40: dropshipbe.Dropshipbe.GetSliderItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 41: dropshipbe.Dropshipbe.GetCategoryItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 42: dropshipbe.Dropshipbe.GetBannerItems:input_type -> dropshipbe.DefaultRequest
+	2,  // 43: dropshipbe.Dropshipbe.GetVideoBanner:input_type -> dropshipbe.DefaultRequest
+	2,  // 44: dropshipbe.Dropshipbe.GetBlogItems:input_type -> dropshipbe.DefaultRequest
+	28, // 45: dropshipbe.Dropshipbe.GetBlogBySlug:input_type -> dropshipbe.GetBlogBySlugRequest
+	43, // 46: dropshipbe.Dropshipbe.CreateNewBlog:input_type -> dropshipbe.CreateNewBlogRequest
+	44, // 47: dropshipbe.Dropshipbe.CreateOption:input_type -> dropshipbe.CreateOptionRequest
+	45, // 48: dropshipbe.Dropshipbe.CreateOptionValue:input_type -> dropshipbe.CreateOptionValueRequest
+	46, // 49: dropshipbe.Dropshipbe.Login:input_type -> dropshipbe.LoginRequest
+	36, // 50: dropshipbe.Dropshipbe.UploadFile:input_type -> dropshipbe.UploadFileRequest
+	39, // 51: dropshipbe.Dropshipbe.DeleteFile:input_type -> dropshipbe.DeleteFileRequest
+	49, // 52: dropshipbe.Dropshipbe.CreateOrder:input_type -> dropshipbe.CreateOrderRequest
+	51, // 53: dropshipbe.Dropshipbe.CaptureOrder:input_type -> dropshipbe.CaptureOrderRequest
+	54, // 54: dropshipbe.Dropshipbe.HookPaymentSuccess:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 55: dropshipbe.Dropshipbe.HookPaymentRefund:input_type -> dropshipbe.PayPalWebhookRequest
+	54, // 56: dropshipbe.Dropshipbe.HookPaymentFailed:input_type -> dropshipbe.PayPalWebhookRequest
+	0,  // 57: dropshipbe.Dropshipbe.Ping:input_type -> dropshipbe.Request
+	58, // 58: dropshipbe.Dropshipbe.GetInventory:output_type -> dropshipbe.GetInventoryResponse
+	18, // 59: dropshipbe.Dropshipbe.GetProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 60: dropshipbe.Dropshipbe.GetProductBySlug:output_type -> dropshipbe.Product
+	18, // 61: dropshipbe.Dropshipbe.GetProductsByCategory:output_type -> dropshipbe.ProductListResponse
+	18, // 62: dropshipbe.Dropshipbe.GetRelatedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 63: dropshipbe.Dropshipbe.GetFeaturedProducts:output_type -> dropshipbe.ProductListResponse
+	18, // 64: dropshipbe.Dropshipbe.GetNewProducts:output_type -> dropshipbe.ProductListResponse
+	10, // 65: dropshipbe.Dropshipbe.CreateProduct:output_type -> dropshipbe.Product
+	18, // 66: dropshipbe.Dropshipbe.GetShop:output_type -> dropshipbe.ProductListResponse
+	22, // 67: dropshipbe.Dropshipbe.GetSocialProductVideos:output_type -> dropshipbe.GalleryListResponse
+	23, // 68: dropshipbe.Dropshipbe.GetProductFaqs:output_type -> dropshipbe.FaqListResponse
+	13, // 69: dropshipbe.Dropshipbe.CreateProductFaq:output_type -> dropshipbe.Faq
+	12, // 70: dropshipbe.Dropshipbe.GetProductReviews:output_type -> dropshipbe.ReviewSummary
+	11, // 71: dropshipbe.Dropshipbe.CreateProductReview:output_type -> dropshipbe.ReviewItem
+	24, // 72: dropshipbe.Dropshipbe.GetSliderItems:output_type -> dropshipbe.SliderListResponse
+	25, // 73: dropshipbe.Dropshipbe.GetCategoryItems:output_type -> dropshipbe.CategoryListResponse
+	26, // 74: dropshipbe.Dropshipbe.GetBannerItems:output_type -> dropshipbe.BannerListResponse
+	15, // 75: dropshipbe.Dropshipbe.GetVideoBanner:output_type -> dropshipbe.Banner
+	27, // 76: dropshipbe.Dropshipbe.GetBlogItems:output_type -> dropshipbe.BlogListResponse
+	29, // 77: dropshipbe.Dropshipbe.GetBlogBySlug:output_type -> dropshipbe.BlogDetailResponse
+	17, // 78: dropshipbe.Dropshipbe.CreateNewBlog:output_type -> dropshipbe.Blog
+	6,  // 79: dropshipbe.Dropshipbe.CreateOption:output_type -> dropshipbe.Option
+	5,  // 80: dropshipbe.Dropshipbe.CreateOptionValue:output_type -> dropshipbe.OptionValue
+	47, // 81: dropshipbe.Dropshipbe.Login:output_type -> dropshipbe.LoginResponse
+	38, // 82: dropshipbe.Dropshipbe.UploadFile:output_type -> dropshipbe.UploadFileResponse
+	40, // 83: dropshipbe.Dropshipbe.DeleteFile:output_type -> dropshipbe.DeleteFileResponse
+	50, // 84: dropshipbe.Dropshipbe.CreateOrder:output_type -> dropshipbe.CreateOrderResponse
+	52, // 85: dropshipbe.Dropshipbe.CaptureOrder:output_type -> dropshipbe.CaptureOrderResponse
+	55, // 86: dropshipbe.Dropshipbe.HookPaymentSuccess:output_type -> dropshipbe.WebhookResponse
+	55, // 87: dropshipbe.Dropshipbe.HookPaymentRefund:output_type -> dropshipbe.WebhookResponse
+	55, // 88: dropshipbe.Dropshipbe.HookPaymentFailed:output_type -> dropshipbe.WebhookResponse
+	1,  // 89: dropshipbe.Dropshipbe.Ping:output_type -> dropshipbe.Response
+	58, // [58:90] is the sub-list for method output_type
+	26, // [26:58] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_dropshipbe_proto_init() }
@@ -4391,7 +4570,7 @@ func file_dropshipbe_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_dropshipbe_proto_rawDesc), len(file_dropshipbe_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   58,
+			NumMessages:   61,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

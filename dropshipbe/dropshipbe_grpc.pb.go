@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Dropshipbe_GetInventory_FullMethodName           = "/dropshipbe.Dropshipbe/GetInventory"
 	Dropshipbe_GetProducts_FullMethodName            = "/dropshipbe.Dropshipbe/GetProducts"
 	Dropshipbe_GetProductBySlug_FullMethodName       = "/dropshipbe.Dropshipbe/GetProductBySlug"
 	Dropshipbe_GetProductsByCategory_FullMethodName  = "/dropshipbe.Dropshipbe/GetProductsByCategory"
@@ -56,6 +57,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DropshipbeClient interface {
+	// --- Inventory ---
+	GetInventory(ctx context.Context, in *GetInventoryRequest, opts ...grpc.CallOption) (*GetInventoryResponse, error)
 	// --- Products ---
 	GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 	GetProductBySlug(ctx context.Context, in *GetProductBySlugRequest, opts ...grpc.CallOption) (*Product, error)
@@ -108,6 +111,16 @@ type dropshipbeClient struct {
 
 func NewDropshipbeClient(cc grpc.ClientConnInterface) DropshipbeClient {
 	return &dropshipbeClient{cc}
+}
+
+func (c *dropshipbeClient) GetInventory(ctx context.Context, in *GetInventoryRequest, opts ...grpc.CallOption) (*GetInventoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetInventoryResponse)
+	err := c.cc.Invoke(ctx, Dropshipbe_GetInventory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *dropshipbeClient) GetProducts(ctx context.Context, in *DefaultRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
@@ -424,6 +437,8 @@ func (c *dropshipbeClient) Ping(ctx context.Context, in *Request, opts ...grpc.C
 // All implementations must embed UnimplementedDropshipbeServer
 // for forward compatibility.
 type DropshipbeServer interface {
+	// --- Inventory ---
+	GetInventory(context.Context, *GetInventoryRequest) (*GetInventoryResponse, error)
 	// --- Products ---
 	GetProducts(context.Context, *DefaultRequest) (*ProductListResponse, error)
 	GetProductBySlug(context.Context, *GetProductBySlugRequest) (*Product, error)
@@ -478,6 +493,9 @@ type DropshipbeServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDropshipbeServer struct{}
 
+func (UnimplementedDropshipbeServer) GetInventory(context.Context, *GetInventoryRequest) (*GetInventoryResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetInventory not implemented")
+}
 func (UnimplementedDropshipbeServer) GetProducts(context.Context, *DefaultRequest) (*ProductListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetProducts not implemented")
 }
@@ -590,6 +608,24 @@ func RegisterDropshipbeServer(s grpc.ServiceRegistrar, srv DropshipbeServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Dropshipbe_ServiceDesc, srv)
+}
+
+func _Dropshipbe_GetInventory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInventoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DropshipbeServer).GetInventory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Dropshipbe_GetInventory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DropshipbeServer).GetInventory(ctx, req.(*GetInventoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Dropshipbe_GetProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1157,6 +1193,10 @@ var Dropshipbe_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "dropshipbe.Dropshipbe",
 	HandlerType: (*DropshipbeServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetInventory",
+			Handler:    _Dropshipbe_GetInventory_Handler,
+		},
 		{
 			MethodName: "GetProducts",
 			Handler:    _Dropshipbe_GetProducts_Handler,
